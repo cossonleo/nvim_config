@@ -1,0 +1,91 @@
+""""""""""""""""""""""""""""""""""""""""""
+"    LICENSE: MIT
+"     Author: Cosson2017
+"    Version: 0.5
+" CreateTime: 2018-08-21 22:45:56
+" LastUpdate: 2018-08-21 22:45:56
+"       Desc: 
+""""""""""""""""""""""""""""""""""""""""""
+
+if exists("s:is_loaded")
+	finish
+endif
+let s:is_loaded = 1
+
+func lang_plug#add()
+	call dein#add('Cosson2017/vim-lsp')
+	call dein#add('prabirshrestha/async.vim')
+	call dein#add('majutsushi/tagbar')
+	call dein#add('Shougo/echodoc.vim')
+	call dein#add('Cosson2017/nvim-completor')
+
+	"c family highlight
+	"call dein#add('arakashic/chromatica.nvim' ", {'for':['cpp', 'h', 'hpp', 'c']}
+	"call dein#add('rhysd/vim-clang-format', {'for':['cpp', 'h', 'hpp', 'c']}
+
+	"qml
+	"call dein#add('peterhoeg/vim-qml', {'for':['qml']}
+	"wx program
+	"call dein#add('chemzqm/wxapp.vim')
+	"tagbar 
+	"call dein#add('Cosson2017/neo-debuger')
+endfunc
+
+func lang_plug#config()
+	"chromatica
+	"au FileType h,hpp,c,cpp ChromaticaStart
+	let g:chromatica#enable_at_startup = 0
+	let g:chromatica#highlight_feature_level = 1
+	let g:chromatica#responsive_mode=1
+	let g:chromatica#delay_ms = 50
+	let g:chromatica#libclang_path = '/usr/lib/libclang.so'
+
+	"echodoc
+	let g:echodoc_enable_at_startup = 1
+
+	"tagbar
+	nnoremap <F12> :TagbarToggle<CR>
+	let g:tagbar_autoclose = 1
+	let g:tagbar_autofocus = 1
+	let g:tagbar_sort = 0
+	let g:tagbar_ctags_bin = $HOME . "/usr/bin/ctags"
+	let g:tagbar_type_go = {
+				\ 'ctagstype': 'go',
+				\ 'kinds': [
+				\ 'p:package',
+				\ 'i:imports:1',
+				\ 'c:constants',
+				\ 'v:variables',
+				\ 't:types',
+				\ 'w:fields',
+				\ 'm:methods',
+				\ 'f:functions',
+				\ 'r:constructor',
+				\ 'n:interfaces',
+				\ 'e:embed',
+				\],
+				\ 'sro':'.',
+				\ 'kind2scope':{
+					\ 't':'ctype',
+					\ 'n': 'ntype',
+				\},
+				\ 'ctagsbin': 'gotags',
+				\ 'ctagsargs': '-sort -silent',
+			\}
+
+	"p  packages
+	"f  functions
+	"c  constants
+	"t  types
+	"v  variables
+	"s  structs
+	"i  interfaces
+	"m  struct members
+	"M  struct anonymous members
+	"u  unknown
+
+
+	"nvim-completor
+	let g:load_nvim_completor_lsp = 1
+	let g:load_vim_lsp = 1
+endfunc
