@@ -41,7 +41,7 @@ nnoremap <silent> gq :LspDocumentFormat<CR>
 if executable('go-langserver')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'go-langserver',
-		\ 'cmd': {server_info->['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log', '-diagnostics', '-trace']},
+		\ 'cmd': {server_info->['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log', '-diagnostics']},
         \ 'whitelist': ['go'],
         \ })
 endif
@@ -54,13 +54,11 @@ if executable('clangd')
         \ })
 endif
 
-if executable('rls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'rust-rls',
-        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
-        \ 'whitelist': ['rust'],
-        \ })
-endif
+au User lsp_setup call lsp#register_server({
+    \ 'name': 'rust-rls',
+    \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
+    \ 'whitelist': ['rust'],
+    \ })
 
 if executable('lua-lsp')
     au User lsp_setup call lsp#register_server({

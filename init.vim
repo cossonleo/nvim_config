@@ -74,17 +74,10 @@ let g:netrw_liststyle = 3
 
 
 """""""""""""""""""""""下面时插件设置"""""""""""""""""""""''"""
-
-set runtimepath+=/home/lks/.config/nvim/dein/repos/github.com/Shougo/dein.vim
-if dein#load_state('/home/lks/.config/nvim/dein')
-	call dein#begin('/home/lks/.config/nvim/dein')
-	call dein#add('/home/lks/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
+call plug#begin('~/.config/nvim/plugged')
 	call common_plug#add()
 	call lang_plug#add()
-	call dein#end()
-	call dein#save_state()
-endif
-
+call plug#end()
 
 call common_plug#config()
 call lang_plug#config()

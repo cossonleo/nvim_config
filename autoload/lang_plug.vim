@@ -13,11 +13,11 @@ endif
 let s:is_loaded = 1
 
 func lang_plug#add()
-	call dein#add('Cosson2017/vim-lsp')
-	call dein#add('prabirshrestha/async.vim')
-	call dein#add('majutsushi/tagbar')
-	call dein#add('Shougo/echodoc.vim')
-	call dein#add('Cosson2017/nvim-completor')
+	Plug 'prabirshrestha/vim-lsp'
+	Plug 'prabirshrestha/async.vim'
+	Plug 'majutsushi/tagbar'
+	Plug 'Shougo/echodoc.vim'
+	Plug 'Cosson2017/nvim-completor'
 
 	"c family highlight
 	"call dein#add('arakashic/chromatica.nvim' ", {'for':['cpp', 'h', 'hpp', 'c']}

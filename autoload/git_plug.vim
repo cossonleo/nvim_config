@@ -5,8 +5,8 @@ endif
 let s:is_loaded = 1
 
 func git_plug#add_git_plug()
-	call dein#begin('airblade/vim-gitgutter')
-	call dein#begin('tpope/vim-fugitive')
-	call dein#begin('tpope/vim-git')
-	call dein#begin('gregsexton/gitv')
+	Plug 'airblade/vim-gitgutter'
+	Plug 'tpope/vim-fugitive'
+	Plug 'tpope/vim-git'
+	Plug 'gregsexton/gitv'
 endfunc

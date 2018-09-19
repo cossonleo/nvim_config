@@ -13,22 +13,22 @@ endif
 let s:is_loaded = 1
 
 func common_plug#add()
-	call dein#add('easymotion/vim-easymotion')
-	call dein#add('jiangmiao/auto-pairs')
-	call dein#add('Valloric/ListToggle')
-	call dein#add('luochen1990/rainbow')
-	call dein#add('terryma/vim-multiple-cursors')
-	call dein#add('Yggdroot/LeaderF', {'build': './install.sh'})
-	call dein#add('iCyMind/NeoSolarized')
-	call dein#add('godlygeek/tabular')
-	call dein#add('haya14busa/incsearch.vim')
-	call dein#add('tpope/vim-surround')
-	call dein#add('osyo-manga/vim-over')
-	call dein#add('vim-scripts/fcitx.vim')
-	call dein#add('kshenoy/vim-signature')
-	call dein#add('jremmen/vim-ripgrep')
-	call dein#add('Cosson2017/neo-comment.nvim')
-	call dein#add('Cosson2017/neo-smooth-scroll.nvim')
+	Plug 'easymotion/vim-easymotion'
+	Plug 'jiangmiao/auto-pairs'
+	Plug 'Valloric/ListToggle'
+	Plug 'luochen1990/rainbow'
+	Plug 'terryma/vim-multiple-cursors'
+	Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
+	Plug 'iCyMind/NeoSolarized'
+	Plug 'godlygeek/tabular'
+	Plug 'haya14busa/incsearch.vim'
+	Plug 'tpope/vim-surround'
+	Plug 'osyo-manga/vim-over'
+	Plug 'vim-scripts/fcitx.vim'
+	Plug 'kshenoy/vim-signature'
+	Plug 'jremmen/vim-ripgrep'
+	Plug 'Cosson2017/neo-comment.nvim'
+	Plug 'Cosson2017/neo-smooth-scroll.nvim'
 endfunc
 
 func common_plug#config()
