@@ -13,18 +13,22 @@ endif
 let s:is_loaded = 1
 
 func lang_plug#add()
-	Plug 'prabirshrestha/vim-lsp'
+	"Plug 'prabirshrestha/vim-lsp'
 	Plug 'prabirshrestha/async.vim'
 	Plug 'majutsushi/tagbar'
 	Plug 'Shougo/echodoc.vim'
 	Plug 'Cosson2017/nvim-completor'
+	Plug 'peterhoeg/vim-qml', {'for':['qml']}
+
+    "\ 'do': 'bash install.sh',
+	Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ }
 
 	"c family highlight
 	"call dein#add('arakashic/chromatica.nvim' ", {'for':['cpp', 'h', 'hpp', 'c']}
 	"call dein#add('rhysd/vim-clang-format', {'for':['cpp', 'h', 'hpp', 'c']}
 
-	"qml
-	"call dein#add('peterhoeg/vim-qml', {'for':['qml']}
 	"wx program
 	"call dein#add('chemzqm/wxapp.vim')
 	"tagbar 
@@ -86,6 +90,39 @@ func lang_plug#config()
 
 
 	"nvim-completor
-	let g:load_nvim_completor_lsp = 1
-	let g:load_vim_lsp = 1
+	let g:load_nvim_completor_lsp = 0
+	let g:load_vim_lsp = 0
+	let g:load_nvim_completor_languageclient_neovim = 1
+
+	"languageserver-client
+	let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rls'],
+    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'python': ['/usr/local/bin/pyls'],
+    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'objc': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
+	\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
+	\ 'lua': ['lua-lsp'],
+	\ 'dockerfile': ['docker-langserver', '--stdio'],
+	\ 'css': ['css-languageserver', '--stdio'],
+	\ 'html': ['html-languageserver', '--stdio'],
+	\ 'json': ['json-languageserver', '--stdio'],
+	\ 'wxml': ['wxml-languageserver', '--stdio'],
+    \ }
+	"let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
+	"let g:LanguageClient_settingsPath = '/home/YOUR_USERNAME/.config/nvim/settings.json'
+
+	"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+	" Or map each action separately
+	nnoremap <silent> <m-h> :call LanguageClient#textDocument_hover()<CR>
+	nnoremap <silent> <m-g> :call LanguageClient#textDocument_definition()<CR>
+	nnoremap <silent> <m-r> :call LanguageClient#textDocument_rename()<CR>
+	nnoremap <silent> <m-f> :call LanguageClient#textDocument_references()<CR>
+	nnoremap <silent> <m-s> :call LanguageClient#workspace_symbol()<CR>
+	nnoremap <silent> <m-i> :call LanguageClient#textDocument_implementation()<CR>
+	"nnoremap <silent> <m-j> :LspNextError<CR>
+	"nnoremap <silent> <m-k> :LspPreviousError<CR>
+	nnoremap <silent> gq :call LanguageClient#textDocument_formatting()<CR>
+
 endfunc

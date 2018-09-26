@@ -8,6 +8,7 @@
 """"""""""""""""""""""""""""""""""""""""""
 
 "vim-lsc
+finish
 if exists("s:is_loaded")
 	finish
 endif

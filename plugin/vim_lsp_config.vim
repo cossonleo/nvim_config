@@ -6,6 +6,7 @@
 " LastUpdate: 2018-08-09 17:11:11
 "       Desc: 
 """"""""""""""""""""""""""""""""""""""""""
+finish
 if exists("s:is_loaded")
 	finish
 endif
@@ -67,6 +68,8 @@ if executable('lua-lsp')
         \ 'root_uri': {server_info->lsp#utils#get_default_root_uri()},
 		\ 'initialization_options': { 'debugMode': 'false' },
         \ 'whitelist': ['lua'],
+
+
         \ })
 endif
 
