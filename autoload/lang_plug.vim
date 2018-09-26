@@ -110,8 +110,8 @@ func lang_plug#config()
 	\ 'json': ['json-languageserver', '--stdio'],
 	\ 'wxml': ['wxml-languageserver', '--stdio'],
     \ }
-	"let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
-	"let g:LanguageClient_settingsPath = '/home/YOUR_USERNAME/.config/nvim/settings.json'
+	let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
+	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/settings.json'
 
 	"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 	" Or map each action separately
