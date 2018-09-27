@@ -95,9 +95,10 @@ func lang_plug#config()
 	let g:load_nvim_completor_languageclient_neovim = 1
 
 	"languageserver-client
+	" \ 'sh': ['bash-language-server', 'start'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
-    \ 'javascript': ['javascript-typescript-stdio', '--stdio'],
+    \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
     \ 'objc': ['ccls', '--log-file=/tmp/cc.log'],
@@ -110,7 +111,6 @@ func lang_plug#config()
 	\ 'json': ['json-languageserver', '--stdio'],
 	\ 'wxml': ['wxml-languageserver', '--stdio'],
 	\ 'php': ['php-lsp'],
-	\ 'sh': ['bash-language-server', 'start'],
     \ }
 	let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
 	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/settings.json'
