@@ -85,7 +85,7 @@ func common_plug#config()
 	"leaderf
 	let g:Lf_UseMemoryCache = 0
 	let g:Lf_ShortcutF = '<c-p>'
-	let g:Lf_ShortcutB = '<c-b>'
+	let g:Lf_ShortcutB = '<c-x>'
 	nnoremap <c-f> :LeaderfFunction<cr>
 	nnoremap <c-g> :LeaderfBufTag<cr>
 	let g:Lf_WildIgnore = {
