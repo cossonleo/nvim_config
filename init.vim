@@ -36,9 +36,6 @@ let g:loaded_python_provider = 0
 let mapleader=' '
 
 " map
-noremap <c-s> :w<cr>
-nnoremap <F5> :make<cr>
-inoremap <c-s> <esc>:w<cr>
 "noremap <c-a> :wa<cr>
 "inoremap <c-a> <esc>:wa<cr>
 tnoremap <Esc> <C-\><C-n>
@@ -48,7 +45,6 @@ tnoremap <C-w>j <C-\><C-N><C-w>j
 tnoremap <C-w>k <C-\><C-N><C-w>k
 tnoremap <C-w>l <C-\><C-N><C-w>l
 inoremap <c-o> <c-x><c-o>
-nnoremap <leader>p :pc<cr>
  
 
 "completion

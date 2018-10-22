@@ -103,7 +103,7 @@ func lang_plug#config()
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
     \ 'objc': ['ccls', '--log-file=/tmp/cc.log'],
     \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
-	\ 'go': ['go-langserver', '-gocodecompletion', '-diagnostics', '-logfile=/tmp/golangserver.log'],
+	\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
 	\ 'lua': ['lua-lsp'],
 	\ 'dockerfile': ['docker-langserver', '--stdio'],
 	\ 'css': ['css-languageserver', '--stdio'],

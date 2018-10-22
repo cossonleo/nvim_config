@@ -15,15 +15,15 @@ let s:is_loaded = 1
 func common_plug#add()
 	Plug 'easymotion/vim-easymotion'
 	Plug 'jiangmiao/auto-pairs'
-	Plug 'Valloric/ListToggle'
+	"Plug 'Valloric/ListToggle'
 	Plug 'luochen1990/rainbow'
 	Plug 'terryma/vim-multiple-cursors'
 	Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
 	Plug 'iCyMind/NeoSolarized'
 	Plug 'godlygeek/tabular'
-	Plug 'haya14busa/incsearch.vim'
+	"Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
-	Plug 'osyo-manga/vim-over'
+	"Plug 'osyo-manga/vim-over'
 	Plug 'vim-scripts/fcitx.vim'
 	Plug 'kshenoy/vim-signature'
 	Plug 'jremmen/vim-ripgrep'
@@ -45,15 +45,15 @@ func common_plug#config()
 
 
 	" listtoggle
-	let g:lt_height = 10
+	"let g:lt_height = 10
 
 
 
 
 	" incsearch.vim
-	map /  <Plug>(incsearch-forward)
-	map ?  <Plug>(incsearch-backward)
-	map g/ <Plug>(incsearch-stay)
+	"map /  <Plug>(incsearch-forward)
+	"map ?  <Plug>(incsearch-backward)
+	"map g/ <Plug>(incsearch-stay)
 
 
 
