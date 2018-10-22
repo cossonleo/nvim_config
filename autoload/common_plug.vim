@@ -21,7 +21,7 @@ func common_plug#add()
 	Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
 	Plug 'iCyMind/NeoSolarized'
 	Plug 'godlygeek/tabular'
-	"Plug 'haya14busa/incsearch.vim'
+	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
 	"Plug 'osyo-manga/vim-over'
 	Plug 'vim-scripts/fcitx.vim'
@@ -51,9 +51,9 @@ func common_plug#config()
 
 
 	" incsearch.vim
-	"map /  <Plug>(incsearch-forward)
-	"map ?  <Plug>(incsearch-backward)
-	"map g/ <Plug>(incsearch-stay)
+	map /  <Plug>(incsearch-forward)
+	map ?  <Plug>(incsearch-backward)
+	map g/ <Plug>(incsearch-stay)
 
 
 
