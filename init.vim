@@ -66,6 +66,7 @@ nnoremap <leader>e :20Lexplore<cr>
 let g:netrw_list_hide = '.*\.swp$'
 let g:netrw_preview   = 1
 let g:netrw_liststyle = 3
+let g:netrw_banner = 0
 "let g:netrw_winsize   = 16
 
 
