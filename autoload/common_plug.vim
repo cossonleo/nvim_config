@@ -84,10 +84,10 @@ func common_plug#config()
 
 	"leaderf
 	let g:Lf_UseMemoryCache = 0
-	let g:Lf_ShortcutF = '<c-p>'
-	let g:Lf_ShortcutB = '<c-x>'
-	nnoremap <c-f> :LeaderfFunction<cr>
-	nnoremap <c-g> :LeaderfBufTag<cr>
+	let g:Lf_ShortcutF = '<leader>o'
+	let g:Lf_ShortcutB = '<leader>b' "'<c-x>'
+	nnoremap <leader>f :LeaderfFunction<cr>
+	nnoremap <leader>t :LeaderfBufTag<cr>
 	let g:Lf_WildIgnore = {
 				\ 'dir': ['.svn','.git','.hg'],
 				\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']

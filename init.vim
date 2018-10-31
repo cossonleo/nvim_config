@@ -33,7 +33,7 @@ let g:python3_host_prog = '/usr/bin/python3'
 let g:python3_host_skip_check = 1
 let g:loaded_python_provider = 0
 
-let mapleader=' '
+"let mapleader=' '
 
 " map
 "noremap <c-a> :wa<cr>
@@ -62,7 +62,7 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " netrw
-nnoremap <leader>e :20Lexplore<cr>
+nnoremap <leader>e :18Lexplore<cr>
 let g:netrw_list_hide = '.*\.swp$'
 let g:netrw_preview   = 1
 let g:netrw_liststyle = 3

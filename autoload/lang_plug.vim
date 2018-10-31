@@ -114,6 +114,8 @@ func lang_plug#config()
     \ }
 	let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
 	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/settings.json'
+	let g:LanguageClient_selectionUI = 'location-list'
+	let g:LanguageClient_hoverPreview = 'Always'
 
 	"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 	" Or map each action separately
