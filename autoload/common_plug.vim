@@ -94,7 +94,7 @@ func common_plug#config()
 				\}
 	let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
 	let g:Lf_Ctags ="~/usr/bin/ctags"
-	let g:Lf_WindowPosition = 'right'
+	"let g:Lf_WindowPosition = 'top'
 	let g:Lf_DefaultExternalTool = "rg"
 
 
