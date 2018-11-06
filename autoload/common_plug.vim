@@ -84,7 +84,7 @@ func common_plug#config()
 
 	"leaderf
 	let g:Lf_UseMemoryCache = 0
-	let g:Lf_ShortcutF = '<leader>o'
+	let g:Lf_ShortcutF = '<leader><leader>'
 	let g:Lf_ShortcutB = '<leader>b' "'<c-x>'
 	nnoremap <leader>f :LeaderfFunction<cr>
 	nnoremap <leader>t :LeaderfBufTag<cr>
@@ -94,6 +94,8 @@ func common_plug#config()
 				\}
 	let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
 	let g:Lf_Ctags ="~/usr/bin/ctags"
+	let g:Lf_WindowPosition = 'right'
+	let g:Lf_DefaultExternalTool = "rg"
 
 
 
