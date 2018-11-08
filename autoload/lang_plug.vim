@@ -14,14 +14,14 @@ let s:is_loaded = 1
 
 func lang_plug#add()
 	"Plug 'prabirshrestha/vim-lsp'
-	Plug 'prabirshrestha/async.vim'
+	"Plug 'prabirshrestha/async.vim'
 	Plug 'majutsushi/tagbar'
 	Plug 'Shougo/echodoc.vim'
 	Plug 'Cosson2017/nvim-completor'
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
 
     "\ 'do': 'bash install.sh',
-	Plug 'autozimu/LanguageClient-neovim', {
+	Plug 'Cosson2017/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ }
 
@@ -116,6 +116,7 @@ func lang_plug#config()
 	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/settings.json'
 	let g:LanguageClient_selectionUI = 'location-list'
 	let g:LanguageClient_hoverPreview = 'Always'
+	let g:LanguageClient_completionPreferTextEdit = 1
 
 	"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 	" Or map each action separately
