@@ -1,6 +1,7 @@
 """"""""""""""""""""""""""""""""""""""""""
 
-set cul 
+"set cursorline
+"set cursorcolumn
 set number
 set relativenumber
 set showcmd
@@ -18,8 +19,6 @@ set selection=inclusive "exclusive inclusive old
 set nohlsearch
 set termguicolors
 set background=dark
-set cursorline
-set cursorcolumn
 "set mouse=a
 "set ignorecase
 set smartcase
