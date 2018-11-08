@@ -19,7 +19,7 @@ func common_plug#add()
 	Plug 'luochen1990/rainbow'
 	Plug 'terryma/vim-multiple-cursors'
 	Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
-	Plug 'iCyMind/NeoSolarized'
+	Plug 'Cosson2017/NeoSolarized'
 	Plug 'godlygeek/tabular'
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
@@ -36,10 +36,12 @@ func common_plug#config()
 	"NeoSolarized
 	let g:neosolarized_contrast = "normal"
 	let g:neosolarized_visibility = "normal"
-	let g:neosolarized_vertSplitBgTrans = 1
+	let g:neosolarized_diffmode = "normal"
 	let g:neosolarized_bold = 1
 	let g:neosolarized_underline = 1
 	let g:neosolarized_italic = 0
+	let g:neosolarized_termtrans = 1
+	let g:neosolarized_vertSplitBgTrans = 1
 	colorscheme NeoSolarized
 
 
