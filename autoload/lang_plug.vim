@@ -96,14 +96,15 @@ func lang_plug#config()
 
 	"languageserver-client
 	" \ 'sh': ['bash-language-server', 'start'],
+	"\ 'go': ['golsp'],
 	let g:LanguageClient_serverCommands = {
+	\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
     \ 'rust': ['rls'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
     \ 'objc': ['ccls', '--log-file=/tmp/cc.log'],
     \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
-	\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
 	\ 'lua': ['lua-lsp'],
 	\ 'dockerfile': ['docker-langserver', '--stdio'],
 	\ 'css': ['css-languageserver', '--stdio'],
