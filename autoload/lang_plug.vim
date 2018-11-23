@@ -97,8 +97,9 @@ func lang_plug#config()
 	"languageserver-client
 	" \ 'sh': ['bash-language-server', 'start'],
 	"\ 'go': ['golsp'],
+	"\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
 	let g:LanguageClient_serverCommands = {
-	\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
+	\ 'go': ['golsp'],
     \ 'rust': ['rls'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],

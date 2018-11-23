@@ -26,7 +26,7 @@ func common_plug#add()
 	"Plug 'osyo-manga/vim-over'
 	Plug 'vim-scripts/fcitx.vim'
 	Plug 'kshenoy/vim-signature'
-	Plug 'jremmen/vim-ripgrep'
+	Plug 'Cosson2017/vim-ripgrep'
 	Plug 'Cosson2017/neo-comment.nvim'
 	Plug 'Cosson2017/neo-smooth-scroll.nvim'
 endfunc
@@ -100,6 +100,9 @@ func common_plug#config()
 	let g:Lf_DefaultExternalTool = "rg"
 
 
+	"vim-ripgrep
+	let g:rg_use_local_list = 1
+	let g:rg_window_location = 'belowright'
 
 
 	"tabular
