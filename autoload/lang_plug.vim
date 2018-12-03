@@ -94,13 +94,16 @@ func lang_plug#config()
 	let g:load_vim_lsp = 0
 	let g:load_nvim_completor_languageclient_neovim = 1
 
+
 	"languageserver-client
 	" \ 'sh': ['bash-language-server', 'start'],
 	"\ 'go': ['golsp'],
 	"\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
+    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060', '-use-global-cache'],
+    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log'],
 	let g:LanguageClient_serverCommands = {
-	\ 'go': ['golsp'],
     \ 'rust': ['rls'],
+	\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
@@ -114,11 +117,15 @@ func lang_plug#config()
 	\ 'wxml': ['wxml-languageserver', '--stdio'],
 	\ 'php': ['php-lsp'],
     \ }
+	let g:LanguageClient_rootMarkers = {
+        \ 'go': ['go.mod'],
+        \ }
 	let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
-	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/settings.json'
+	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/setting.json'
 	let g:LanguageClient_selectionUI = 'location-list'
 	let g:LanguageClient_hoverPreview = 'Always'
 	let g:LanguageClient_completionPreferTextEdit = 1
+	let g:LanguageClient_loggingFile = '/tmp/lsp-lc.log'
 
 	"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 	" Or map each action separately

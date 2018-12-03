@@ -1,6 +1,10 @@
 {
-	"cacheDirectory": "",
-	"index": {
+	"cpp.cacheDirectory": "",
+	"cpp.index": {
 		"onChange": true
-	}
+	},
+	"c.cacheDirectory": "",
+	"c.index": {
+		"onChange": true
+	},
 }
