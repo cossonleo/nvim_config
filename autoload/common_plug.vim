@@ -130,4 +130,8 @@ func common_plug#config()
 
 	"rg 
 	nnoremap <c-a> :Rg<cr>
+
+	"AutoPairs
+	au FileType rust let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
+	"au FileType rust let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 endfunc
