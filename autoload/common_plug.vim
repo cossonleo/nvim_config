@@ -15,7 +15,6 @@ let s:is_loaded = 1
 func common_plug#add()
 	Plug 'easymotion/vim-easymotion'
 	Plug 'jiangmiao/auto-pairs'
-	"Plug 'Valloric/ListToggle'
 	Plug 'luochen1990/rainbow'
 	Plug 'terryma/vim-multiple-cursors'
 	Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
@@ -23,12 +22,14 @@ func common_plug#add()
 	Plug 'godlygeek/tabular'
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
-	"Plug 'osyo-manga/vim-over'
-	Plug 'vim-scripts/fcitx.vim'
 	Plug 'kshenoy/vim-signature'
 	Plug 'Cosson2017/vim-ripgrep'
 	Plug 'Cosson2017/neo-comment.nvim'
 	Plug 'Cosson2017/neo-smooth-scroll.nvim'
+	"Plug 'h-youhei/vim-fcitx'
+	"Plug 'osyo-manga/vim-over'
+	"Plug 'vim-scripts/fcitx.vim'
+	"Plug 'Valloric/ListToggle'
 endfunc
 
 func common_plug#config()
