@@ -1,0 +1,16 @@
+{
+	"cpp.cacheDirectory": "",
+	"cpp.index": {
+		"onChange": true
+	},
+	"c.cacheDirectory": "",
+	"c.index": {
+		"onChange": true
+	},
+	"rust": {
+		"clippy_preference": "on",
+		"build_on_save": true,
+		"all_features": true,
+		"racer_completion": false,
+	},
+}

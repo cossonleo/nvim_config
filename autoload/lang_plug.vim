@@ -19,6 +19,8 @@ func lang_plug#add()
 	Plug 'Shougo/echodoc.vim'
 	Plug 'Cosson2017/nvim-completor'
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
+	"Plug 'Shougo/neosnippet.vim'
+	"Plug 'Shougo/neosnippet-snippets'
 
     "\ 'do': 'bash install.sh',
 	Plug 'Cosson2017/LanguageClient-neovim', {
@@ -99,11 +101,11 @@ func lang_plug#config()
 	" \ 'sh': ['bash-language-server', 'start'],
 	"\ 'go': ['golsp'],
 	"\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
-    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060', '-use-global-cache'],
-    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log'],
+    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060', '-enable-global-cache'],
+    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
-	\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
+    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
@@ -117,9 +119,9 @@ func lang_plug#config()
 	\ 'wxml': ['wxml-languageserver', '--stdio'],
 	\ 'php': ['php-lsp'],
     \ }
-	let g:LanguageClient_rootMarkers = {
-        \ 'go': ['go.mod'],
-        \ }
+	"let g:LanguageClient_rootMarkers = {
+    "    \ 'go': ['go.mod'],
+    "    \ }
 	let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
 	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/setting.json'
 	let g:LanguageClient_selectionUI = 'location-list'
@@ -138,5 +140,26 @@ func lang_plug#config()
 	"nnoremap <silent> <m-j> :LspNextError<CR>
 	"nnoremap <silent> <m-k> :LspPreviousError<CR>
 	nnoremap <silent> gq :call LanguageClient#textDocument_formatting()<CR>
+
+"	"snippet
+"	" Plugin key-mappings.
+"	" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"	imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"	smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"	xmap <C-k>     <Plug>(neosnippet_expand_target)
+"	
+"	" SuperTab like snippets behavior.
+"	" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"	"imap <expr><TAB>
+"	" \ pumvisible() ? "\<C-n>" :
+"	" \ neosnippet#expandable_or_jumpable() ?
+"	" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"	smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+"	\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"	
+"	" For conceal markers.
+"	if has('conceal')
+"	  set conceallevel=2 concealcursor=niv
+"	endif
 
 endfunc
