@@ -18,7 +18,8 @@ func lang_plug#add()
 	Plug 'majutsushi/tagbar'
 	Plug 'Shougo/echodoc.vim'
 	Plug 'Cosson2017/nvim-completor'
-	Plug 'peterhoeg/vim-qml', {'for':['qml']}
+	Plug 'rust-lang/rust.vim'
+	"Plug 'peterhoeg/vim-qml', {'for':['qml']}
 
     "\ 'do': 'bash install.sh',
 	Plug 'Cosson2017/LanguageClient-neovim', {
