@@ -18,7 +18,6 @@ set updatetime=500
 set selection=inclusive "exclusive inclusive old
 set nohlsearch
 set termguicolors
-set background=dark
 "set mouse=a
 "set ignorecase
 set smartcase

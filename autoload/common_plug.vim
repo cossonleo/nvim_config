@@ -19,13 +19,13 @@ func common_plug#add()
 	Plug 'terryma/vim-multiple-cursors'
 	Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
 	Plug 'Cosson2017/NeoSolarized'
-	Plug 'godlygeek/tabular'
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
 	Plug 'kshenoy/vim-signature'
 	Plug 'Cosson2017/vim-ripgrep'
 	Plug 'Cosson2017/neo-comment.nvim'
 	Plug 'Cosson2017/neo-smooth-scroll.nvim'
+	"Plug 'godlygeek/tabular'
 	"Plug 'h-youhei/vim-fcitx'
 	"Plug 'osyo-manga/vim-over'
 	"Plug 'vim-scripts/fcitx.vim'
@@ -98,7 +98,7 @@ func common_plug#config()
 	let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
 	let g:Lf_Ctags ="~/usr/bin/ctags"
 	"let g:Lf_WindowPosition = 'top'
-	let g:Lf_DefaultExternalTool = "rg"
+	"let g:Lf_DefaultExternalTool = "rg"
 
 
 	"vim-ripgrep
