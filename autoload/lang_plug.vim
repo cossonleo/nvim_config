@@ -16,6 +16,7 @@ func lang_plug#add()
 	"Plug 'prabirshrestha/vim-lsp'
 	"Plug 'prabirshrestha/async.vim'
 	"Plug 'majutsushi/tagbar'
+	Plug 'cespare/vim-toml'
 	Plug 'Shougo/echodoc.vim'
 	Plug 'Cosson2017/nvim-completor'
 	"Plug 'peterhoeg/vim-qml', {'for':['qml']}
@@ -64,7 +65,7 @@ func lang_plug#config()
     "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
-    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet'],
+    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet', '-maxparallelism', '4', '--diagnostics-style', 'onsave' ],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
@@ -78,9 +79,9 @@ func lang_plug#config()
 	\ 'wxml': ['wxml-languageserver', '--stdio'],
 	\ 'php': ['php-lsp'],
     \ }
-	"let g:LanguageClient_rootMarkers = {
-    "    \ 'go': ['go.mod'],
-    "    \ }
+	let g:LanguageClient_rootMarkers = {
+        \ 'go': ['go.mod'],
+        \ }
 	let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
 	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/setting.json'
 	let g:LanguageClient_selectionUI = 'location-list'
