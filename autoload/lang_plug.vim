@@ -15,11 +15,13 @@ let s:is_loaded = 1
 func lang_plug#add()
 	"Plug 'prabirshrestha/vim-lsp'
 	"Plug 'prabirshrestha/async.vim'
-	Plug 'majutsushi/tagbar'
+	"Plug 'majutsushi/tagbar'
 	Plug 'Shougo/echodoc.vim'
 	Plug 'Cosson2017/nvim-completor'
-	Plug 'rust-lang/rust.vim'
+	"Plug 'rust-lang/rust.vim'
 	"Plug 'peterhoeg/vim-qml', {'for':['qml']}
+	" Track the engine.
+	"Plug 'SirVer/ultisnips'
 
     "\ 'do': 'bash install.sh',
 	Plug 'Cosson2017/LanguageClient-neovim', {
@@ -48,47 +50,6 @@ func lang_plug#config()
 	"echodoc
 	let g:echodoc_enable_at_startup = 1
 
-	"tagbar
-	nnoremap <F12> :TagbarToggle<CR>
-	let g:tagbar_autoclose = 1
-	let g:tagbar_autofocus = 1
-	let g:tagbar_sort = 0
-	let g:tagbar_ctags_bin = $HOME . "/usr/bin/ctags"
-	let g:tagbar_type_go = {
-				\ 'ctagstype': 'go',
-				\ 'kinds': [
-				\ 'p:package',
-				\ 'i:imports:1',
-				\ 'c:constants',
-				\ 'v:variables',
-				\ 't:types',
-				\ 'w:fields',
-				\ 'm:methods',
-				\ 'f:functions',
-				\ 'r:constructor',
-				\ 'n:interfaces',
-				\ 'e:embed',
-				\],
-				\ 'sro':'.',
-				\ 'kind2scope':{
-					\ 't':'ctype',
-					\ 'n': 'ntype',
-				\},
-				\ 'ctagsbin': 'gotags',
-				\ 'ctagsargs': '-sort -silent',
-			\}
-
-	"p  packages
-	"f  functions
-	"c  constants
-	"t  types
-	"v  variables
-	"s  structs
-	"i  interfaces
-	"m  struct members
-	"M  struct anonymous members
-	"u  unknown
-
 
 	"nvim-completor
 	let g:load_nvim_completor_lsp = 0
@@ -100,11 +61,11 @@ func lang_plug#config()
 	" \ 'sh': ['bash-language-server', 'start'],
 	"\ 'go': ['golsp'],
 	"\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
-    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060', '-use-global-cache'],
-    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log'],
+    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060', '-enable-global-cache'],
+    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
-	\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
+    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
@@ -118,9 +79,9 @@ func lang_plug#config()
 	\ 'wxml': ['wxml-languageserver', '--stdio'],
 	\ 'php': ['php-lsp'],
     \ }
-	let g:LanguageClient_rootMarkers = {
-        \ 'go': ['go.mod'],
-        \ }
+	"let g:LanguageClient_rootMarkers = {
+    "    \ 'go': ['go.mod'],
+    "    \ }
 	let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
 	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/setting.json'
 	let g:LanguageClient_selectionUI = 'location-list'
@@ -136,8 +97,12 @@ func lang_plug#config()
 	nnoremap <silent> <m-f> :call LanguageClient#textDocument_references()<CR>
 	nnoremap <silent> <m-s> :call LanguageClient#workspace_symbol()<CR>
 	nnoremap <silent> <m-i> :call LanguageClient#textDocument_implementation()<CR>
+	nnoremap <silent> gq :call LanguageClient#textDocument_formatting()<CR>
 	"nnoremap <silent> <m-j> :LspNextError<CR>
 	"nnoremap <silent> <m-k> :LspPreviousError<CR>
-	nnoremap <silent> gq :call LanguageClient#textDocument_formatting()<CR>
 
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<c-k>"
+"let g:UltiSnipsJumpForwardTrigger="<c-k>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 endfunc
