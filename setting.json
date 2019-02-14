@@ -1,10 +1,7 @@
 {
 	"cpp.cacheDirectory": "",
-	"cpp.index": {
-		"onChange": true
-	},
 	"c.cacheDirectory": "",
-	"c.index": {
-		"onChange": true
-	},
+	"rust.unstable_features": true,
+	"rust.build_on_save": true,
+	"rust.all_features": true,
 }

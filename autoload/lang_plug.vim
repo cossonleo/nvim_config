@@ -19,6 +19,7 @@ func lang_plug#add()
 	Plug 'cespare/vim-toml'
 	Plug 'Shougo/echodoc.vim'
 	Plug 'Cosson2017/nvim-completor'
+	"Plug 'rust-lang/rust.vim'
 	"Plug 'peterhoeg/vim-qml', {'for':['qml']}
 	" Track the engine.
 	"Plug 'SirVer/ultisnips'
