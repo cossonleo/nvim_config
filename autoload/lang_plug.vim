@@ -63,9 +63,11 @@ func lang_plug#config()
 	"\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
     "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060', '-enable-global-cache'],
     "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet'],
+    "\ 'rust': ['rls'],
+    ""\ 'rust': ['ra_lsp_server'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
-    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet', '-maxparallelism', '4', '--diagnostics-style', 'onsave' ],
+    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-golist-duration', '30'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
