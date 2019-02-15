@@ -18,7 +18,16 @@ func lang_plug#add()
 	"Plug 'majutsushi/tagbar'
 	Plug 'cespare/vim-toml'
 	Plug 'Shougo/echodoc.vim'
-	Plug 'Cosson2017/nvim-completor'
+	""Plug 'Shougo/deoplete.nvim' 
+
+	"""""""""""""""""""""
+	Plug 'roxma/nvim-yarp'
+	Plug 'ncm2/ncm2'
+	""Plug 'ncm2/ncm2-bufword'
+    ""Plug 'ncm2/ncm2-path'
+	"""""""""""""""""""""
+
+	""Plug 'Cosson2017/nvim-completor'
 	"Plug 'rust-lang/rust.vim'
 	"Plug 'peterhoeg/vim-qml', {'for':['qml']}
 	" Track the engine.
@@ -51,6 +60,17 @@ func lang_plug#config()
 	"echodoc
 	let g:echodoc_enable_at_startup = 1
 
+	" deoplete.
+
+	"ncm2
+	autocmd BufEnter * call ncm2#enable_for_buffer()
+	set completeopt=noinsert,menuone,noselect
+	set shortmess+=c
+	inoremap <c-c> <ESC>
+	"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+	let g:ncm2#matcher = 'substrfuzzy'
 
 	"nvim-completor
 	let g:load_nvim_completor_lsp = 0
@@ -60,10 +80,9 @@ func lang_plug#config()
 
 	"languageserver-client
 	" \ 'sh': ['bash-language-server', 'start'],
-	"\ 'go': ['golsp'],
+	"\ 'go': ['gopls'],
 	"\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
-    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log','--trace', '--pprof', ':6060', '-enable-global-cache'],
-    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log', '-disable-func-snippet'],
+    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-golist-duration', '30'],
     "\ 'rust': ['rls'],
     ""\ 'rust': ['ra_lsp_server'],
 	let g:LanguageClient_serverCommands = {

@@ -1,6 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""
 
-"set cursorline
+set cursorline
 "set cursorcolumn
 set number
 set relativenumber
