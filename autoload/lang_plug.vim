@@ -108,8 +108,9 @@ func lang_plug#config()
 	let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/setting.json'
 	let g:LanguageClient_selectionUI = 'location-list'
 	let g:LanguageClient_hoverPreview = 'Always'
-	let g:LanguageClient_completionPreferTextEdit = 1
+	""let g:LanguageClient_completionPreferTextEdit = 1
 	let g:LanguageClient_loggingFile = '/tmp/lsp-lc.log'
+	""let g:LanguageClient_windowLogMessageLevel = 'Log'
 
 	"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 	" Or map each action separately
