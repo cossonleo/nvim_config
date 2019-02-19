@@ -21,23 +21,41 @@ func! SetStl()
 endfunc
 
 func! s:netrwstl()
-	setl stl=%5*\ line:%l/%L
+	setl stl=%2*\ line:%l/%L
 endfunc
+
+""func! s:netrwstl()
+""	setl stl=%5*\ line:%l/%L
+""endfunc
 
 "状态行
 func! s:norstl()
-	setl stl=%7*\ %{File_size()}\ %*
-	setl stl+=%1*\ [buf:%n]\ %*
+	setl stl=%2*\ %{File_size()}\ %*
+	setl stl+=%2*\ [buf:%n]\ %*
 	setl stl+=%2*\ %f\ %*
-	setl stl+=%3*\ %m%r%h%w%q\ %*
-	setl stl+=%8*%=%* 		"左右分割
-	setl stl+=%4*\ %y\ %*
-	setl stl+=%5*\ line:%l/%L
+	setl stl+=%2*\ %m%r%h%w%q\ %*
+	setl stl+=%2*%=%* 		"左右分割
+	setl stl+=%2*\ %y\ %*
+	setl stl+=%2*\ line:%l/%L
 	setl stl+=\ [%p%%]
 	setl stl+=\ col:%c\ %*
-	setl stl+=%6*\ %{''.(&fenc!=''?&fenc:&enc).''}\       "编码1
+	setl stl+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}\       "编码1
 	setl stl+=\ %{(&bomb?\",BOM\":\"\")}%*            "编码2
 endfunc
+
+""func! s:norstl()
+""	setl stl=%7*\ %{File_size()}\ %*
+""	setl stl+=%1*\ [buf:%n]\ %*
+""	setl stl+=%2*\ %f\ %*
+""	setl stl+=%3*\ %m%r%h%w%q\ %*
+""	setl stl+=%8*%=%* 		"左右分割
+""	setl stl+=%4*\ %y\ %*
+""	setl stl+=%5*\ line:%l/%L
+""	setl stl+=\ [%p%%]
+""	setl stl+=\ col:%c\ %*
+""	setl stl+=%6*\ %{''.(&fenc!=''?&fenc:&enc).''}\       "编码1
+""	setl stl+=\ %{(&bomb?\",BOM\":\"\")}%*            "编码2
+""endfunc
 
 function! File_size()
     let l:size = getfsize(expand('%'))

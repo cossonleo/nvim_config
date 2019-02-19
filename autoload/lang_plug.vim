@@ -18,11 +18,11 @@ func lang_plug#add()
 	"Plug 'majutsushi/tagbar'
 	Plug 'cespare/vim-toml'
 	Plug 'Shougo/echodoc.vim'
-	""Plug 'Shougo/deoplete.nvim' 
+	Plug 'Shougo/deoplete.nvim' 
 
 	"""""""""""""""""""""
-	Plug 'roxma/nvim-yarp'
-	Plug 'ncm2/ncm2'
+	""Plug 'roxma/nvim-yarp'
+	""Plug 'ncm2/ncm2'
 	""Plug 'ncm2/ncm2-bufword'
     ""Plug 'ncm2/ncm2-path'
 	"""""""""""""""""""""
@@ -61,16 +61,18 @@ func lang_plug#config()
 	let g:echodoc_enable_at_startup = 1
 
 	" deoplete.
+	let g:deoplete#enable_at_startup = 1
+    call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around']})
 
 	"ncm2
-	autocmd BufEnter * call ncm2#enable_for_buffer()
-	set completeopt=noinsert,menuone,noselect
-	set shortmess+=c
-	inoremap <c-c> <ESC>
-	"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-	let g:ncm2#matcher = 'substrfuzzy'
+	""autocmd BufEnter * call ncm2#enable_for_buffer()
+	""set completeopt=noinsert,menuone,noselect
+	""set shortmess+=c
+	""inoremap <c-c> <ESC>
+	"""inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+	""inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    ""inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+	""let g:ncm2#matcher = 'substrfuzzy'
 
 	"nvim-completor
 	let g:load_nvim_completor_lsp = 0
