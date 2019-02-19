@@ -87,7 +87,7 @@ func lang_plug#config()
     ""\ 'rust': ['ra_lsp_server'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
-    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-golist-duration', '30'],
+    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
