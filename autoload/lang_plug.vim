@@ -62,7 +62,7 @@ func lang_plug#config()
 
 	" deoplete.
 	let g:deoplete#enable_at_startup = 1
-    call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around']})
+	call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around']})
 
 	"ncm2
 	""autocmd BufEnter * call ncm2#enable_for_buffer()
