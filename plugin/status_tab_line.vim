@@ -9,12 +9,12 @@
 """"""""""""""""""""""""""""""""statusline"""""""""""""""""""""""""""""""
 "au BufRead,BufEnter,BufWritePost,BufCreate * call SetStl()
 "au BufRead,BufWritePost,BufCreate * call SetStl()
-au FileType * call SetStl()
+"au FileType * call SetStl()
 
-func! SetStl()
+func! s:set_stl()
 	if &ft == 'netrw'
 		call s:netrwstl()
-	elseif &ft == ''
+	"elseif &ft == ''
 	else
 		call s:norstl()
 	endif
@@ -126,3 +126,6 @@ function! MyTabLabel(n)
 	endif
 	return sub_strs[leng - 2] . '/' . sub_strs[leng - 1]
 endfunction
+
+call s:set_stl()
+au FileType * call s:set_stl()
