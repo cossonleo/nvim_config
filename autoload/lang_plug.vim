@@ -18,13 +18,13 @@ func lang_plug#add()
 	"Plug 'majutsushi/tagbar'
 	Plug 'cespare/vim-toml'
 	Plug 'Shougo/echodoc.vim'
-	""Plug 'Shougo/deoplete.nvim' 
+	Plug 'Shougo/deoplete.nvim' 
 
 	"""""""""""""""""""""
-	Plug 'roxma/nvim-yarp'
-	Plug 'ncm2/ncm2'
+	"Plug 'roxma/nvim-yarp'
+	"Plug 'ncm2/ncm2'
 	""Plug 'ncm2/ncm2-bufword'
-    Plug 'ncm2/ncm2-path'
+    "Plug 'ncm2/ncm2-path'
 	"""""""""""""""""""""
 
 	""Plug 'Cosson2017/nvim-completor'
@@ -62,17 +62,17 @@ func lang_plug#config()
 
 	" deoplete.
 	let g:deoplete#enable_at_startup = 1
-	""call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around']})
+	call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around', 'member', 'omni', 'tag']})
 
 	"ncm2
-	autocmd BufEnter * call ncm2#enable_for_buffer()
-	set completeopt=noinsert,menuone,noselect
-	set shortmess+=c
-	inoremap <c-c> <ESC>
-	"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-	let g:ncm2#matcher = 'substrfuzzy'
+	"autocmd BufEnter * call ncm2#enable_for_buffer()
+	"set completeopt=noinsert,menuone,noselect
+	"set shortmess+=c
+	"inoremap <c-c> <ESC>
+	""inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+	"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    "inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+	"let g:ncm2#matcher = 'substrfuzzy'
 
 	"nvim-completor
 	let g:load_nvim_completor_lsp = 0
@@ -84,7 +84,7 @@ func lang_plug#config()
 	" \ 'sh': ['bash-language-server', 'start'],
 	"\ 'go': ['gopls'],
 	"\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
-    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-golist-duration', '30'],
+    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4'],
     ""\ 'rust': ['ra_lsp_server'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
