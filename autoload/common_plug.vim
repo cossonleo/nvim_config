@@ -22,9 +22,10 @@ func common_plug#add()
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
 	Plug 'kshenoy/vim-signature'
-	Plug 'Cosson2017/vim-ripgrep'
 	Plug 'Cosson2017/neo-comment.nvim'
 	Plug 'Cosson2017/neo-smooth-scroll.nvim'
+	Plug 'mhinz/vim-grepper'
+	"Plug 'Cosson2017/vim-ripgrep'
 	"Plug 'godlygeek/tabular'
 	"Plug 'h-youhei/vim-fcitx'
 	"Plug 'osyo-manga/vim-over'
@@ -101,9 +102,21 @@ func common_plug#config()
 	"let g:Lf_DefaultExternalTool = "rg"
 
 
-	"vim-ripgrep
-	let g:rg_use_local_list = 1
-	let g:rg_window_location = 'belowright'
+	"vim-ripgrep "rg 
+	"nnoremap <c-a> :Rg<cr>
+	"let g:rg_use_local_list = 1
+	"let g:rg_window_location = 'belowright'
+	"" grepper
+	let g:grepper = {}
+    let g:grepper.quickfix = 0
+	let g:grepper.open = 1
+	let g:grepper.highlight = 0
+    let g:grepper.tools = ['rg']
+    nnoremap <c-a> :Grepper<cr>
+    "let g:grepper.prompt_mapping_tool = '<c-a>'
+
+    "let g:grepper.tools =
+    "  \ ['git', 'ag', 'ack', 'ack-grep', 'grep', 'findstr', 'rg', 'pt', 'sift']
 
 
 	"tabular
@@ -129,8 +142,6 @@ func common_plug#config()
 	map <Leader>j <Plug>(easymotion-j)
 	map <Leader>k <Plug>(easymotion-k)
 
-	"rg 
-	nnoremap <c-a> :Rg<cr>
 
 	"AutoPairs
 	au FileType rust let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
