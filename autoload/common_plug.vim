@@ -17,7 +17,8 @@ func common_plug#add()
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'luochen1990/rainbow'
 	Plug 'terryma/vim-multiple-cursors'
-	Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
+	"Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
+	Plug 'Shougo/denite.nvim'
 	Plug 'Cosson2017/NeoSolarized'
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
@@ -85,21 +86,44 @@ func common_plug#config()
 	"	  \ '<denite:move_to_previous_line>',
 	"	  \ 'noremap'
 	"	  \)
-
+	"
+	"
+	"denite
+	nnoremap <leader><leader> :Denite -split="floating" file/rec<cr>
+	nnoremap <leader>b :Denite -split="floating" buffer<cr>
+	nnoremap <leader>t :Denite -direction="topleft" -split="vertical" documentSymbol<cr>
+	"nnoremap <leader>g :DeniteCursorWord -split="floating" grep<cr>
+	call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
+	"call denite#custom#source('file/rec', 'matchers', ['matcher/cpsm'])
+"	call denite#custom#var('grep', 'command', ['rg'])
+"	call denite#custom#var('grep', 'default_opts',
+"			\ ['-i', '--vimgrep', '--no-heading'])
+	call denite#custom#map(
+	      \ 'insert',
+	      \ '<C-j>',
+	      \ '<denite:move_to_next_line>',
+	      \ 'noremap'
+	      \)
+	call denite#custom#map(
+	      \ 'insert',
+	      \ '<C-k>',
+	      \ '<denite:move_to_previous_line>',
+	      \ 'noremap'
+	      \)
 	"leaderf
-	let g:Lf_UseMemoryCache = 0
-	let g:Lf_ShortcutF = '<leader><leader>'
-	let g:Lf_ShortcutB = '<leader>b' "'<c-x>'
-	nnoremap <leader>f :LeaderfFunction<cr>
-	nnoremap <leader>t :LeaderfBufTag<cr>
-	let g:Lf_WildIgnore = {
-				\ 'dir': ['.svn','.git','.hg'],
-				\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
-				\}
-	let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
-	let g:Lf_Ctags ="~/usr/bin/ctags"
-	"let g:Lf_WindowPosition = 'top'
-	"let g:Lf_DefaultExternalTool = "rg"
+	"let g:Lf_UseMemoryCache = 0
+	"let g:Lf_ShortcutF = '<leader><leader>'
+	"let g:Lf_ShortcutB = '<leader>b' "'<c-x>'
+	"nnoremap <leader>f :LeaderfFunction<cr>
+	"nnoremap <leader>t :LeaderfBufTag<cr>
+	"let g:Lf_WildIgnore = {
+	"			\ 'dir': ['.svn','.git','.hg'],
+	"			\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+	"			\}
+	"let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
+	"let g:Lf_Ctags ="~/usr/bin/ctags"
+	""let g:Lf_WindowPosition = 'top'
+	""let g:Lf_DefaultExternalTool = "rg"
 
 
 	"vim-ripgrep "rg 

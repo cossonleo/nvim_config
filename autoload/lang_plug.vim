@@ -18,13 +18,13 @@ func lang_plug#add()
 	"Plug 'majutsushi/tagbar'
 	Plug 'cespare/vim-toml'
 	Plug 'Shougo/echodoc.vim'
-	Plug 'Shougo/deoplete.nvim' 
+	"Plug 'Shougo/deoplete.nvim' 
 
 	"""""""""""""""""""""
-	"Plug 'roxma/nvim-yarp'
-	"Plug 'ncm2/ncm2'
-	""Plug 'ncm2/ncm2-bufword'
-    "Plug 'ncm2/ncm2-path'
+	Plug 'roxma/nvim-yarp'
+	Plug 'ncm2/ncm2'
+	"Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-path'
 	"""""""""""""""""""""
 
 	""Plug 'Cosson2017/nvim-completor'
@@ -61,18 +61,18 @@ func lang_plug#config()
 	let g:echodoc_enable_at_startup = 1
 
 	" deoplete.
-	let g:deoplete#enable_at_startup = 1
-	call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around', 'member', 'omni', 'tag']})
+	"let g:deoplete#enable_at_startup = 1
+	"call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around', 'member', 'omni', 'tag']})
 
 	"ncm2
-	"autocmd BufEnter * call ncm2#enable_for_buffer()
-	"set completeopt=noinsert,menuone,noselect
-	"set shortmess+=c
-	"inoremap <c-c> <ESC>
-	""inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-	"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    "inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-	"let g:ncm2#matcher = 'substrfuzzy'
+	autocmd BufEnter * call ncm2#enable_for_buffer()
+	set completeopt=noinsert,menuone,noselect
+	set shortmess+=c
+	inoremap <c-c> <ESC>
+	inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+	let g:ncm2#matcher = 'substrfuzzy'
 
 	"nvim-completor
 	let g:load_nvim_completor_lsp = 0
@@ -84,11 +84,12 @@ func lang_plug#config()
 	" \ 'sh': ['bash-language-server', 'start'],
 	"\ 'go': ['gopls'],
 	"\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
-    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4'],
-    ""\ 'rust': ['ra_lsp_server'],
+    "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-cache-style', 'on-demand'],
+    "\ 'rust': ['ra_lsp_server'],
+    "\ 'rust': ['rls'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
-	\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
+    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-cache-style', 'on-demand'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
@@ -121,6 +122,7 @@ func lang_plug#config()
 	nnoremap <silent> <m-f> :call LanguageClient#textDocument_references()<CR>
 	nnoremap <silent> <m-s> :call LanguageClient#workspace_symbol()<CR>
 	nnoremap <silent> <m-i> :call LanguageClient#textDocument_implementation()<CR>
+	"nnoremap <silent> <m-t> :call LanguageClient_textDocument_documentSymbol()<CR>
 	nnoremap <silent> gq :call LanguageClient#textDocument_formatting()<CR>
 	"nnoremap <silent> <m-j> :LspNextError<CR>
 	"nnoremap <silent> <m-k> :LspPreviousError<CR>
