@@ -25,9 +25,10 @@ func lang_plug#add()
 	Plug 'ncm2/ncm2'
 	"Plug 'ncm2/ncm2-bufword'
     Plug 'ncm2/ncm2-path'
+	"Plug 'ncm2/float-preview.nvim'
 	"""""""""""""""""""""
 
-	""Plug 'Cosson2017/nvim-completor'
+	"Plug 'Cosson2017/nvim-completor'
 	"Plug 'rust-lang/rust.vim'
 	"Plug 'peterhoeg/vim-qml', {'for':['qml']}
 	" Track the engine.
@@ -79,7 +80,10 @@ func lang_plug#config()
 	let g:load_vim_lsp = 0
 	let g:load_nvim_completor_languageclient_neovim = 1
 
-
+	" float-preview.nvim
+	"set completeopt+=preview
+	
+	"
 	"languageserver-client
 	" \ 'sh': ['bash-language-server', 'start'],
 	"\ 'go': ['gopls'],

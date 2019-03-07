@@ -71,27 +71,9 @@ func common_plug#config()
 	let g:rainbow_active = 1
 
 	"denite
-	"nnoremap <c-p> :Denite file/rec<cr>
-	"nnoremap <c-b> :Denite buffer<cr>
-	"call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
-	"call denite#custom#map(
-	"	  \ 'insert',
-	"	  \ '<c-j>',
-	"	  \ '<denite:move_to_next_line>',
-	"	  \ 'noremap'
-	"	  \)
-	"call denite#custom#map(
-	"	  \ 'insert',
-	"	  \ '<c-k>',
-	"	  \ '<denite:move_to_previous_line>',
-	"	  \ 'noremap'
-	"	  \)
-	"
-	"
-	"denite
 	nnoremap <leader><leader> :Denite -split="floating" file/rec<cr>
 	nnoremap <leader>b :Denite -split="floating" buffer<cr>
-	nnoremap <leader>t :Denite -direction="topleft" -split="vertical" documentSymbol<cr>
+	nnoremap <leader>t :Denite -split="floating" documentSymbol<cr>
 	"nnoremap <leader>g :DeniteCursorWord -split="floating" grep<cr>
 	call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
 	"call denite#custom#source('file/rec', 'matchers', ['matcher/cpsm'])
