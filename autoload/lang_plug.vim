@@ -18,17 +18,18 @@ func lang_plug#add()
 	"Plug 'majutsushi/tagbar'
 	Plug 'cespare/vim-toml'
 	Plug 'Shougo/echodoc.vim'
-	"Plug 'Shougo/deoplete.nvim' 
+	Plug 'Shougo/deoplete.nvim' 
 
 	"""""""""""""""""""""
-	Plug 'roxma/nvim-yarp'
-	Plug 'ncm2/ncm2'
+	"Plug 'roxma/nvim-yarp'
+	"Plug 'ncm2/ncm2'
 	"Plug 'ncm2/ncm2-bufword'
-    Plug 'ncm2/ncm2-path'
+    "Plug 'ncm2/ncm2-path'
 	"Plug 'ncm2/float-preview.nvim'
 	"""""""""""""""""""""
 
 	"Plug 'Cosson2017/nvim-completor'
+	"Plug 'Cosson2017/nvim-completor-lc'
 	"Plug 'rust-lang/rust.vim'
 	"Plug 'peterhoeg/vim-qml', {'for':['qml']}
 	" Track the engine.
@@ -62,18 +63,18 @@ func lang_plug#config()
 	let g:echodoc_enable_at_startup = 1
 
 	" deoplete.
-	"let g:deoplete#enable_at_startup = 1
-	"call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around', 'member', 'omni', 'tag']})
+	let g:deoplete#enable_at_startup = 1
+	call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around', 'member', 'omni', 'tag']})
 
 	"ncm2
-	autocmd BufEnter * call ncm2#enable_for_buffer()
-	set completeopt=noinsert,menuone,noselect
-	set shortmess+=c
-	inoremap <c-c> <ESC>
-	inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-	let g:ncm2#matcher = 'substrfuzzy'
+	"autocmd BufEnter * call ncm2#enable_for_buffer()
+	"set completeopt=noinsert,menuone,noselect
+	"set shortmess+=c
+	"inoremap <c-c> <ESC>
+	"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+	"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    "inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+	"let g:ncm2#matcher = 'substrfuzzy'
 
 	"nvim-completor
 	let g:load_nvim_completor_lsp = 0
@@ -92,7 +93,7 @@ func lang_plug#config()
     "\ 'rust': ['ra_lsp_server'],
     "\ 'rust': ['rls'],
 	let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rls'],
+    \ 'rust': ['ra_lsp_server'],
     \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-cache-style', 'on-demand'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
