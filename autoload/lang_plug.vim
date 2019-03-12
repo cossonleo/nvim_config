@@ -76,11 +76,6 @@ func lang_plug#config()
     "inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 	"let g:ncm2#matcher = 'substrfuzzy'
 
-	"nvim-completor
-	let g:load_nvim_completor_lsp = 0
-	let g:load_vim_lsp = 0
-	let g:load_nvim_completor_languageclient_neovim = 1
-
 	" float-preview.nvim
 	"set completeopt+=preview
 	
