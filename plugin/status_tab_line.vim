@@ -130,4 +130,4 @@ endfunction
 call s:set_stl()
 au FileType * call s:set_stl()
 
-hi Floating guifg=#000000  guibg=#ffffff  gui=bold
+hi NormalFloat guifg=#000000   guibg=#ffffff gui=bold
