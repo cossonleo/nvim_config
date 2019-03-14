@@ -214,7 +214,7 @@ func lang_plug#config()
 
 	autocmd FileType * setlocal omnifunc=lsp#complete
 
-	nnoremap <silent> <m-h> :LspReferences<cr>
+	nnoremap <silent> <m-f> :LspReferences<cr>
 	nnoremap <silent> <m-j> :LspNextError<cr>
 	nnoremap <silent> <m-k> :LspPreviousError<cr>
 	nnoremap <silent> <m-r> :LspRename<cr>
