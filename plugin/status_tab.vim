@@ -11,6 +11,11 @@
 "au BufRead,BufWritePost,BufCreate * call SetStl()
 "au FileType * call SetStl()
 
+if exists("s:is_loaded")
+	finish
+endif
+let s:is_loaded = 1
+
 func! s:set_stl()
 	if &ft == 'netrw'
 		call s:netrwstl()
@@ -73,15 +78,6 @@ function! File_size()
     endif
 endfunction
 
-hi User1 guifg=#dddddd  guibg=#b58900  gui=bold
-hi User2 guifg=#8a8a8a  guibg=#1A1A1A  gui=bold
-hi User3 guifg=#dc322f  guibg=#1A1A1A  gui=bold
-hi User4 guifg=#dddddd  guibg=#d33682  gui=bold
-hi User5 guifg=#dddddd  guibg=#6c71c4  gui=bold
-hi User6 guifg=#dddddd  guibg=#859900  gui=bold
-hi User7 guifg=#dddddd  guibg=#268bd2  gui=bold
-hi User8 guifg=#dddddd  guibg=#1A1A1A  gui=bold
-
 
 """"""""""""""""""""""""""""""""""""""tabline"""""""""""""""""""""""""""""""""""""""
 set tabline=%!MyTabLine()
@@ -130,4 +126,3 @@ endfunction
 call s:set_stl()
 au FileType * call s:set_stl()
 
-hi NormalFloat guifg=#000000   guibg=#ffffff gui=bold

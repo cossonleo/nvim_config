@@ -222,7 +222,6 @@ func lang_plug#config()
 	nnoremap <silent> <m-s> :LspDocumentSymbol<cr>
 	nnoremap <silent> <m-h> :LspHover<cr>
 
-	
 	" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 "let g:UltiSnipsExpandTrigger="<c-k>"
 "let g:UltiSnipsJumpForwardTrigger="<c-k>"
