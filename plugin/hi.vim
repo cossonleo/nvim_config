@@ -15,5 +15,9 @@ hi User8 guifg=#dddddd  guibg=#1A1A1A  gui=bold
 hi link LspError ALEErrorSign
 hi link LspWarning ALEWarningSign
 	
-hi NormalFloat gui=bold guifg=#268bd2 guibg=#002b36
+hi NormalFloat gui=bold guifg=#268bd2 guibg=#2F4F4F
+"guibg=#4B0082
+"#2F4F4F
+"#D3D3D3
+"guibg=#002b36
 "guibg=#fdf6e3
