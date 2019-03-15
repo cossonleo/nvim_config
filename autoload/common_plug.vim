@@ -24,6 +24,7 @@ func common_plug#add()
 	"Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
 	Plug 'Shougo/denite.nvim'
 	Plug 'Cosson2017/NeoSolarized'
+	Plug 'Cosson2017/denite-vim-lsp'
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
 	Plug 'kshenoy/vim-signature'
