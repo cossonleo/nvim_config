@@ -77,8 +77,8 @@ func common_plug#config()
 
 	"denite
 	nnoremap <leader><leader> :Denite -split="floating" -winrow=5 -winheight=30 file/rec<cr>
-	nnoremap <leader>b :Denite -split="floating" buffer<cr>
-	nnoremap <leader>t :Denite -split="floating" documentSymbol<cr>
+	nnoremap <leader>b :Denite -split="floating" -winrow=5 -winheight=30 buffer<cr>
+	nnoremap <leader>t :Denite -split="floating" -winrow=5 -winheight=30 documentSymbol<cr>
 	"nnoremap <leader>g :DeniteCursorWord -split="floating" grep<cr>
 	call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
 	"call denite#custom#source('file/rec', 'matchers', ['matcher/cpsm'])
