@@ -15,7 +15,12 @@ hi User8 guifg=#dddddd  guibg=#1A1A1A  gui=bold
 hi link LspError ALEErrorSign
 hi link LspWarning ALEWarningSign
 	
-hi NormalFloat gui=bold guifg=#268bd2 guibg=#2F4F4F
+
+let s:gui_orange      = "#cb4b16"
+hi NormalFloat gui=bold guifg=#cb4b16 guibg=#1A1A1A
+"#1A1A1A
+"hi link NormalFloat ALEWarningSign
+"#002b36
 "guibg=#4B0082
 "#2F4F4F
 "#D3D3D3
