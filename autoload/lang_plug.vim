@@ -39,7 +39,7 @@ func lang_plug#add()
     "\ }
 
 	Plug 'prabirshrestha/async.vim'
-	Plug 'prabirshrestha/vim-lsp'
+	Plug 'Cosson2017/vim-lsp'
 
 	Plug 'Cosson2017/nvim-completor'
 	"Plug 'Cosson2017/nvim-completor-lc'
@@ -132,6 +132,8 @@ func lang_plug#config()
 "	"nnoremap <silent> <m-j> :LspNextError<CR>
 "	"nnoremap <silent> <m-k> :LspPreviousError<CR>
 	
+	" vim-lsp
+
 	if executable('bingo')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'bingo',
@@ -139,14 +141,6 @@ func lang_plug#config()
         \ 'whitelist': ['go'],
         \ })
 	endif
-
-	"
-"	\ 'dockerfile': ['docker-langserver', '--stdio'],
-"	\ 'css': ['css-languageserver', '--stdio'],
-"	\ 'html': ['html-languageserver', '--stdio'],
-"	\ 'json': ['json-languageserver', '--stdio'],
-"	\ 'wxml': ['wxml-languageserver', '--stdio'],
-
 
 	"if executable('ra_lsp_server')
     "au User lsp_setup call lsp#register_server({
@@ -206,14 +200,15 @@ func lang_plug#config()
         \ })
 	endif
 
-	let g:lsp_signs_enabled = 1         " enable signs
+	let g:lsp_signs_enabled = 0         " enable signs
 	let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 	let g:lsp_virtual_text_enabled = 1
 	let g:lsp_signs_error = {'text': '✗'}
 	let g:lsp_signs_warning = {'text': '‼'}
+	let g:lsp_log_verbose= 0
+	let g:lsp_log_file = '/tmp/lsp.log'
 
 	autocmd FileType * setlocal omnifunc=lsp#complete
-
 	nnoremap <silent> <m-f> :LspReferences<cr>
 	nnoremap <silent> <m-j> :LspNextError<cr>
 	nnoremap <silent> <m-k> :LspPreviousError<cr>
@@ -221,6 +216,7 @@ func lang_plug#config()
 	nnoremap <silent> <m-g> :LspDefinition<cr>
 	nnoremap <silent> <m-s> :LspDocumentSymbol<cr>
 	nnoremap <silent> <m-h> :LspHover<cr>
+	nnoremap <silent> gq :LspDocumentFormat<CR>
 
 	" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 "let g:UltiSnipsExpandTrigger="<c-k>"

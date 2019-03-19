@@ -76,9 +76,10 @@ func common_plug#config()
 	let g:rainbow_active = 1
 
 	"denite
-	nnoremap <leader><leader> :Denite -split="floating" -winrow=5 -winheight=30 file/rec<cr>
-	nnoremap <leader>b :Denite -split="floating" -winrow=5 -winheight=30 buffer<cr>
-	nnoremap <leader>t :Denite -split="floating" -winrow=5 -winheight=30 documentSymbol<cr>
+	let s:denite_float = ' :Denite -split="floating" -winrow=`&lines / 8` -winheight=`&lines * 3 / 4` '
+	exe 'nnoremap <leader><leader>' . s:denite_float . 'file/rec<cr>'
+	exe 'nnoremap <leader>b' . s:denite_float . 'buffer<cr>'
+	exe 'nnoremap <leader>t' . s:denite_float . 'documentSymbol<cr>'
 	"nnoremap <leader>g :DeniteCursorWord -split="floating" grep<cr>
 	call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
 	"call denite#custom#source('file/rec', 'matchers', ['matcher/cpsm'])
