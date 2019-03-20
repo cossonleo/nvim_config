@@ -87,10 +87,11 @@ func common_plug#config()
 			let l:input_word = a:000[0]
 		endif
 		exe s:denite_float . " -input=" . l:input_word . " " . "grep"
+		"echo l:input_word
 	endfunction
 
-	command! -nargs=* DeniteGrep call <SID>denite_grep(<q-args>)
-	nnoremap <leader>a :DeniteGrep<cr>
+	command! -nargs=* DeniteGrep call <SID>denite_grep(<f-args>)
+	nnoremap <leader>a :DeniteGrep 
 
 	function! s:denite_ctags(...) abort
 		let l:kind = "a"
