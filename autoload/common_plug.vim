@@ -78,7 +78,26 @@ func common_plug#config()
 	exe 'nnoremap <leader>s' . s:denite_float . 'documentSymbol<cr>'
 	exe 'nnoremap <leader>t' . s:denite_float . 'outline<cr>'
 	exe 'nnoremap <leader>t' . s:denite_float . 'outline<cr>'
-	nnoremap <leader>a :DeniteCursorWord -highlight-mode-insert=DeniteCL -split="floating" -winrow=`&lines / 8` -winheight=`&lines * 3 / 4` grep<cr>
+
+	function! s:denite_grep(...) abort
+		let l:input_word = ""
+		if len(a:000) == 0
+			let l:input_word = expand("<cword>")
+		else
+			let l:input_word = a:000[0]
+		endif
+		exe s:denite_float . " -input=" . l:input_word . " " . "grep"
+	endfunction
+
+	command! -nargs=* DeniteGrep call <SID>denite_grep(<q-args>)
+	nnoremap <leader>a :DeniteGrep<cr>
+
+	function! s:denite_ctags(...) abort
+		let l:kind = "a"
+		if len(a:000) > 0 abort
+		endif
+	endfunction
+	"nnoremap <leader>a :DeniteCursorWord -highlight-mode-insert=DeniteCL -split="floating" -winrow=`&lines / 8` -winheight=`&lines * 3 / 4` grep<cr>
 
 	call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
 	"call denite#custom#source('file/rec', 'matchers', ['matcher/cpsm'])
