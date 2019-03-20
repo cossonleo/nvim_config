@@ -26,3 +26,4 @@ hi NormalFloat gui=bold guifg=#cb4b16 guibg=#1A1A1A
 "#D3D3D3
 "guibg=#002b36
 "guibg=#fdf6e3
+hi DeniteCL guibg=#3D3D3D

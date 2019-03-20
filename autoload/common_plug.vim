@@ -12,10 +12,6 @@ if exists("s:is_loaded")
 endif
 let s:is_loaded = 1
 
-function Denite_row()
-	return &lines / 6
-endfunc
-
 func common_plug#add()
 	Plug 'easymotion/vim-easymotion'
 	Plug 'jiangmiao/auto-pairs'
@@ -76,7 +72,7 @@ func common_plug#config()
 	let g:rainbow_active = 1
 
 	"denite
-	let s:denite_float = ' :Denite -split="floating" -winrow=`&lines / 8` -winheight=`&lines * 3 / 4` '
+	let s:denite_float = ' :Denite  -highlight-mode-insert=DeniteCL -split="floating" -winrow=`&lines / 8` -winheight=`&lines * 3 / 4` '
 	exe 'nnoremap <leader><leader>' . s:denite_float . 'file/rec<cr>'
 	exe 'nnoremap <leader>b' . s:denite_float . 'buffer<cr>'
 	exe 'nnoremap <leader>t' . s:denite_float . 'documentSymbol<cr>'
