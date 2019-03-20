@@ -75,13 +75,23 @@ func common_plug#config()
 	let s:denite_float = ' :Denite  -highlight-mode-insert=DeniteCL -split="floating" -winrow=`&lines / 8` -winheight=`&lines * 3 / 4` '
 	exe 'nnoremap <leader><leader>' . s:denite_float . 'file/rec<cr>'
 	exe 'nnoremap <leader>b' . s:denite_float . 'buffer<cr>'
-	exe 'nnoremap <leader>t' . s:denite_float . 'documentSymbol<cr>'
-	"nnoremap <leader>g :DeniteCursorWord -split="floating" grep<cr>
+	exe 'nnoremap <leader>s' . s:denite_float . 'documentSymbol<cr>'
+	exe 'nnoremap <leader>t' . s:denite_float . 'outline<cr>'
+	exe 'nnoremap <leader>t' . s:denite_float . 'outline<cr>'
+	nnoremap <leader>a :DeniteCursorWord -highlight-mode-insert=DeniteCL -split="floating" -winrow=`&lines / 8` -winheight=`&lines * 3 / 4` grep<cr>
+
 	call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
 	"call denite#custom#source('file/rec', 'matchers', ['matcher/cpsm'])
-"	call denite#custom#var('grep', 'command', ['rg'])
-"	call denite#custom#var('grep', 'default_opts',
-"			\ ['-i', '--vimgrep', '--no-heading'])
+"
+	" Ripgrep command on grep source
+	call denite#custom#var('grep', 'command', ['rg'])
+	call denite#custom#var('grep', 'default_opts',
+			\ ['-i', '--vimgrep', '--no-heading'])
+	call denite#custom#var('grep', 'recursive_opts', [])
+	call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+	call denite#custom#var('grep', 'separator', ['--'])
+	call denite#custom#var('grep', 'final_opts', [])
+
 	call denite#custom#map(
 	      \ 'insert',
 	      \ '<C-j>',
