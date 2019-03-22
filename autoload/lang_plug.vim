@@ -38,8 +38,8 @@ func lang_plug#add()
     "\ 'branch': 'next',
     "\ }
 
-	"Plug 'prabirshrestha/async.vim'
-	"Plug 'Cosson2017/vim-lsp'
+	Plug 'prabirshrestha/async.vim'
+	Plug 'Cosson2017/vim-lsp'
 
 	Plug 'Cosson2017/nvim-completor'
 	"Plug 'Cosson2017/nvim-completor-lc'
