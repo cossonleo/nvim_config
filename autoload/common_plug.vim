@@ -78,6 +78,7 @@ func common_plug#config()
 	exe 'nnoremap <leader>s' . s:denite_float . 'documentSymbol<cr>'
 	exe 'nnoremap <leader>t' . s:denite_float . 'outline<cr>'
 	exe 'nnoremap <leader>t' . s:denite_float . 'outline<cr>'
+	exe 'nnoremap <leader>f' . s:denite_float . 'references<cr>'
 
 	function! s:denite_grep(...) abort
 		let l:input_word = ""
