@@ -53,8 +53,8 @@ function! lsp_lc#lsp_lc_config()
 	nnoremap <silent> <m-g> :call LanguageClient#textDocument_definition()<CR>
 	nnoremap <silent> <m-r> :call LanguageClient#textDocument_rename()<CR>
 	nnoremap <silent> <m-f> :call LanguageClient#textDocument_references()<CR>
-	nnoremap <silent> <m-s> :call LanguageClient#workspace_symbol()<CR>
+	"nnoremap <silent> <m-s> :call LanguageClient#workspace_symbol()<CR>
 	nnoremap <silent> <m-i> :call LanguageClient#textDocument_implementation()<CR>
-	"nnoremap <silent> <m-t> :call LanguageClient_textDocument_documentSymbol()<CR>
+	nnoremap <silent> <m-t> :call LanguageClient_textDocument_documentSymbol()<CR>
 	nnoremap <silent> gq :call LanguageClient#textDocument_formatting()<CR>
 endfunction

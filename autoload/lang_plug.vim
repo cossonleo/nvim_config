@@ -34,16 +34,17 @@ func lang_plug#add()
 	"Plug 'SirVer/ultisnips'
 
     "\ 'do': 'bash install.sh',
-	"Plug 'Cosson2017/LanguageClient-neovim', {
-    "\ 'branch': 'next',
-    "\ }
+	Plug 'Cosson2017/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ }
 
-	Plug 'prabirshrestha/async.vim'
-	Plug 'Cosson2017/vim-lsp'
-
+	"Plug 'prabirshrestha/async.vim'
+	"Plug 'Cosson2017/vim-lsp'
 	Plug 'Cosson2017/nvim-completor'
-	"Plug 'Cosson2017/nvim-completor-lc'
-	Plug 'Cosson2017/nvim-completor-vim-lsp'
+	Plug 'Cosson2017/nvim-completor-lc'
+	"Plug 'Cosson2017/nvim-completor-vim-lsp'
+	"Plug 'andreshazard/vim-logreview'
+	"Plug 'dzeban/vim-log-syntax'
 
 	"c family highlight
 	"call dein#add('arakashic/chromatica.nvim' ", {'for':['cpp', 'h', 'hpp', 'c']}
@@ -72,10 +73,10 @@ func lang_plug#config()
 	"call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around', 'member', 'omni', 'tag']})
 	"
 	" vim-lsp
-	call lsp_vim#vim_lsp_config()
+	"call lsp_vim#vim_lsp_config()
 
 	"vim-lc
-	"call lsp_lc#lsp_lc_config()
+	call lsp_lc#lsp_lc_config()
 
 	"""ncm2
 	"autocmd BufEnter * call ncm2#enable_for_buffer()
