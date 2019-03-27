@@ -72,58 +72,8 @@ func common_plug#config()
 	let g:rainbow_active = 1
 
 	"denite
-	let s:denite_float = ' :Denite  -highlight-mode-insert=DeniteCL -split="floating" -winrow=`&lines / 8` -winheight=`&lines * 3 / 4` '
-	exe 'nnoremap <leader><leader>' . s:denite_float . 'file/rec<cr>'
-	exe 'nnoremap <leader>b' . s:denite_float . 'buffer<cr>'
-	exe 'nnoremap <leader>s' . s:denite_float . 'documentSymbol<cr>'
-	exe 'nnoremap <leader>t' . s:denite_float . 'outline<cr>'
-	exe 'nnoremap <leader>f' . s:denite_float . 'references<cr>'
+	call denite_config#denite_config()
 
-	function! s:denite_grep(...) abort
-		let l:input_word = ""
-		if len(a:000) == 0
-			let l:input_word = expand("<cword>")
-		else
-			let l:input_word = a:000[0]
-		endif
-		exe s:denite_float . " -input=" . l:input_word . " " . "grep"
-		"echo l:input_word
-	endfunction
-
-	command! -nargs=* DeniteGrep call <SID>denite_grep(<f-args>)
-	nnoremap <leader>a :DeniteGrep 
-
-	function! s:denite_ctags(...) abort
-		let l:kind = "a"
-		if len(a:000) > 0 abort
-		endif
-	endfunction
-	"nnoremap <leader>a :DeniteCursorWord -highlight-mode-insert=DeniteCL -split="floating" -winrow=`&lines / 8` -winheight=`&lines * 3 / 4` grep<cr>
-
-	call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
-	"call denite#custom#source('file/rec', 'matchers', ['matcher/cpsm'])
-"
-	" Ripgrep command on grep source
-	call denite#custom#var('grep', 'command', ['rg'])
-	call denite#custom#var('grep', 'default_opts',
-			\ ['-i', '--vimgrep', '--no-heading'])
-	call denite#custom#var('grep', 'recursive_opts', [])
-	call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-	call denite#custom#var('grep', 'separator', ['--'])
-	call denite#custom#var('grep', 'final_opts', [])
-
-	call denite#custom#map(
-	      \ 'insert',
-	      \ '<C-j>',
-	      \ '<denite:move_to_next_line>',
-	      \ 'noremap'
-	      \)
-	call denite#custom#map(
-	      \ 'insert',
-	      \ '<C-k>',
-	      \ '<denite:move_to_previous_line>',
-	      \ 'noremap'
-	      \)
 	"leaderf
 	"let g:Lf_UseMemoryCache = 0
 	"let g:Lf_ShortcutF = '<leader><leader>'
