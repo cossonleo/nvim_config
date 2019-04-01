@@ -22,7 +22,7 @@ function! lsp_lc#lsp_lc_config()
     "\ 'rust': ['rls'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
-    \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-cache-style', 'on-demand'],
+	\ 'go': ['gopls', 'serve'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
