@@ -21,6 +21,7 @@ func common_plug#add()
 	Plug 'Shougo/denite.nvim'
 	"Plug 'CossonLeo/NeoSolarized'
 	Plug 'CossonLeo/onedark.vim'
+	"Plug 'itchyny/lightline.vim'
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
 	Plug 'kshenoy/vim-signature'
