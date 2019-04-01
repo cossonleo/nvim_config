@@ -29,7 +29,7 @@ func lang_plug#add()
 	"""""""""""""""""""""
 
 	"Plug 'rust-lang/rust.vim'
-	"Plug 'peterhoeg/vim-qml', {'for':['qml']}
+	Plug 'peterhoeg/vim-qml', {'for':['qml']}
 	" Track the engine.
 	"Plug 'SirVer/ultisnips'
 
@@ -40,6 +40,8 @@ func lang_plug#add()
 
 	"Plug 'prabirshrestha/async.vim'
 	"Plug 'Cosson2017/vim-lsp'
+	"Plug 'CossonLeo/denite-vim-lsp'
+	
 	Plug 'Cosson2017/nvim-completor'
 	Plug 'Cosson2017/nvim-completor-lc'
 	"Plug 'Cosson2017/nvim-completor-vim-lsp'
