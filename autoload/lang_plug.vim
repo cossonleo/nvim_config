@@ -1,6 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""
 "    LICENSE: MIT
-"     Author: Cosson2017
+"     Author: CossonLeo
 "    Version: 0.5
 " CreateTime: 2018-08-21 22:45:56
 " LastUpdate: 2018-08-21 22:45:56
@@ -34,17 +34,19 @@ func lang_plug#add()
 	"Plug 'SirVer/ultisnips'
 
     "\ 'do': 'bash install.sh',
-	Plug 'Cosson2017/LanguageClient-neovim', {
+	Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
+	\ 'do': 'make release',
     \ }
 
 	"Plug 'prabirshrestha/async.vim'
-	"Plug 'Cosson2017/vim-lsp'
+	"Plug 'CossonLeo/vim-lsp'
 	"Plug 'CossonLeo/denite-vim-lsp'
 	
-	Plug 'Cosson2017/nvim-completor'
-	Plug 'Cosson2017/nvim-completor-lc'
-	"Plug 'Cosson2017/nvim-completor-vim-lsp'
+	Plug 'CossonLeo/nvim-completor'
+	Plug 'CossonLeo/nvim-completor-lc'
+	Plug 'CossonLeo/nvim-lsphi'
+	"Plug 'CossonLeo/nvim-completor-vim-lsp'
 	"Plug 'andreshazard/vim-logreview'
 	"Plug 'dzeban/vim-log-syntax'
 
@@ -55,7 +57,7 @@ func lang_plug#add()
 	"wx program
 	"call dein#add('chemzqm/wxapp.vim')
 	"tagbar 
-	"call dein#add('Cosson2017/neo-debuger')
+	"call dein#add('CossonLeo/neo-debuger')
 endfunc
 
 func lang_plug#config()

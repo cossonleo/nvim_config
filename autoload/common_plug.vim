@@ -28,6 +28,7 @@ func common_plug#add()
 	Plug 'Cosson2017/neo-comment.nvim'
 	Plug 'Cosson2017/neo-smooth-scroll.nvim'
 	Plug 'mhinz/vim-grepper'
+	"Plug 'c0r73x/neotags.nvim'
 	"Plug 'Cosson2017/vim-ripgrep'
 	"Plug 'godlygeek/tabular'
 	"Plug 'h-youhei/vim-fcitx'
@@ -57,8 +58,9 @@ func common_plug#config()
 	"let g:lt_height = 10
 
 
-
-
+	"neotags.nvim
+	"let g:neotags_enabled = 1
+	
 	" incsearch.vim
 	map /  <Plug>(incsearch-forward)
 	map ?  <Plug>(incsearch-backward)
