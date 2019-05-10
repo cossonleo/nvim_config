@@ -16,7 +16,7 @@ func lang_plug#add()
 	"Plug 'prabirshrestha/vim-lsp'
 	"Plug 'prabirshrestha/async.vim'
 	"Plug 'majutsushi/tagbar'
-	Plug 'cespare/vim-toml'
+	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'Shougo/echodoc.vim'
 	"Plug 'Shougo/deoplete.nvim' 
 
@@ -28,7 +28,7 @@ func lang_plug#add()
 	"Plug 'ncm2/float-preview.nvim'
 	"""""""""""""""""""""
 
-	"Plug 'rust-lang/rust.vim'
+	Plug 'rust-lang/rust.vim', {'for': ['rust']}
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
 	" Track the engine.
 	"Plug 'SirVer/ultisnips'
@@ -81,6 +81,9 @@ func lang_plug#config()
 
 	"vim-lc
 	call lsp_lc#lsp_lc_config()
+
+	"rust
+	let g:cargo_makeprg_params = 'build'
 
 	"""ncm2
 	"autocmd BufEnter * call ncm2#enable_for_buffer()
