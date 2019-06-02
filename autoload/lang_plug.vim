@@ -30,6 +30,7 @@ func lang_plug#add()
 
 	Plug 'rust-lang/rust.vim', {'for': ['rust']}
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
+	Plug 'mustache/vim-mustache-handlebars'
 	" Track the engine.
 	"Plug 'SirVer/ultisnips'
 
