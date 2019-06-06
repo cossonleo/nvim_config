@@ -25,6 +25,9 @@ set fo=""
 "set list
 "set foldmethod=syntax
 
+set wildmenu
+set wildmode=longest,full
+"set wildmode=list:longest,full
 set fileencodings=utf-8,ucs-bom,gb2312,gbk,gb18030,latin1
 set termencoding=encoding
 "set encoding=prc
@@ -47,11 +50,10 @@ tnoremap <C-w>k <C-\><C-N><C-w>k
 tnoremap <C-w>l <C-\><C-N><C-w>l
 inoremap <c-o> <c-x><c-o>
  
-
 "completion
 inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <C-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 if has("autocmd")   " 打开时光标放在上次退出时的位置
     autocmd BufReadPost *

@@ -1,6 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""
 "    LICENSE: MIT
-"     Author: CossonLeo
+"     Author: cossonleo
 "    Version: 0.5
 " CreateTime: 2018-08-21 22:45:56
 " LastUpdate: 2018-08-21 22:45:56
@@ -41,13 +41,13 @@ func lang_plug#add()
     \ }
 
 	"Plug 'prabirshrestha/async.vim'
-	"Plug 'CossonLeo/vim-lsp'
-	"Plug 'CossonLeo/denite-vim-lsp'
+	"Plug 'cossonleo/vim-lsp'
+	"Plug 'cossonleo/denite-vim-lsp'
 	
-	Plug 'CossonLeo/nvim-completor'
-	Plug 'CossonLeo/nvim-completor-lc'
-	Plug 'CossonLeo/nvim-lsphi'
-	"Plug 'CossonLeo/nvim-completor-vim-lsp'
+	Plug 'cossonleo/nvim-completor'
+	Plug 'cossonleo/nvim-completor-lc'
+	"Plug 'cossonleo/nvim-lsphi'
+	"Plug 'cossonleo/nvim-completor-vim-lsp'
 	"Plug 'andreshazard/vim-logreview'
 	"Plug 'dzeban/vim-log-syntax'
 
@@ -58,7 +58,7 @@ func lang_plug#add()
 	"wx program
 	"call dein#add('chemzqm/wxapp.vim')
 	"tagbar 
-	"call dein#add('CossonLeo/neo-debuger')
+	"call dein#add('cossonleo/neo-debuger')
 endfunc
 
 func lang_plug#config()
