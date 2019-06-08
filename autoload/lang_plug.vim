@@ -18,6 +18,7 @@ func lang_plug#add()
 	"Plug 'majutsushi/tagbar'
 	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'Shougo/echodoc.vim'
+	Plug 'liuchengxu/vista.vim'
 	"Plug 'Shougo/deoplete.nvim' 
 
 	"""""""""""""""""""""

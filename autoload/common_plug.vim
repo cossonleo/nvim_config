@@ -17,8 +17,8 @@ func common_plug#add()
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'luochen1990/rainbow'
 	Plug 'terryma/vim-multiple-cursors'
-	"Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
-	Plug 'Shougo/denite.nvim'
+	Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
+	"Plug 'Shougo/denite.nvim'
 	"Plug 'CossonLeo/NeoSolarized'
 	Plug 'CossonLeo/onedark.vim'
 	"Plug 'itchyny/lightline.vim'
@@ -77,22 +77,27 @@ func common_plug#config()
 	let g:rainbow_active = 1
 
 	"denite
-	call denite_config#denite_config()
+	"call denite_config#denite_config()
 
 	"leaderf
-	"let g:Lf_UseMemoryCache = 0
-	"let g:Lf_ShortcutF = '<leader><leader>'
-	"let g:Lf_ShortcutB = '<leader>b' "'<c-x>'
-	"nnoremap <leader>f :LeaderfFunction<cr>
-	"nnoremap <leader>t :LeaderfBufTag<cr>
-	"let g:Lf_WildIgnore = {
-	"			\ 'dir': ['.svn','.git','.hg'],
-	"			\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
-	"			\}
-	"let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
-	"let g:Lf_Ctags ="~/usr/bin/ctags"
-	""let g:Lf_WindowPosition = 'top'
-	""let g:Lf_DefaultExternalTool = "rg"
+	let g:Lf_UseMemoryCache = 0
+	let g:Lf_ShortcutF = '<leader><leader>'
+	let g:Lf_ShortcutB = '<leader>b' "'<c-x>'
+	let g:Lf_WindowHeight = 0.9
+	nnoremap <leader>f :LeaderfFunction<cr>
+	nnoremap <leader>t :LeaderfBufTag<cr>
+	let g:Lf_WildIgnore = {
+				\ 'dir': ['.svn','.git','.hg'],
+				\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+				\}
+	let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
+	let g:Lf_Ctags ="~/usr/bin/ctags"
+    let g:Lf_CtagsFuncOpts = {
+            \ 'c': '--c-kinds=fp',
+            \ 'rust': '--rust-kinds=f',
+            \ }
+	"let g:Lf_WindowPosition = 'top'
+	"let g:Lf_DefaultExternalTool = "rg"
 
 
 	"vim-ripgrep "rg 
@@ -139,4 +144,5 @@ func common_plug#config()
 	"AutoPairs
 	au FileType rust let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
 	"au FileType rust let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+
 endfunc
