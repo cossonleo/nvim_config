@@ -157,6 +157,8 @@ func common_plug#config()
 	" See all the avaliable executives via `:echo g:vista#executives`.
 	let g:vista_default_executive = 'ctags'
 
+	let g:vista_echo_cursor_strategy  = 'floating_win'
+
 	" Set the executive for some filetypes explicitly. Use the explicit executive
 	" instead of the default one for these filetypes when using `:Vista` without
 	" specifying the executive.
@@ -170,9 +172,9 @@ func common_plug#config()
 	" Declare the command including the executable and options used to generate ctags output
 	" for some certain filetypes.The file path will be appened to your custom command.
 	" For example:
-	let g:vista_ctags_cmd = {
-		  \ 'haskell': 'hasktags -x -o - -c',
-		  \ }
+"	let g:vista_ctags_cmd = {
+"				\ 'go': 'ctags --go-kinds=pftvsina',
+"				\ }
 
 	" To enable fzf's preview window set g:vista_fzf_preview.
 	" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
