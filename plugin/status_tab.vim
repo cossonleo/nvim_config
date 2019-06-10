@@ -33,13 +33,19 @@ endfunc
 ""	setl stl=%5*\ line:%l/%L
 ""endfunc
 
+"
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
 "状态行
 func! s:norstl()
 	setl stl=%2*\ %{File_size()}\ %*
 	setl stl+=%2*\ [buf:%n]\ %*
-	setl stl+=%2*\ %f\ %*
+	setl stl+=%2*\ %.50f\ %*
 	setl stl+=%2*\ %m%r%h%w%q\ %*
 	setl stl+=%2*%=%* 		"左右分割
+	setl stl+=%2*\ %{NearestMethodOrFunction()}\ %*
 	setl stl+=%2*\ %y\ %*
 	setl stl+=%2*\ line:%l/%L
 	setl stl+=\ [%p%%]
