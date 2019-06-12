@@ -73,6 +73,8 @@ func lang_plug#config()
 
 	"echodoc
 	let g:echodoc_enable_at_startup = 1
+	let g:echodoc#type = 'floating'
+	"let g:echodoc#type = 'virtual'
 
 	" deoplete.
 	let g:deoplete#enable_at_startup = 1
