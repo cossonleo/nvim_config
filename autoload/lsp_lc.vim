@@ -20,6 +20,7 @@ function! lsp_lc#lsp_lc_config()
     "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-cache-style', 'on-demand'],
     "\ 'rust': ['ra_lsp_server'],
     "\ 'rust': ['rls'],
+    "\ 'cpp': ['clangd'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
 	\ 'go': ['gopls', 'serve'],
