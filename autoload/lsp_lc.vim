@@ -14,20 +14,22 @@ let s:is_loaded = 1
 
 function! lsp_lc#lsp_lc_config()
 	"languageserver-client
-	" \ 'sh': ['bash-language-server', 'start'],
+	"\ 'sh': ['bash-language-server', 'start'],
 	"\ 'go': ['gopls'],
 	"\ 'go': ['go-langserver', '-gocodecompletion', '-logfile=/tmp/golangserver.log'],
     "\ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/bingo.log', '-disable-func-snippet', '-maxparallelism', '4', '-cache-style', 'on-demand'],
     "\ 'rust': ['ra_lsp_server'],
     "\ 'rust': ['rls'],
     "\ 'cpp': ['clangd'],
+    "\ 'c': ['clangd'],
+    "\ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
+    "\ 'c': ['ccls', '--log-file=/tmp/cc.log'],
 	let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
 	\ 'go': ['gopls', 'serve'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
-    \ 'objc': ['ccls', '--log-file=/tmp/cc.log'],
     \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
 	\ 'lua': ['lua-lsp'],
 	\ 'dockerfile': ['docker-langserver', '--stdio'],

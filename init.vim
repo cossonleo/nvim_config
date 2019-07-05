@@ -81,6 +81,7 @@ call plug#end()
 
 call common_plug#config()
 call lang_plug#config()
+call coc_plug#coc_config()
 
 menu project.Files :16Lexplore<cr>
 menu ToolBar.Project :16Lexplore<cr>

@@ -91,10 +91,11 @@ func common_plug#config()
 				\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
 				\}
 	let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
-	let g:Lf_Ctags ="~/usr/bin/ctags"
+	"let g:Lf_Ctags ="/usr/bin/ctags"
     let g:Lf_CtagsFuncOpts = {
             \ 'c': '--c-kinds=fp',
             \ 'rust': '--rust-kinds=f',
+			\ 'go': '--go-kinds=fn'
             \ }
 	"let g:Lf_WindowPosition = 'top'
 	"let g:Lf_DefaultExternalTool = "rg"
@@ -149,9 +150,9 @@ func common_plug#config()
 	" How each level is indented and what to prepend.
 	" This could make the display more compact or more spacious.
 	" e.g., more compact: ["▸ ", ""]
-	let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+	"let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
-	autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+	"autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 	" Executive used when opening vista sidebar without specifying it.
 	" See all the avaliable executives via `:echo g:vista#executives`.
