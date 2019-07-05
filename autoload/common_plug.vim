@@ -17,7 +17,7 @@ func common_plug#add()
 	Plug 'luochen1990/rainbow'
 	Plug 'terryma/vim-multiple-cursors'
 	"Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
-	Plug 'CossonLeo/onedark.vim'
+	Plug 'joshdick/onedark.vim'
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
 	Plug 'kshenoy/vim-signature'
@@ -50,6 +50,10 @@ func common_plug#config()
 	"
 	"let g:neosolarized_termtrans = 1
 	"colorscheme NeoSolarized
+
+	let g:onedark_color_overrides = {
+				\ "black": {"gui": "#000000", "cterm": "235", "cterm16": 0}
+				\ }
 
 	colorscheme onedark
 
