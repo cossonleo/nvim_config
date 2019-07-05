@@ -13,7 +13,7 @@ endif
 let s:is_loaded = 1
 
 func common_plug#add()
-	Plug 'easymotion/vim-easymotion'
+	"Plug 'easymotion/vim-easymotion'
 	Plug 'luochen1990/rainbow'
 	Plug 'terryma/vim-multiple-cursors'
 	"Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
@@ -24,9 +24,20 @@ func common_plug#add()
 	Plug 'Cosson2017/neo-comment.nvim'
 	Plug 'Cosson2017/neo-smooth-scroll.nvim'
 	Plug 'mhinz/vim-grepper'
+
+	Plug 'cespare/vim-toml', {'for': ['toml']}
+	Plug 'rust-lang/rust.vim', {'for': ['rust']}
+	Plug 'peterhoeg/vim-qml', {'for':['qml']}
+	Plug 'mustache/vim-mustache-handlebars'
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endfunc
 
 func common_plug#config()
+
+	"rust
+	let g:cargo_makeprg_params = 'build'
+
+	call coc_plug#coc_config()
 
 	"NeoSolarized
 	"let g:neosolarized_contrast = "normal"
@@ -53,25 +64,25 @@ func common_plug#config()
 	let g:rainbow_active = 1
 
 	"leaderf
-	let g:Lf_UseMemoryCache = 0
-	let g:Lf_ShortcutF = '<leader><leader>'
-	let g:Lf_ShortcutB = '<leader>b' "'<c-x>'
-	let g:Lf_WindowHeight = 0.7
-	nnoremap <leader>f :LeaderfFunction<cr>
-	nnoremap <leader>t :LeaderfBufTag<cr>
-	let g:Lf_WildIgnore = {
-				\ 'dir': ['.svn','.git','.hg'],
-				\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
-				\}
-	let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
-	"let g:Lf_Ctags ="/usr/bin/ctags"
-    let g:Lf_CtagsFuncOpts = {
-            \ 'c': '--c-kinds=fp',
-            \ 'rust': '--rust-kinds=f',
-			\ 'go': '--go-kinds=fn'
-            \ }
-	"let g:Lf_WindowPosition = 'top'
-	"let g:Lf_DefaultExternalTool = "rg"
+	"let g:Lf_UseMemoryCache = 0
+	"let g:Lf_ShortcutF = '<leader><leader>'
+	"let g:Lf_ShortcutB = '<leader>b' "'<c-x>'
+	"let g:Lf_WindowHeight = 0.7
+	"nnoremap <leader>f :LeaderfFunction<cr>
+	"nnoremap <leader>t :LeaderfBufTag<cr>
+	"let g:Lf_WildIgnore = {
+	"			\ 'dir': ['.svn','.git','.hg'],
+	"			\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+	"			\}
+	"let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
+	""let g:Lf_Ctags ="/usr/bin/ctags"
+    "let g:Lf_CtagsFuncOpts = {
+    "        \ 'c': '--c-kinds=fp',
+    "        \ 'rust': '--rust-kinds=f',
+	"		\ 'go': '--go-kinds=fn'
+    "        \ }
+	""let g:Lf_WindowPosition = 'top'
+	""let g:Lf_DefaultExternalTool = "rg"
 
 
 	"" grepper

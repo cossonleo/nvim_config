@@ -1,10 +1,11 @@
 {
-	"languageserver": {
-		"go": {
-		  "command": "gopls",
+	"go": {
+		  "commandPath": "/home/lks/usr/bin/gopls",
+		  "enable": true,
 		  "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
 		  "filetypes": ["go"]
-		},
+	},
+	"languageserver": {
 		"rust": {
 		  "command": "ra_lsp_server",
 		  "filetypes": ["rust"],

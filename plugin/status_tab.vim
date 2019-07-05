@@ -45,7 +45,7 @@ func! s:norstl()
 	setl stl+=%2*\ %.50f\ %*
 	setl stl+=%2*\ %m%r%h%w%q\ %*
 	setl stl+=%2*%=%* 		"左右分割
-	setl stl+=%2*\ %{NearestMethodOrFunction()}\ %*
+	setl stl+=%2*\ %{coc#status()}\ %*
 	setl stl+=%2*\ %y\ %*
 	setl stl+=%2*\ line:%l/%L
 	setl stl+=\ [%p%%]

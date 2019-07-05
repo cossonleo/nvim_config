@@ -46,7 +46,7 @@ func coc_plug#coc_config()
 	inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 	
 	" Use <c-space> to trigger completion.
-	inoremap <silent><expr> <c-space> coc#refresh()
+	"inoremap <silent><expr> <c-space> coc#refresh()
 	
 	" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 	" Coc only does snippet and additional edit on confirm.
@@ -57,10 +57,10 @@ func coc_plug#coc_config()
 	nmap <silent> ]c <Plug>(coc-diagnostic-next)
 	
 	" Remap keys for gotos
-	nmap <silent> <m-g> <Plug>(coc-definition)
+	nmap <silent> gd <Plug>(coc-definition)
 	"nmap <silent> gy <Plug>(coc-type-definition)
 	"nmap <silent> gi <Plug>(coc-implementation)
-	nmap <silent> <m-f> <Plug>(coc-references)
+	nmap <silent> gf <Plug>(coc-references)
 	
 	" Use K to show documentation in preview window
 	nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -69,16 +69,17 @@ func coc_plug#coc_config()
 	autocmd CursorHold * silent call CocActionAsync('highlight')
 	
 	" Remap for rename current word
-	nmap <leader><m-r> <Plug>(coc-rename)
+	nmap gr <Plug>(coc-rename)
 	
 	" Remap for format selected region
-	xmap <leader>f  <Plug>(coc-format-selected)
-	nmap <leader>f  <Plug>(coc-format-selected)
+	"xmap <leader>f  <Plug>(coc-format-selected)
+	"nmap <leader>f  <Plug>(coc-format-selected)
+	"setl formatexpr = CocAction('format')
 	
 	augroup mygroup
 	  autocmd!
 	  " Setup formatexpr specified filetype(s).
-	  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+	  "autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
 	  " Update signature help on jump placeholder
 	  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 	augroup end
@@ -99,6 +100,7 @@ func coc_plug#coc_config()
 	
 	" Use `:Format` to format current buffer
 	command! -nargs=0 Format :call CocAction('format')
+	nmap gq :Format<cr> 
 	
 	" Use `:Fold` to fold current buffer
 	command! -nargs=? Fold :call     CocAction('fold', <f-args>)
@@ -111,21 +113,25 @@ func coc_plug#coc_config()
 	
 	" Using CocList
 	" Show all diagnostics
-	nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+	"nnoremap <silent> <leader>a  :<C-u>CocList diagnostics<cr>
 	" Manage extensions
-	nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+	"nnoremap <silent> <leader>e  :<C-u>CocList extensions<cr>
 	" Show commands
-	nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+	"nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
 	" Find symbol of current document
-	nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+	nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
 	" Search workspace symbols
-	nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+	nnoremap <silent> <leader>s  :<C-u>CocList -I symbols<cr>
 	" Do default action for next item.
-	nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+	"nnoremap <silent> <leader>j  :<C-u>CocNext<CR>
 	" Do default action for previous item.
-	nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+	"nnoremap <silent> <leader>k  :<C-u>CocPrev<CR>
 	" Resume latest coc list
-	nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+	"nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
+	"
+	nnoremap <leader><leader> :CocList files<cr>
+
+	nnoremap <leader>b :CocList buffers<cr>
 
 
 	" Use <C-l> for trigger snippet expand.

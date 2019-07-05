@@ -76,11 +76,9 @@ let g:netrw_banner = 0
 """""""""""""""""""""""下面时插件设置"""""""""""""""""""""''"""
 call plug#begin('~/.config/nvim/plugged')
 	call common_plug#add()
-	call lang_plug#add()
 call plug#end()
 
 call common_plug#config()
-call lang_plug#config()
 
 menu project.Files :16Lexplore<cr>
 menu ToolBar.Project :16Lexplore<cr>
