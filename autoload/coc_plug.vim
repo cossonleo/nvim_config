@@ -37,6 +37,8 @@ function! s:grep_cmd()
 endfunction
 
 func coc_plug#coc_config()
+	set nobackup
+	set nowritebackup
 	" You will have bad experience for diagnostic messages when it's default 4000.
 	set updatetime=300
 	
