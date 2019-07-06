@@ -1,14 +1,38 @@
 {
 	"diagnostic.virtualText": false,
-
 	"go.commandPath": "gopls",
 	"go.enable": true,
-
 	"languageserver": {
 		"rust": {
-		  "command": "ra_lsp_server",
-		  "filetypes": ["rust"],
-		  "rootPatterns": ["Cargo.toml"]
+			"command": "ra_lsp_server",
+			"filetypes": [
+				"rust"
+			],
+			"rootPatterns": [
+				"Cargo.toml"
+			]
+		},
+		"ccls": {
+			"command": "ccls",
+			"filetypes": [
+				"c",
+				"cpp",
+				"cuda",
+				"objc",
+				"objcpp"
+			],
+			"rootPatterns": [
+				".ccls",
+				"compile_commands.json",
+				".vim/",
+				".git/",
+				".hg/"
+			],
+			"initializationOptions": {
+				"cache": {
+					"directory": ".ccls-cache"
+				}
+			}
 		}
 	}
 }
