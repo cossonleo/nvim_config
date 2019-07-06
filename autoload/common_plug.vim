@@ -23,7 +23,7 @@ func common_plug#add()
 	Plug 'kshenoy/vim-signature'
 	Plug 'Cosson2017/neo-comment.nvim'
 	Plug 'Cosson2017/neo-smooth-scroll.nvim'
-	Plug 'mhinz/vim-grepper'
+	"Plug 'mhinz/vim-grepper'
 
 	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'rust-lang/rust.vim', {'for': ['rust']}
@@ -90,11 +90,11 @@ func common_plug#config()
 
 
 	"" grepper
-	let g:grepper = {}
-    let g:grepper.quickfix = 0
-	let g:grepper.open = 1
-	let g:grepper.highlight = 0
-    let g:grepper.tools = ['rg']
+	"let g:grepper = {}
+    "let g:grepper.quickfix = 0
+	"let g:grepper.open = 1
+	"let g:grepper.highlight = 0
+    "let g:grepper.tools = ['rg']
     "nnoremap <c-a> :Grepper<cr>
     "let g:grepper.prompt_mapping_tool = '<c-a>'
 
