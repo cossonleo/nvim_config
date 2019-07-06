@@ -95,7 +95,7 @@ func common_plug#config()
 	let g:grepper.open = 1
 	let g:grepper.highlight = 0
     let g:grepper.tools = ['rg']
-    nnoremap <c-a> :Grepper<cr>
+    "nnoremap <c-a> :Grepper<cr>
     "let g:grepper.prompt_mapping_tool = '<c-a>'
 
     "let g:grepper.tools =

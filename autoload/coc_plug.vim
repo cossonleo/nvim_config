@@ -12,7 +12,6 @@ if exists("s:is_loaded")
 endif
 let s:is_loaded = 1
 
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
@@ -26,6 +25,16 @@ function! s:show_documentation()
   endif
 endfunction
 	
+function! s:grep_cmd()
+	call inputsave()
+	let input = input("grep > ")
+	call inputrestore()
+	let input = trim(input)
+	if len(input) == 0
+		let input = expand('<cword>')
+	endif
+	exe ':CocList  --input=' . input . ' grep'
+endfunction
 
 func coc_plug#coc_config()
 	" You will have bad experience for diagnostic messages when it's default 4000.
@@ -119,7 +128,7 @@ func coc_plug#coc_config()
 	" Show commands
 	"nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
 	" Find symbol of current document
-	nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
+	nnoremap <silent> <leader>t  :<C-u>CocList outline<cr>
 	" Search workspace symbols
 	nnoremap <silent> <leader>s  :<C-u>CocList -I symbols<cr>
 	" Do default action for next item.
@@ -148,4 +157,9 @@ func coc_plug#coc_config()
 	"
 	" Use <C-j> for both expand and jump make expand higher priority.)(
 	imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+	"command! -nargs=0 CocGrep call <SID>grep_cmd(<q-args>)
+	"nnoremap <silent> <c-a> :CocGrep<cr>
+	nnoremap <silent> <c-a> :call <SID>grep_cmd()<cr><c-u>
+	call feedkeys('s')
 endfunc
