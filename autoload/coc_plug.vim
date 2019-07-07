@@ -33,7 +33,7 @@ function! s:grep_cmd()
 	if len(input) == 0
 		let input = expand('<cword>')
 	endif
-	exe ':CocList --auto-preview  --input=' . input . ' grep'
+	exe ':CocList --auto-preview --input=' . input . ' grep'
 endfunction
 
 func coc_plug#coc_config()
@@ -71,7 +71,7 @@ func coc_plug#coc_config()
 	nmap <silent> gd <Plug>(coc-definition)
 	"nmap <silent> gy <Plug>(coc-type-definition)
 	"nmap <silent> gi <Plug>(coc-implementation)
-	nmap <silent> gf <Plug>(coc-references)
+	nmap <silent> gr <Plug>(coc-references)
 	
 	" Use K to show documentation in preview window
 	nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -80,12 +80,11 @@ func coc_plug#coc_config()
 	autocmd CursorHold * silent call CocActionAsync('highlight')
 	
 	" Remap for rename current word
-	nmap gr <Plug>(coc-rename)
+	 nmap gc <Plug>(coc-rename)
 	
 	" Remap for format selected region
 	"xmap <leader>f  <Plug>(coc-format-selected)
 	"nmap <leader>f  <Plug>(coc-format-selected)
-	"setl formatexpr = CocAction('format')
 	
 	augroup mygroup
 	  autocmd!
@@ -96,13 +95,13 @@ func coc_plug#coc_config()
 	augroup end
 	
 	" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-	xmap <leader>a  <Plug>(coc-codeaction-selected)
-	nmap <leader>a  <Plug>(coc-codeaction-selected)
+	"xmap <leader>a  <Plug>(coc-codeaction-selected)
+	"nmap <leader>a  <Plug>(coc-codeaction-selected)
 	
 	" Remap for do codeAction of current line
-	nmap <leader>ac  <Plug>(coc-codeaction)
+	"nmap <leader>ac  <Plug>(coc-codeaction)
 	" Fix autofix problem of current line
-	nmap <leader>qf  <Plug>(coc-fix-current)
+	nmap gf  <Plug>(coc-fix-current)
 	
 	" Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 	nmap <silent> <TAB> <Plug>(coc-range-select)
@@ -111,7 +110,7 @@ func coc_plug#coc_config()
 	
 	" Use `:Format` to format current buffer
 	command! -nargs=0 Format :call CocAction('format')
-	nmap gq :Format<cr> 
+	nmap gq <Plug>(coc-format)
 	
 	" Use `:Fold` to fold current buffer
 	command! -nargs=? Fold :call     CocAction('fold', <f-args>)
@@ -140,7 +139,7 @@ func coc_plug#coc_config()
 	" Resume latest coc list
 	"nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
 	"
-	nnoremap <leader><leader> :CocList --auto-preview files<cr>
+	nnoremap <leader><leader> :CocList files<cr>
 
 	nnoremap <leader>b :CocList buffers<cr>
 

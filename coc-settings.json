@@ -5,11 +5,21 @@
 	"list.source.files.defaultOptions": [
 		"--auto-preview"
 	],
-	"list.source.grep.defaultOptions": [
+	"list.source.commits.defaultOptions": [
 		"--auto-preview"
 	],
-	"list.source.output.defaultOptions": ["--auto-preview"],
-	"list.source.buffers.defaultOptions": ["--auto-preview"],
+	"list.source.branches.defaultOptions": [
+		"--auto-preview"
+	],
+	"list.source.output.defaultOptions": [
+		"--auto-preview"
+	],
+	"list.source.buffers.defaultOptions": [
+		"--auto-preview"
+	],
+	"list.source.maps.defaultOptions": [
+		"--auto-preview"
+	],
 	"list.source.symbols.defaultOptions": [
 		"--interactive",
 		"--auto-preview"
