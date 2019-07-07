@@ -33,9 +33,9 @@ set termencoding=encoding
 "set encoding=prc
 
 " neovim python支持 需要sudo pip3 install --upgrade neovim 
-let g:python3_host_prog = '/usr/bin/python3'
-let g:python3_host_skip_check = 1
-let g:loaded_python_provider = 0
+"let g:python3_host_prog = '/usr/bin/python3'
+"let g:python3_host_skip_check = 1
+"let g:loaded_python_provider = 0
 
 "let mapleader=' '
 
@@ -50,11 +50,6 @@ tnoremap <C-w>k <C-\><C-N><C-w>k
 tnoremap <C-w>l <C-\><C-N><C-w>l
 inoremap <c-o> <c-x><c-o>
  
-"completion
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <C-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
 if has("autocmd")   " 打开时光标放在上次退出时的位置
     autocmd BufReadPost *
         \ if line("'\"") > 0 && line ("'\"") <= line("$") |

@@ -13,17 +13,15 @@ endif
 let s:is_loaded = 1
 
 func common_plug#add()
-	"Plug 'easymotion/vim-easymotion'
 	Plug 'luochen1990/rainbow'
 	Plug 'terryma/vim-multiple-cursors'
-	"Plug 'Yggdroot/LeaderF', {'build': './install.sh'}
 	Plug 'joshdick/onedark.vim'
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'tpope/vim-surround'
 	Plug 'kshenoy/vim-signature'
-	Plug 'Cosson2017/neo-comment.nvim'
-	Plug 'Cosson2017/neo-smooth-scroll.nvim'
-	"Plug 'mhinz/vim-grepper'
+	Plug 'cossonleo/neo-comment.nvim'
+	"Plug 'cossonleo/neo-smooth-scroll.nvim'
+	Plug 'yuttie/comfortable-motion.vim'
 
 	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'rust-lang/rust.vim', {'for': ['rust']}
@@ -121,4 +119,9 @@ func common_plug#config()
 	" JK motions: Line motions
 	map <Leader>j <Plug>(easymotion-j)
 	map <Leader>k <Plug>(easymotion-k)
+
+	"comfortable motion
+	"let g:comfortable_motion_scroll_down_key = "j"
+	"let g:comfortable_motion_scroll_up_key = "k"
+	 
 endfunc
