@@ -33,7 +33,7 @@ function! s:grep_cmd()
 	if len(input) == 0
 		let input = expand('<cword>')
 	endif
-	exe ':CocList  --input=' . input . ' grep'
+	exe ':CocList --auto-preview  --input=' . input . ' grep'
 endfunction
 
 func coc_plug#coc_config()
@@ -132,7 +132,7 @@ func coc_plug#coc_config()
 	" Find symbol of current document
 	nnoremap <silent> <leader>t  :<C-u>CocList outline<cr>
 	" Search workspace symbols
-	nnoremap <silent> <leader>s  :<C-u>CocList -I symbols<cr>
+	nnoremap <silent> <leader>s  :<C-u>CocList symbols<cr>
 	" Do default action for next item.
 	"nnoremap <silent> <leader>j  :<C-u>CocNext<CR>
 	" Do default action for previous item.
@@ -140,7 +140,7 @@ func coc_plug#coc_config()
 	" Resume latest coc list
 	"nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
 	"
-	nnoremap <leader><leader> :CocList files<cr>
+	nnoremap <leader><leader> :CocList --auto-preview files<cr>
 
 	nnoremap <leader>b :CocList buffers<cr>
 

@@ -2,6 +2,18 @@
 	"diagnostic.virtualText": false,
 	"go.commandPath": "gopls",
 	"go.enable": true,
+	"list.source.files.defaultOptions": [
+		"--auto-preview"
+	],
+	"list.source.grep.defaultOptions": [
+		"--auto-preview"
+	],
+	"list.source.output.defaultOptions": ["--auto-preview"],
+	"list.source.buffers.defaultOptions": ["--auto-preview"],
+	"list.source.symbols.defaultOptions": [
+		"--interactive",
+		"--auto-preview"
+	],
 	"languageserver": {
 		"rust": {
 			"command": "ra_lsp_server",
