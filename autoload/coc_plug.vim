@@ -162,5 +162,4 @@ func coc_plug#coc_config()
 	"command! -nargs=0 CocGrep call <SID>grep_cmd(<q-args>)
 	"nnoremap <silent> <c-a> :CocGrep<cr>
 	nnoremap <silent> <c-a> :call <SID>grep_cmd()<cr><c-u>
-	call feedkeys('s')
 endfunc

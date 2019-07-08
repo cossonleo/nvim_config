@@ -20,8 +20,7 @@ func common_plug#add()
 	Plug 'tpope/vim-surround'
 	Plug 'kshenoy/vim-signature'
 	Plug 'cossonleo/neo-comment.nvim'
-	"Plug 'cossonleo/neo-smooth-scroll.nvim'
-	Plug 'yuttie/comfortable-motion.vim'
+	Plug 'cossonleo/neo-smooth-scroll.nvim'
 
 	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'rust-lang/rust.vim', {'for': ['rust']}
@@ -52,10 +51,7 @@ func common_plug#config()
 	let g:onedark_color_overrides = {
 				\ "black": {"gui": "#000000", "cterm": "235", "cterm16": 0}
 				\ }
-
 	colorscheme onedark
-
-
 	
 	" incsearch.vim
 	map /  <Plug>(incsearch-forward)
@@ -64,64 +60,4 @@ func common_plug#config()
 
 	"rainbow
 	let g:rainbow_active = 1
-
-	"leaderf
-	"let g:Lf_UseMemoryCache = 0
-	"let g:Lf_ShortcutF = '<leader><leader>'
-	"let g:Lf_ShortcutB = '<leader>b' "'<c-x>'
-	"let g:Lf_WindowHeight = 0.7
-	"nnoremap <leader>f :LeaderfFunction<cr>
-	"nnoremap <leader>t :LeaderfBufTag<cr>
-	"let g:Lf_WildIgnore = {
-	"			\ 'dir': ['.svn','.git','.hg'],
-	"			\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
-	"			\}
-	"let g:Lf_CommandMap = {'<C-C>': ['<Esc>', '<C-C>']}
-	""let g:Lf_Ctags ="/usr/bin/ctags"
-    "let g:Lf_CtagsFuncOpts = {
-    "        \ 'c': '--c-kinds=fp',
-    "        \ 'rust': '--rust-kinds=f',
-	"		\ 'go': '--go-kinds=fn'
-    "        \ }
-	""let g:Lf_WindowPosition = 'top'
-	""let g:Lf_DefaultExternalTool = "rg"
-
-
-	"" grepper
-	"let g:grepper = {}
-    "let g:grepper.quickfix = 0
-	"let g:grepper.open = 1
-	"let g:grepper.highlight = 0
-    "let g:grepper.tools = ['rg']
-    "nnoremap <c-a> :Grepper<cr>
-    "let g:grepper.prompt_mapping_tool = '<c-a>'
-
-    "let g:grepper.tools =
-    "  \ ['git', 'ag', 'ack', 'ack-grep', 'grep', 'findstr', 'rg', 'pt', 'sift']
-
-
-
-	"easymotion
-	let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
-	" Jump to anywhere you want with minimal keystrokes, with just one key binding.
-	" `s{char}{label}`
-	nmap s <Plug>(easymotion-overwin-f)
-	"nmap s <Plug>(easymotion-s)
-	" or
-	" `s{char}{char}{label}`
-	" Need one more keystroke, but on average, it may be more comfortable.
-	"nmap <leader>s <Plug>(easymotion-overwin-f2)
-
-	" Turn on case insensitive feature
-	let g:EasyMotion_smartcase = 1
-
-	" JK motions: Line motions
-	map <Leader>j <Plug>(easymotion-j)
-	map <Leader>k <Plug>(easymotion-k)
-
-	"comfortable motion
-	"let g:comfortable_motion_scroll_down_key = "j"
-	"let g:comfortable_motion_scroll_up_key = "k"
-	 
 endfunc
