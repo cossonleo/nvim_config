@@ -1,7 +1,5 @@
 {
 	"diagnostic.virtualText": false,
-	"go.commandPath": "gopls",
-	"go.enable": true,
 	"list.source.files.defaultOptions": [
 		"--auto-preview"
 	],
