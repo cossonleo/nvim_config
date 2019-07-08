@@ -6,13 +6,7 @@
 	"list.source.branches.defaultOptions": [
 		"--auto-preview"
 	],
-	"list.source.output.defaultOptions": [
-		"--auto-preview"
-	],
-	"list.source.buffers.defaultOptions": [
-		"--auto-preview"
-	],
-	"list.source.maps.defaultOptions": [
+	"list.source.outline.defaultOptions": [
 		"--auto-preview"
 	],
 	"list.source.symbols.defaultOptions": [
