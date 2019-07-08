@@ -1,8 +1,5 @@
 {
 	"diagnostic.virtualText": false,
-	"list.source.files.defaultOptions": [
-		"--auto-preview"
-	],
 	"list.source.commits.defaultOptions": [
 		"--auto-preview"
 	],
