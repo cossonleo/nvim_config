@@ -1,5 +1,11 @@
 {
 	"diagnostic.virtualText": false,
+	"list.source.files.defaultOptions": [
+		"--number-select"
+	],
+	"list.source.buffers.defaultOptions": [
+		"--number-select",
+	],
 	"list.source.commits.defaultOptions": [
 		"--auto-preview"
 	],
