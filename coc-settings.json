@@ -29,5 +29,14 @@
 				"Cargo.toml"
 			]
 		}
-	}
+	},
+	"coc.source.omni.filetypes": [
+		"rust",
+		"go",
+		"golang",
+		"cpp",
+		"c",
+		"javascript",
+		"php"
+	]
 }
