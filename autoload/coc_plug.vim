@@ -129,9 +129,9 @@ func coc_plug#coc_config()
 	" Show commands
 	"nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
 	" Do default action for next item.
-	"nnoremap <silent> <leader>j  :<C-u>CocNext<CR>
+	nnoremap <silent> <c-j>  :<C-u>CocNext<CR>
 	" Do default action for previous item.
-	"nnoremap <silent> <leader>k  :<C-u>CocPrev<CR>
+	nnoremap <silent> <c-k>  :<C-u>CocPrev<CR>
 	" Resume latest coc list
 	"nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
 	"
