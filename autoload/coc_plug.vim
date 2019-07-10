@@ -57,7 +57,7 @@ func coc_plug#coc_config()
 	inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 	
 	" Use <c-space> to trigger completion.
-	"inoremap <silent><expr> <c-space> coc#refresh()
+	inoremap <silent><expr> <c-o> coc#refresh()
 	
 	" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 	" Coc only does snippet and additional edit on confirm.
