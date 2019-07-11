@@ -33,7 +33,7 @@ function! s:grep_cmd()
 	if len(input) == 0
 		let input = expand('<cword>')
 	endif
-	exe ':CocList --auto-preview --input=' . input . ' grep'
+	exe ':CocList --input=' . input . ' grep'
 endfunction
 
 func coc_plug#coc_config()

@@ -14,12 +14,8 @@
 	"list.source.branches.defaultOptions": [
 		"--auto-preview"
 	],
-	"list.source.outline.defaultOptions": [
-		"--auto-preview"
-	],
 	"list.source.symbols.defaultOptions": [
 		"--interactive",
-		"--auto-preview"
 	],
 	"languageserver": {
 		"rust": {
