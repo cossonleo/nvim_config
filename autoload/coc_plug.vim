@@ -129,9 +129,9 @@ func coc_plug#coc_config()
 	" Show commands
 	"nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
 	" Do default action for next item.
-	nnoremap <silent> <c-j>  :<C-u>CocNext<CR>
+	nnoremap <silent> <m-j>  :<C-u>CocNext<CR>
 	" Do default action for previous item.
-	nnoremap <silent> <c-k>  :<C-u>CocPrev<CR>
+	nnoremap <silent> <m-k>  :<C-u>CocPrev<CR>
 	" Resume latest coc list
 	"nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
 	"
@@ -158,5 +158,9 @@ func coc_plug#coc_config()
 	"nnoremap <silent> <c-a> :CocGrep<cr>
 	nnoremap <silent> <c-f> :call <SID>grep_cmd()<cr><c-u>
 
+	let g:coc_enable_locationlist = 0
+	autocmd User CocLocationsChange CocList --normal location
+
 	unmap <c-i>
+
 endfunc

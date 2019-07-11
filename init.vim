@@ -25,6 +25,7 @@ set fo=""
 "set list
 "set foldmethod=syntax
 
+set maxmempattern=10000
 set wildmenu
 set wildmode=longest,full
 "set wildmode=list:longest,full
