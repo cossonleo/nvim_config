@@ -65,8 +65,8 @@ func coc_plug#coc_config()
 	inoremap <expr> <space> pumvisible() ? "\<C-y>" : "\<C-g>u\<space>"
 	
 	" Use `[c` and `]c` to navigate diagnostics
-	nmap <silent> [c <Plug>(coc-diagnostic-prev)
-	nmap <silent> ]c <Plug>(coc-diagnostic-next)
+	nmap <silent> <c-k> <Plug>(coc-diagnostic-prev)
+	nmap <silent> <c-j> <Plug>(coc-diagnostic-next)
 	
 	" Remap keys for gotos
 	nmap <silent> gd <Plug>(coc-definition)
