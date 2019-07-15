@@ -19,6 +19,7 @@
 	],
 	"languageserver": {
 		"rust": {
+			"enable": true,
 			"command": "ra_lsp_server",
 			"filetypes": [
 				"rust"
@@ -29,5 +30,6 @@
 		}
 	},
 	"coc.preferences.currentFunctionSymbolAutoUpdate": true,
-	"suggest.floatEnable": true
+	"suggest.floatEnable": true,
+	"suggest.enablePreselect": true
 }
