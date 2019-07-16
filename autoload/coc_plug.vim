@@ -145,6 +145,8 @@ func coc_plug#coc_config()
 	" Search workspace symbols
 	nnoremap <silent> <leader>s  :<C-u>CocList symbols<cr>
 
+	" diagnostic
+	nnoremap<silent> <leader>d 	 :<C-u>CocList diagnostics<cr>
 
 	" Use <C-l> for trigger snippet expand.
 	"imap <C-l> <Plug>(coc-snippets-expand)
