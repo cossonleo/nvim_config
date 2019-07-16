@@ -33,6 +33,8 @@ set fileencodings=utf-8,ucs-bom,gb2312,gbk,gb18030,latin1
 set termencoding=encoding
 "set encoding=prc
 
+set diffopt+=vertical,algorithm:patience
+
 " neovim python支持 需要sudo pip3 install --upgrade neovim 
 "let g:python3_host_prog = '/usr/bin/python3'
 "let g:python3_host_skip_check = 1

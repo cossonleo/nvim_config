@@ -33,11 +33,6 @@ endfunc
 ""	setl stl=%5*\ line:%l/%L
 ""endfunc
 
-"
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
-
 "状态行
 func! s:norstl()
 	setl stl=%2*\ %{File_size()}\ %*
