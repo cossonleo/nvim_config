@@ -25,8 +25,11 @@ func common_plug#add()
 	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'rust-lang/rust.vim', {'for': ['rust']}
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
-	Plug 'mustache/vim-mustache-handlebars'
+	"Plug 'mustache/vim-mustache-handlebars'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+	Plug 'tpope/vim-fugitive'
+	Plug 'whiteinge/diffconflicts'
 endfunc
 
 func common_plug#config()
