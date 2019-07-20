@@ -28,8 +28,9 @@ func common_plug#add()
 	"Plug 'mustache/vim-mustache-handlebars'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-	Plug 'tpope/vim-fugitive'
+	"Plug 'tpope/vim-fugitive'
 	Plug 'whiteinge/diffconflicts'
+	Plug 'cossonleo/dirdiff.nvim'
 endfunc
 
 func common_plug#config()
