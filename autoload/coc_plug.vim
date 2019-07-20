@@ -62,7 +62,7 @@ func coc_plug#coc_config()
 	" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 	" Coc only does snippet and additional edit on confirm.
 	inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-	inoremap <expr> <space> pumvisible() ? "\<C-y>" : "\<C-g>u\<space>"
+	"inoremap <expr> <space> pumvisible() ? "\<C-y>" : "\<C-g>u\<cr>\<space>"
 	
 	" Use `[c` and `]c` to navigate diagnostics
 	nmap <silent> gk <Plug>(coc-diagnostic-prev)
