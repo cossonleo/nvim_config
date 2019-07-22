@@ -141,12 +141,16 @@ func coc_plug#coc_config()
 	nnoremap <leader>b :CocList buffers<cr>
 
 	" Find symbol of current document
-	nnoremap <silent> <leader>t  :<C-u>CocList outline<cr>
+	nnoremap <silent> <leader>t :<C-u>CocList outline<cr>
+
 	" Search workspace symbols
-	nnoremap <silent> <leader>s  :<C-u>CocList symbols<cr>
+	nnoremap <silent> <leader>s :<C-u>CocList symbols<cr>
 
 	" diagnostic
-	nnoremap<silent> <leader>d 	 :<C-u>CocList diagnostics<cr>
+	nnoremap <silent> <leader>d :<C-u>CocList diagnostics<cr>
+
+	" translation
+	nnoremap <silent> <leader>a :<C-u>CocCommand translator.popup<cr>
 
 	" Use <C-l> for trigger snippet expand.
 	"imap <C-l> <Plug>(coc-snippets-expand)

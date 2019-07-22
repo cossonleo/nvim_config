@@ -1,7 +1,9 @@
 {
 	"diagnostic.virtualText": false,
+
 	"go.commandPath": "gopls",
 	"go.enable": true,
+
 	"list.insertMappings": {
 		"<c-k>": "normal:k",
 		"<c-j>": "normal:j"
@@ -33,7 +35,11 @@
 			]
 		}
 	},
+
 	"coc.preferences.currentFunctionSymbolAutoUpdate": true,
+
 	"suggest.floatEnable": true,
-	"suggest.enablePreselect": true
+	"suggest.enablePreselect": true,
+
+	"translator.toLang": "zh"
 }
