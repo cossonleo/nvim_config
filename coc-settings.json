@@ -36,5 +36,7 @@
 	"coc.preferences.currentFunctionSymbolAutoUpdate": true,
 	"suggest.floatEnable": true,
 	"suggest.enablePreselect": true,
-	"translator.toLang": "zh"
+	"translator.toLang": "zh",
+	"highlight.document.enable": true,
+	"highlight.colors.enable": true
 }

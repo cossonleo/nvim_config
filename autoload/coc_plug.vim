@@ -47,6 +47,8 @@ func coc_plug#coc_config()
 	
 	" always show signcolumns
 	set signcolumn=yes
+
+	let g:coc_extension_root = $HOME . '/.config/nvim/coc/extensions'
 	
 	" Use tab for trigger completion with characters ahead and navigate.
 	" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
