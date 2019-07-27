@@ -11,7 +11,7 @@ set confirm
 set scrolloff=0
 set tabstop=4
 set shiftwidth=4
-set clipboard+=unnamedplus " 系统安装xclip或xsel
+set clipboard=unnamedplus " 系统安装xclip或xsel
 set hidden
 set completeopt=longest,menu
 "set updatetime=500
