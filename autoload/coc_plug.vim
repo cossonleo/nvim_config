@@ -170,6 +170,13 @@ func coc_plug#coc_config()
 	let g:coc_enable_locationlist = 0
 	autocmd User CocLocationsChange CocList --normal location
 
+	nmap \| <Plug>(coc-cursors-operator)
+	nmap <c-w> <Plug>(coc-cursors-operator)iw
+
+	"nmap <silent> <C-c> <Plug>(coc-cursors-position)
+	"nmap <silent> <C-d> <Plug>(coc-cursors-word)
+	"xmap <silent> <C-d> <Plug>(coc-cursors-range)
+
 	unmap <c-i>
 
 endfunc

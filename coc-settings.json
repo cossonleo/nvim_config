@@ -38,5 +38,6 @@
 	"suggest.enablePreselect": true,
 	"translator.toLang": "zh",
 	"highlight.document.enable": true,
-	"highlight.colors.enable": true
+	"highlight.colors.enable": true,
+	"refactor.openCommand": "bel split"
 }
