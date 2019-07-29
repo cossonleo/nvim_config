@@ -36,6 +36,13 @@ function! s:grep_cmd()
 	exe ':CocList --input=' . input . ' grep'
 endfunction
 
+function! s:get_cur_word_range() abort
+	let [l:lnum, l:lcol] = getcurpos()
+	let l:lnum = l:lnum - 1
+	let l:col = l:lcol - 1
+	let l:content = getline(".")
+endfunction
+
 func coc_plug#coc_config()
 	set nobackup
 	set nowritebackup
@@ -170,8 +177,8 @@ func coc_plug#coc_config()
 	let g:coc_enable_locationlist = 0
 	autocmd User CocLocationsChange CocList --normal location
 
-	nmap \| <Plug>(coc-cursors-operator)
-	nmap <c-w> <Plug>(coc-cursors-operator)iw
+	nmap ss <Plug>(coc-cursors-operator)
+	nmap sw <Plug>(coc-cursors-operator)iw
 
 	"nmap <silent> <C-c> <Plug>(coc-cursors-position)
 	"nmap <silent> <C-d> <Plug>(coc-cursors-word)
