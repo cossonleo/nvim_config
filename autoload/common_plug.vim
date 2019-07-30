@@ -14,10 +14,8 @@ let s:is_loaded = 1
 
 func common_plug#add()
 	Plug 'luochen1990/rainbow'
-	"Plug 'terryma/vim-multiple-cursors'
 	Plug 'joshdick/onedark.vim'
 	Plug 'haya14busa/incsearch.vim'
-	"Plug 'tpope/vim-surround'
 	Plug 'machakann/vim-sandwich'
 	Plug 'kshenoy/vim-signature'
 	Plug 'cossonleo/neo-comment.nvim'

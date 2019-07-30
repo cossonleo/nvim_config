@@ -27,13 +27,13 @@ endfunction
 	
 function! s:grep_cmd()
 	call inputsave()
-	let input = input("grep > ")
+	let l:input = input("grep > ")
 	call inputrestore()
-	let input = trim(input)
+	let l:input = trim(input)
 	if len(input) == 0
-		let input = expand('<cword>')
+		let l:input = expand('<cword>')
 	endif
-	exe ':CocList --input=' . input . ' grep'
+	exe ':CocList --input=' . l:input . ' grep'
 endfunction
 
 function! s:get_cur_word_range() abort
@@ -179,6 +179,7 @@ func coc_plug#coc_config()
 
 	nmap ss <Plug>(coc-cursors-operator)
 	nmap sw <Plug>(coc-cursors-operator)iw
+	nmap <leader>r <Plug>(coc-refactor)
 
 	"nmap <silent> <C-c> <Plug>(coc-cursors-position)
 	"nmap <silent> <C-d> <Plug>(coc-cursors-word)
