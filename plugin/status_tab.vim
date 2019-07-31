@@ -16,70 +16,57 @@ if exists("s:is_loaded")
 endif
 let s:is_loaded = 1
 
+call s:set_stl()
+au FileType * call s:file_size()
+au BufWritePost * call s:file_size()
+au FileType * call s:set_stl()
+
 func! s:set_stl()
 	if &ft == 'netrw'
 		call s:netrwstl()
-	"elseif &ft == ''
 	else
 		call s:norstl()
 	endif
 endfunc
 
-"func! s:netrwstl()
-"	setl stl=%2*\ line:%l/%L
-"endfunc
-
 func! s:netrwstl()
 	setl stl=%*\ line:%l/%L
 endfunc
 
-"状态行
-"func! s:norstl()
-"	setl stl=%2*\ %{File_size()}\ %*
-"	setl stl+=%2*\ [buf:%n]\ %*
-"	setl stl+=%2*\ %.50f\ %*
-"	setl stl+=%2*\ %m%r%h%w%q\ %*
-"	setl stl+=%2*%=%* 		"左右分割
-"	setl stl+=%2*\ %{get(b:,'coc_current_function','')}\ %*
-"	setl stl+=%2*\ %{coc#status()}\ %*
-"	setl stl+=%2*\ %y\ %*
-"	setl stl+=%2*\ line:%l/%L
-"	setl stl+=\ [%p%%]
-"	setl stl+=\ col:%c\ %*
-"	setl stl+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}\       "编码1
-"	setl stl+=\ %{(&bomb?\",BOM\":\"\")}%*            "编码2
-"endfunc
-
 func! s:norstl()
-	setl stl=%*\ %{File_size()}%*
-	setl stl+=%*\ [b:%n]%*
-	setl stl+=%*\ %.50f%*
-	setl stl+=%*\ %m%r%h%w%q%*
+	setl stl=%2*%{get(b:,'cur_file_size','')}%*
+	setl stl+=%1*\ [b:%n]\ %*
+	setl stl+=%*\ %.50f\ %*
+	setl stl+=%5*%m%r%h%w%q%*
 	setl stl+=%*%=%* 		"左右分割
 	setl stl+=%*\ %{get(b:,'coc_current_function','')}%*
-	setl stl+=%*\ %{coc#status()}%*
-	setl stl+=%*\ %y%*
-	setl stl+=%*\ \|\ %l\ :\ %c\ \|
-	setl stl+=\ %p%%\ /\ %L\ \|
-	setl stl+=%*\ %{''.(&fenc!=''?&fenc:&enc).''}\       "编码1
-	setl stl+=\ %{(&bomb?\",BOM\":\"\")}%*            "编码2
+	setl stl+=%5*%{coc#status()}%*
+	setl stl+=%3*%y%*
+	setl stl+=%2*\ %l\ :\ %c\ %*
+	setl stl+=%4*\ %p%%\ /\ %L\ %*
+	setl stl+=%1*%{'\ '.(&fenc!=''?&fenc:&enc).'\ '}      "编码1
+	setl stl+=%{(&bomb?\",BOM\":\"\")}%*            "编码2
 endfunc
 
-function! File_size()
+function! s:file_size()
     let l:size = getfsize(expand('%'))
     if l:size == 0 || l:size == -1 || l:size == -2
-        return ''
+		let l:size = ''
     endif
+
     if l:size < 1024
-        return l:size.'B'
+        let l:size = l:size.'B'
     elseif l:size < 1024*1024
-        return printf('%.1f', l:size/1024.0).'K'
+        let l:size = printf('%.1f', l:size/1024.0).'K'
     elseif l:size < 1024*1024*1024
-        return printf('%.1f', l:size/1024.0/1024.0) . 'M'
+        let l:size = printf('%.1f', l:size/1024.0/1024.0) . 'M'
     else
-        return printf('%.1f', l:size/1024.0/1024.0/1024.0) . 'G'
+        let l:size = printf('%.1f', l:size/1024.0/1024.0/1024.0) . 'G'
     endif
+
+	let b:cur_file_size = l:size
 endfunction
+
 
 
 """"""""""""""""""""""""""""""""""""""tabline"""""""""""""""""""""""""""""""""""""""
@@ -126,6 +113,4 @@ function! MyTabLabel(n)
 	return sub_strs[leng - 2] . '/' . sub_strs[leng - 1]
 endfunction
 
-call s:set_stl()
-au FileType * call s:set_stl()
 
