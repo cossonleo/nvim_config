@@ -16,7 +16,6 @@ if exists("s:is_loaded")
 endif
 let s:is_loaded = 1
 
-call s:set_stl()
 au FileType * call s:file_size()
 au BufWritePost * call s:file_size()
 au FileType * call s:set_stl()
@@ -39,7 +38,7 @@ func! s:norstl()
 	setl stl+=%*\ %.50f\ %*
 	setl stl+=%5*%m%r%h%w%q%*
 	setl stl+=%*%=%* 		"左右分割
-	setl stl+=%*\ %{get(b:,'coc_current_function','')}%*
+	setl stl+=%*\ %{get(b:,'coc_current_function','')}\ %*
 	setl stl+=%5*%{coc#status()}%*
 	setl stl+=%3*%y%*
 	setl stl+=%2*\ %l\ :\ %c\ %*
