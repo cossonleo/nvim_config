@@ -1,5 +1,4 @@
 {
-	"diagnostic.virtualText": false,
 	"go.commandPath": "gopls",
 	"go.enable": true,
 	"list.insertMappings": {
@@ -33,10 +32,14 @@
 			]
 		}
 	},
+	"translator.toLang": "zh",
 	"coc.preferences.currentFunctionSymbolAutoUpdate": true,
+	"coc.preferences.hoverTarget": "float",
 	"suggest.floatEnable": true,
 	"suggest.enablePreselect": true,
-	"translator.toLang": "zh",
+	"diagnostic.virtualText": false,
+	"diagnostic.messageTarget": "float",
+	"signature.target": "float",
 	"highlight.document.enable": true,
 	"highlight.colors.enable": true,
 	"refactor.openCommand": "bel split"
