@@ -15,11 +15,8 @@ let s:is_loaded = 1
 func common_plug#add()
 	Plug 'luochen1990/rainbow'
 	Plug 'joshdick/onedark.vim'
-	Plug 'haya14busa/incsearch.vim'
 	Plug 'machakann/vim-sandwich'
 	Plug 'kshenoy/vim-signature'
-	Plug 'cossonleo/neo-comment.nvim'
-	Plug 'cossonleo/neo-smooth-scroll.nvim'
 
 	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'rust-lang/rust.vim', {'for': ['rust']}
@@ -30,7 +27,28 @@ func common_plug#add()
 	"Plug 'tpope/vim-fugitive'
 	Plug 'whiteinge/diffconflicts'
 	Plug 'cossonleo/dirdiff.nvim'
+	Plug 'cossonleo/neo-comment.nvim'
+	Plug 'cossonleo/neo-smooth-scroll.nvim'
+
+	Plug 'haya14busa/incsearch.vim'
+	Plug 'haya14busa/incsearch-easymotion.vim'
+	"Plug 'haya14busa/incsearch-fuzzy.vim'
+	Plug 'easymotion/vim-easymotion'
+
 endfunc
+
+" You can use other keymappings like <C-l> instead of <CR> if you want to
+" use these mappings as default search and sometimes want to move cursor with
+" EasyMotion.
+function! s:incsearch_config(...) abort
+  return incsearch#util#deepextend(deepcopy({
+  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+  \   'keymap': {
+  \     "\<tab>": '<Over>(easymotion)'
+  \   },
+  \   'is_expr': 0
+  \ }), get(a:, 1, {}))
+endfunction
 
 func common_plug#config()
 
@@ -57,9 +75,11 @@ func common_plug#config()
 	colorscheme onedark
 	
 	" incsearch.vim
-	map /  <Plug>(incsearch-forward)
-	map ?  <Plug>(incsearch-backward)
-	map g/ <Plug>(incsearch-stay)
+	noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
+	noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
+	noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
+
+	let g:EasyMotion_do_mapping = 0
 
 	"rainbow
 	let g:rainbow_active = 1
