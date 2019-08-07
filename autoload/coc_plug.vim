@@ -66,7 +66,7 @@ func coc_plug#coc_config()
 	inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 	
 	" Use <c-space> to trigger completion.
-	inoremap <silent><expr> <c-o> coc#refresh()
+	inoremap <silent><expr> <c-x><c-u> coc#refresh()
 	
 	" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 	" Coc only does snippet and additional edit on confirm.
@@ -90,7 +90,8 @@ func coc_plug#coc_config()
 	autocmd CursorHold * silent call CocActionAsync('highlight')
 	
 	" Remap for rename current word
-	 nmap gc <Plug>(coc-rename)
+	"nmap gc <Plug>(coc-rename)
+	nmap gc <Plug>(coc-refactor)
 	
 	" Remap for format selected region
 	"xmap <leader>f  <Plug>(coc-format-selected)
@@ -132,18 +133,16 @@ func coc_plug#coc_config()
 	"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 	
 	" Using CocList
-	" Show all diagnostics
-	"nnoremap <silent> <leader>a  :<C-u>CocList diagnostics<cr>
 	" Manage extensions
 	"nnoremap <silent> <leader>e  :<C-u>CocList extensions<cr>
 	" Show commands
 	"nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
 	" Do default action for next item.
-	nnoremap <silent> <m-j>  :<C-u>CocNext<CR>
+	"nnoremap <silent> <m-n>  :<C-u>CocNext<CR>
 	" Do default action for previous item.
-	nnoremap <silent> <m-k>  :<C-u>CocPrev<CR>
+	"nnoremap <silent> <m-p>  :<C-u>CocPrev<CR>
 	" Resume latest coc list
-	"nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
+	nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
 	"
 	nnoremap <leader><leader> :CocList files<cr>
 
@@ -168,7 +167,7 @@ func coc_plug#coc_config()
 	"vmap <C-j> <Plug>(coc-snippets-select)
 
 	" Use <C-j> for both expand and jump make expand higher priority.)(
-	imap <C-j> <Plug>(coc-snippets-expand-jump)
+	:imap <m-j> <Plug>(coc-snippets-expand-jump)
 
 	"command! -nargs=0 CocGrep call <SID>grep_cmd(<q-args>)
 	"nnoremap <silent> <c-a> :CocGrep<cr>
@@ -179,7 +178,6 @@ func coc_plug#coc_config()
 
 	nmap ss <Plug>(coc-cursors-operator)
 	nmap sw <Plug>(coc-cursors-operator)iw
-	nmap <leader>r <Plug>(coc-refactor)
 
 	"nmap <silent> <C-c> <Plug>(coc-cursors-position)
 	"nmap <silent> <C-d> <Plug>(coc-cursors-word)

@@ -51,7 +51,6 @@ tnoremap <C-w>h <C-\><C-N><C-w>h
 tnoremap <C-w>j <C-\><C-N><C-w>j
 tnoremap <C-w>k <C-\><C-N><C-w>k
 tnoremap <C-w>l <C-\><C-N><C-w>l
-inoremap <c-o> <c-x><c-o>
  
 if has("autocmd")   " 打开时光标放在上次退出时的位置
     autocmd BufReadPost *

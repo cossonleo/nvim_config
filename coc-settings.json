@@ -2,8 +2,8 @@
 	"go.commandPath": "gopls",
 	"go.enable": true,
 	"list.insertMappings": {
-		"<c-k>": "normal:k",
-		"<c-j>": "normal:j"
+		"<a-k>": "normal:k",
+		"<a-j>": "normal:j"
 	},
 	"list.source.files.defaultOptions": [
 		"--number-select"
