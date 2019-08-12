@@ -30,10 +30,10 @@ func common_plug#add()
 	Plug 'cossonleo/neo-comment.nvim'
 	Plug 'cossonleo/neo-smooth-scroll.nvim'
 
-	Plug 'haya14busa/incsearch.vim'
-	Plug 'haya14busa/incsearch-easymotion.vim'
+	"Plug 'haya14busa/incsearch.vim'
+	"Plug 'haya14busa/incsearch-easymotion.vim'
 	"Plug 'haya14busa/incsearch-fuzzy.vim'
-	Plug 'easymotion/vim-easymotion'
+	"Plug 'easymotion/vim-easymotion'
 
 endfunc
 
@@ -75,9 +75,9 @@ func common_plug#config()
 	colorscheme onedark
 	
 	" incsearch.vim
-	noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
-	noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
-	noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
+	"noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
+	"noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
+	"noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
 
 	let g:EasyMotion_do_mapping = 0
 

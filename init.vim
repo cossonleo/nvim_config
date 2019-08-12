@@ -70,6 +70,12 @@ let g:netrw_banner = 0
 "let g:netrw_winsize   = 16
 
 
+augroup vimrc-incsearch-highlight
+  autocmd!
+  autocmd CmdlineEnter /,\? :set hlsearch
+  autocmd CmdlineLeave /,\? :set nohlsearch
+augroup END
+
 """""""""""""""""""""""下面时插件设置"""""""""""""""""""""''"""
 call plug#begin('~/.config/nvim/plugged')
 	call common_plug#add()
