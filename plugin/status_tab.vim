@@ -66,7 +66,7 @@ function! s:file_size()
 	let b:cur_file_size = l:size
 endfunction
 
-
+call s:set_stl()
 
 """"""""""""""""""""""""""""""""""""""tabline"""""""""""""""""""""""""""""""""""""""
 set tabline=%!MyTabLine()

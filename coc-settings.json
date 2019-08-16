@@ -22,7 +22,7 @@
 	],
 	"languageserver": {
 		"rust": {
-			"enable": true,
+			"enable": false,
 			"command": "ra_lsp_server",
 			"filetypes": [
 				"rust"
