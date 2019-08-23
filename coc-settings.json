@@ -1,6 +1,4 @@
 {
-	"go.commandPath": "gopls",
-	"go.enable": true,
 	"list.insertMappings": {
 		"<a-k>": "normal:k",
 		"<a-j>": "normal:j"
@@ -30,8 +28,19 @@
 			"rootPatterns": [
 				"Cargo.toml"
 			]
+		},
+		"go": {
+			"enable": true,
+			"command": "gopls",
+			"filetypes": [
+				"go"
+			],
+			"rootPatterns": [
+				"go.mod"
+			]
 		}
 	},
+	"suggest.timeout": 5000,
 	"translator.toLang": "zh",
 	"coc.preferences.currentFunctionSymbolAutoUpdate": true,
 	"coc.preferences.hoverTarget": "float",
