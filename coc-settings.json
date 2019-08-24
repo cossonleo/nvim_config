@@ -45,7 +45,7 @@
 	"coc.preferences.currentFunctionSymbolAutoUpdate": true,
 	"coc.preferences.hoverTarget": "float",
 	"suggest.floatEnable": true,
-	"suggest.enablePreselect": true,
+	"suggest.enablePreselect": false,
 	"diagnostic.virtualText": false,
 	"diagnostic.messageTarget": "float",
 	"signature.target": "float",
