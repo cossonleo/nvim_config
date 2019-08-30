@@ -167,7 +167,7 @@ func coc_plug#coc_config()
 	"vmap <C-j> <Plug>(coc-snippets-select)
 
 	" Use <C-j> for both expand and jump make expand higher priority.)(
-	:imap <m-j> <Plug>(coc-snippets-expand-jump)
+	:imap <c-j> <Plug>(coc-snippets-expand-jump)
 
 	"command! -nargs=0 CocGrep call <SID>grep_cmd(<q-args>)
 	"nnoremap <silent> <c-a> :CocGrep<cr>

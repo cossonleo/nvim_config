@@ -17,6 +17,7 @@ func common_plug#add()
 	Plug 'joshdick/onedark.vim'
 	Plug 'machakann/vim-sandwich'
 	Plug 'kshenoy/vim-signature'
+	Plug 'jiangmiao/auto-pairs'
 
 	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'rust-lang/rust.vim', {'for': ['rust']}

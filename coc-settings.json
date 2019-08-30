@@ -1,8 +1,4 @@
 {
-	"list.insertMappings": {
-		"<a-k>": "normal:k",
-		"<a-j>": "normal:j"
-	},
 	"list.source.files.defaultOptions": [
 		"--number-select"
 	],
