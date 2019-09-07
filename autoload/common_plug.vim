@@ -22,7 +22,7 @@ func common_plug#add()
 	"Plug 'skywind3000/vim-tvision'
 
 	Plug 'cespare/vim-toml', {'for': ['toml']}
-	Plug 'rust-lang/rust.vim', {'for': ['rust']}
+	"Plug 'rust-lang/rust.vim', {'for': ['rust']}
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
 	"Plug 'mustache/vim-mustache-handlebars'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
