@@ -14,6 +14,8 @@
 	"list.source.symbols.defaultOptions": [
 		"--interactive",
 	],
+	"list.maxHeight": 15,
+	"list.maxPreviewHeight": 15,
 	"languageserver": {
 		"rust": {
 			"enable": false,

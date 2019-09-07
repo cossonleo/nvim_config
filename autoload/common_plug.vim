@@ -19,6 +19,8 @@ func common_plug#add()
 	Plug 'kshenoy/vim-signature'
 	Plug 'jiangmiao/auto-pairs'
 
+	"Plug 'skywind3000/vim-tvision'
+
 	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'rust-lang/rust.vim', {'for': ['rust']}
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
