@@ -171,7 +171,7 @@ func coc_plug#coc_config()
 
 	"command! -nargs=0 CocGrep call <SID>grep_cmd(<q-args>)
 	"nnoremap <silent> <c-a> :CocGrep<cr>
-	nnoremap <silent> g/ :call <SID>grep_cmd()<cr><c-u>
+	nnoremap <silent> <leader>g :call <SID>grep_cmd()<cr><c-u>
 
 	let g:coc_enable_locationlist = 0
 	autocmd User CocLocationsChange CocList --normal location
