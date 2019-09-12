@@ -26,6 +26,7 @@ func common_plug#add()
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
 	"Plug 'mustache/vim-mustache-handlebars'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	"Plug 'wweir/go_highlight.vim', {'for': ['go']}
 
 	"Plug 'tpope/vim-fugitive'
 	Plug 'whiteinge/diffconflicts'
@@ -86,4 +87,11 @@ func common_plug#config()
 
 	"rainbow
 	let g:rainbow_active = 1
+	"go
+	let g:go_highlight_functions = 1
+	let g:go_highlight_methods = 1
+	let g:go_highlight_fields = 1
+	let g:go_highlight_types = 1
+	let g:go_highlight_operators = 1
+	let g:go_highlight_build_constraints = 1
 endfunc

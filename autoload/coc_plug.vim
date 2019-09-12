@@ -27,13 +27,13 @@ endfunction
 	
 function! s:grep_cmd()
 	call inputsave()
-	let l:input = input("grep > ")
+	let l:input = input("global grep>>> ")
 	call inputrestore()
 	let l:input = trim(input)
 	if len(input) == 0
 		let l:input = expand('<cword>')
 	endif
-	exe ':CocList --input=' . l:input . ' grep'
+	exe ':CocList grep ' . l:input
 endfunction
 
 function! s:get_cur_word_range() abort
@@ -74,8 +74,8 @@ func coc_plug#coc_config()
 	"inoremap <expr> <space> pumvisible() ? "\<C-y>" : "\<C-g>u\<cr>\<space>"
 	
 	" Use `[c` and `]c` to navigate diagnostics
-	nmap <silent> gk <Plug>(coc-diagnostic-prev)
-	nmap <silent> gj <Plug>(coc-diagnostic-next)
+	nmap <silent> ]e <Plug>(coc-diagnostic-prev)
+	nmap <silent> [e <Plug>(coc-diagnostic-next)
 	
 	" Remap keys for gotos
 	nmap <silent> gd <Plug>(coc-definition)
@@ -171,7 +171,7 @@ func coc_plug#coc_config()
 
 	"command! -nargs=0 CocGrep call <SID>grep_cmd(<q-args>)
 	"nnoremap <silent> <c-a> :CocGrep<cr>
-	nnoremap <silent> <c-f> :call <SID>grep_cmd()<cr><c-u>
+	nnoremap <silent> g/ :call <SID>grep_cmd()<cr><c-u>
 
 	let g:coc_enable_locationlist = 0
 	autocmd User CocLocationsChange CocList --normal location
