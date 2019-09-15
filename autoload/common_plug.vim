@@ -18,6 +18,7 @@ func common_plug#add()
 	Plug 'machakann/vim-sandwich'
 	Plug 'kshenoy/vim-signature'
 	Plug 'jiangmiao/auto-pairs'
+	"Plug 'puremourning/vimspector'
 
 	"Plug 'skywind3000/vim-tvision'
 
