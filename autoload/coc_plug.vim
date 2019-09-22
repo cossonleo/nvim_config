@@ -117,9 +117,9 @@ func coc_plug#coc_config()
 	nmap gf  <Plug>(coc-fix-current)
 	
 	" Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-	nmap <silent> <TAB> <Plug>(coc-range-select)
-	xmap <silent> <TAB> <Plug>(coc-range-select)
-	xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
+	"nmap <silent> <TAB> <Plug>(coc-range-select)
+	"xmap <silent> <TAB> <Plug>(coc-range-select)
+	"xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 	
 	" Use `:Format` to format current buffer
 	command! -nargs=0 Format :call CocAction('format')
@@ -140,11 +140,11 @@ func coc_plug#coc_config()
 	" Show commands
 	"nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
 	" Do default action for next item.
-	"nnoremap <silent> <m-n>  :<C-u>CocNext<CR>
+	nnoremap <silent> <leader>n  :<C-u>CocNext<CR>
 	" Do default action for previous item.
-	"nnoremap <silent> <m-p>  :<C-u>CocPrev<CR>
+	nnoremap <silent> <leader>p  :<C-u>CocPrev<CR>
 	" Resume latest coc list
-	nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
+	nnoremap <silent> <leader>r  :<C-u>CocListResume<CR>
 	"
 	nnoremap <leader><leader> :CocList files<cr>
 
@@ -185,6 +185,5 @@ func coc_plug#coc_config()
 	"nmap <silent> <C-d> <Plug>(coc-cursors-word)
 	"xmap <silent> <C-d> <Plug>(coc-cursors-range)
 
-	unmap <c-i>
-
+	"unmap <c-i>
 endfunc
