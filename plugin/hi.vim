@@ -4,7 +4,8 @@ endif
 let s:is_loaded = 1
 
 
-hi NormalFloat gui=bold guifg=#cb4b16 guibg=#1A1A1A
+"hi NormalFloat gui=bold guifg=#cb4b16 guibg=#1A1A1A
+hi NormalFloat guibg=#1A1A1A
 hi DeniteCL guibg=#3D3D3D
 
 "hi link LspError ALEErrorSign

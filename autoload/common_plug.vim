@@ -18,6 +18,7 @@ func common_plug#add()
 	Plug 'machakann/vim-sandwich'
 	Plug 'kshenoy/vim-signature'
 	Plug 'jiangmiao/auto-pairs'
+	Plug 'voldikss/vim-floaterm'
 	"Plug 'puremourning/vimspector'
 
 	"Plug 'skywind3000/vim-tvision'
@@ -95,4 +96,14 @@ func common_plug#config()
 	let g:go_highlight_types = 1
 	let g:go_highlight_operators = 1
 	let g:go_highlight_build_constraints = 1
+
+	" vim-floaterm
+	let g:floaterm_winblend = 10
+	let g:floaterm_width = &columns * 2 / 3
+	let g:floaterm_height = &lines * 3 / 4
+	let g:floaterm_position = 'center'
+	noremap  <silent> <F4>           :FloatermToggle<CR>i
+	noremap! <silent> <F4>           <Esc>:FloatermToggle<CR>i
+	tnoremap <silent> <F4>           <C-\><C-n>:FloatermToggle<CR>
+	autocmd User Startified setlocal buflisted
 endfunc
