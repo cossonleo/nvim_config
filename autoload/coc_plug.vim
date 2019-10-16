@@ -26,14 +26,30 @@ function! s:show_documentation()
 endfunction
 	
 function! s:grep_cmd()
+	let l:default_input = expand('<cword>')
 	call inputsave()
-	let l:input = input("global grep>>> ")
+	let l:input = input("global grep(default: '" . l:default_input . "') >>  ")
 	call inputrestore()
 	let l:input = trim(input)
 	if len(input) == 0
-		let l:input = expand('<cword>')
+		let l:input = l:default_input
 	endif
 	exe ':CocList grep ' . l:input
+endfunction
+
+function! s:grepfromselected(type)
+  let saved_unnamed_register = @@
+  if a:type ==# 'v'
+    normal! `<v`>y
+  elseif a:type ==# 'char'
+    normal! `[v`]y
+  else
+    return
+  endif
+  let word = substitute(@@, '\n$', '', 'g')
+  let word = escape(word, '| ')
+  let @@ = saved_unnamed_register
+  execute 'CocList grep '.word
 endfunction
 
 function! s:get_cur_word_range() abort
@@ -174,6 +190,7 @@ func coc_plug#coc_config()
 	"command! -nargs=0 CocGrep call <SID>grep_cmd(<q-args>)
 	"nnoremap <silent> <c-a> :CocGrep<cr>
 	nnoremap <silent> <leader>g :call <SID>grep_cmd()<cr><c-u>
+	vnoremap <silent> <leader>g :call <SID>grepfromselected(visualmode())<CR>
 
 	let g:coc_enable_locationlist = 0
 	autocmd User CocLocationsChange CocList --normal location
