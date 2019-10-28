@@ -101,10 +101,7 @@ func common_plug#config()
 	let g:floaterm_winblend = 10
 	let g:floaterm_width = &columns * 2 / 3
 	let g:floaterm_height = &lines * 3 / 4
-	"let g:floaterm_position = 'center'
 	let g:floaterm_position = 'auto'
-	noremap  <silent> <F4>           :FloatermToggle<CR>i
-	noremap! <silent> <F4>           <Esc>:FloatermToggle<CR>i
-	tnoremap <silent> <F4>           <C-\><C-n>:FloatermToggle<CR>
+	let g:floaterm_keymap_toggle = '<F4>'
 	autocmd User Startified setlocal buflisted
 endfunc
