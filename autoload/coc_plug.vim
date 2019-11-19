@@ -36,7 +36,7 @@ function! s:grep_cmd()
 	"call inputsave()
 	exe 'echohl PromHl'
 	let l:input = input({
-				\ 'prompt': "find all >>> ", 
+				\ 'prompt': "find all > ", 
 				\ 'default': l:default_input,
 				\ 'highlight': 'GrepHl'
 				\ })
