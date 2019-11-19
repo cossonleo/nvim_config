@@ -24,12 +24,24 @@ function! s:show_documentation()
 	call CocAction('doHover')
   endif
 endfunction
+
+function! GrepHl(prom)
+	let ret = []
+	call add(ret, [0, len(a:prom), 'PromInputHl'])
+	return ret
+endfunction
 	
 function! s:grep_cmd()
 	let l:default_input = expand('<cword>')
-	call inputsave()
-	let l:input = input("global grep(default: '" . l:default_input . "') >>  ")
-	call inputrestore()
+	"call inputsave()
+	exe 'echohl PromHl'
+	let l:input = input({
+				\ 'prompt': "find all >>> ", 
+				\ 'default': l:default_input,
+				\ 'highlight': 'GrepHl'
+				\ })
+	exe 'echohl None'
+	"call inputrestore()
 	let l:input = trim(input)
 	if len(input) == 0
 		let l:input = l:default_input
