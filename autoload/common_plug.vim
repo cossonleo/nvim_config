@@ -24,11 +24,8 @@ func common_plug#add()
 	"Plug 'skywind3000/vim-tvision'
 
 	Plug 'cespare/vim-toml', {'for': ['toml']}
-	"Plug 'rust-lang/rust.vim', {'for': ['rust']}
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
-	"Plug 'mustache/vim-mustache-handlebars'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	"Plug 'wweir/go_highlight.vim', {'for': ['go']}
 
 	"Plug 'tpope/vim-fugitive'
 	Plug 'whiteinge/diffconflicts'
@@ -104,4 +101,11 @@ func common_plug#config()
 	let g:floaterm_position = 'auto'
 	let g:floaterm_keymap_toggle = '<F4>'
 	autocmd User Startified setlocal buflisted
+
+    " Go example
+    "call lsp#add_filetype_config({
+    "      \ 'filetype': 'go',
+    "      \ 'name': 'gopls',
+    "      \ 'cmd': 'gopls'
+    "      \ })
 endfunc
