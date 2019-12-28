@@ -17,6 +17,21 @@
 	"list.maxHeight": 15,
 	"list.maxPreviewHeight": 15,
 	"languageserver": {
+		"golang": {
+			"command": "gopls",
+			"rootPatterns": [
+				"go.mod",
+				".vim/",
+				".git/",
+				".hg/"
+			],
+			"filetypes": [
+				"go"
+			],
+			"initializationOptions": {
+				"usePlaceholders": true
+			}
+		},
 		"rust": {
 			"enable": false,
 			"command": "ra_lsp_server",
@@ -25,16 +40,6 @@
 			],
 			"rootPatterns": [
 				"Cargo.toml"
-			]
-		},
-		"go": {
-			"enable": true,
-			"command": "gopls",
-			"filetypes": [
-				"go"
-			],
-			"rootPatterns": [
-				"go.mod"
 			]
 		}
 	},
