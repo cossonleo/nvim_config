@@ -46,8 +46,7 @@ function! s:grep_cmd()
 	if len(input) == 0
 		let l:input = l:default_input
 	endif
-	"exe ':CocList grep ' . l:input
-	exe ':Leaderf rg ' . l:input
+	exe ':CocList grep ' . l:input
 endfunction
 
 function! s:grepfromselected(type)

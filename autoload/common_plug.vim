@@ -55,6 +55,34 @@ function! s:incsearch_config(...) abort
   \ }), get(a:, 1, {}))
 endfunction
 
+function! s:leaderf_grep_cmd()
+	let l:default_input = expand('<cword>')
+	let l:cancel_return = "asdfasask12fkas.asdfasf9asdfasf;sfafasdfffffi" . l:default_input . "afasdfasdf.xvadfas.fasdfas.afdasd.asdf.asdfas.asdfas.asfdas.asdfax2123fwfe"
+	"call inputsave()
+	exe 'echohl PromHl'
+	let l:input = input({
+				\ 'prompt': ">G> ", 
+				\ 'default': l:default_input,
+				\ 'cancelreturn': l:cancel_return,
+				\ 'highlight': 'GrepHl'
+				\ })
+
+	exe 'echohl None'
+	"call inputrestore()
+	"let l:input = trim(input)
+	if len(l:input) == 0
+		let l:input = l:default_input
+	elseif l:input == l:cancel_return
+		return
+	endif
+
+	if len(l:input) == 0
+		return
+	endif
+
+	exe ':Leaderf rg ' . l:input
+endfunction
+
 func common_plug#config()
 
 	"rust
@@ -98,6 +126,7 @@ func common_plug#config()
 	
 	nnoremap <silent><leader>t :LeaderfBufTag<CR>
 	nnoremap <silent><leader>f :LeaderfFunction<CR>
+	nnoremap <silent> <leader>g :call <SID>leaderf_grep_cmd()<cr><c-u>
 
     let g:Lf_CtagsFuncOpts = {
             \ 'c': '--c-kinds=fp',
