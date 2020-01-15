@@ -25,7 +25,6 @@ func common_plug#add()
 
 	Plug 'cespare/vim-toml', {'for': ['toml']}
 	Plug 'peterhoeg/vim-qml', {'for':['qml']}
-	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 	"Plug 'tpope/vim-fugitive'
 	Plug 'whiteinge/diffconflicts'
@@ -34,7 +33,13 @@ func common_plug#add()
 	Plug 'cossonleo/neo-smooth-scroll.nvim'
 
 	Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-
+	if g:lsp_plug == 'coc'
+		Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	else
+		Plug 'neovim/nvim-lsp'
+		Plug 'Shougo/deoplete-lsp'
+		Plug 'Shougo/deoplete.nvim'
+	endif
 	"Plug 'haya14busa/incsearch.vim'
 	"Plug 'haya14busa/incsearch-easymotion.vim'
 	"Plug 'haya14busa/incsearch-fuzzy.vim'
@@ -88,7 +93,12 @@ func common_plug#config()
 	"rust
 	let g:cargo_makeprg_params = 'build'
 
-	call coc_plug#coc_config()
+	if g:lsp_plug == 'coc'
+		call coc_plug#coc_config()
+	el
+		call builtin_lsp#config()
+		let g:deoplete#enable_at_startup = 1
+	en
 
 	let g:onedark_color_overrides = {
 				\ "black": {"gui": "#000000", "cterm": "235", "cterm16": 0}
@@ -140,4 +150,4 @@ func common_plug#config()
     "      \ 'name': 'gopls',
     "      \ 'cmd': 'gopls'
     "      \ })
-endfunc
+endf

@@ -30,7 +30,7 @@ set wildmenu
 set wildmode=longest,full
 "set wildmode=list:longest,full
 set fileencodings=utf-8,ucs-bom,gb2312,gbk,gb18030,latin1
-set termencoding=encoding
+"set termencoding=encoding
 "set encoding=prc
 
 set diffopt+=vertical,algorithm:patience
@@ -75,6 +75,9 @@ augroup vimrc-incsearch-highlight
   autocmd CmdlineEnter /,\? :set hlsearch
   autocmd CmdlineLeave /,\? :set nohlsearch
 augroup END
+
+
+let g:lsp_plug = 'coc'
 
 """""""""""""""""""""""下面时插件设置"""""""""""""""""""""''"""
 call plug#begin('~/.config/nvim/plugged')
