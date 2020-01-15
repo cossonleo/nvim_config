@@ -33,6 +33,8 @@ func common_plug#add()
 	Plug 'cossonleo/neo-comment.nvim'
 	Plug 'cossonleo/neo-smooth-scroll.nvim'
 
+	Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
 	"Plug 'haya14busa/incsearch.vim'
 	"Plug 'haya14busa/incsearch-easymotion.vim'
 	"Plug 'haya14busa/incsearch-fuzzy.vim'
@@ -85,7 +87,25 @@ func common_plug#config()
 	let g:floaterm_keymap_toggle = '<F4>'
 	autocmd User Startified setlocal buflisted
 
-    " Go example
+	" leaderf
+	let g:Lf_WindowPosition = 'popup'
+	let g:Lf_ShortcutF = "<leader><leader>"
+    let g:Lf_PopupHeight = 0.7
+	let g:Lf_PopupWidth = 0.5
+	"let g:Lf_PopupPosition = [float2nr(&lines * 0.15), float2nr(&columns * 0.3)] " [ line, col ]
+	"let g:Lf_PreviewInPopup = 1
+	"let g:Lf_PopupPreviewPosition = 'cursor'
+	
+	nnoremap <silent><leader>t :LeaderfBufTag<CR>
+	nnoremap <silent><leader>f :LeaderfFunction<CR>
+
+    let g:Lf_CtagsFuncOpts = {
+            \ 'c': '--c-kinds=fp',
+            \ 'rust': '--rust-kinds=nsicgtvM',
+			\ 'go': '--go-kinds=ctvsia'
+            \ }
+
+	" Go example
     "call lsp#add_filetype_config({
     "      \ 'filetype': 'go',
     "      \ 'name': 'gopls',
