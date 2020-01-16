@@ -122,8 +122,9 @@ func common_plug#config()
 	let g:floaterm_winblend = 10
 	let g:floaterm_width = &columns * 2 / 3
 	let g:floaterm_height = &lines * 3 / 4
-	let g:floaterm_position = 'auto'
+	let g:floaterm_position = 'center'
 	let g:floaterm_keymap_toggle = '<F4>'
+	let g:floaterm_border_color = "#FFFFFF"
 	autocmd User Startified setlocal buflisted
 
 	" leaderf
