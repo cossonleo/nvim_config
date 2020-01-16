@@ -12,6 +12,10 @@ if exists("s:is_loaded")
 endif
 let s:is_loaded = 1
 
+function! coc_plug#add()
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+endfunction
+
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
@@ -71,7 +75,9 @@ function! s:get_cur_word_range() abort
 	let l:content = getline(".")
 endfunction
 
-func coc_plug#coc_config()
+func coc_plug#config()
+	let g:coc_global_extensions = ["coc-lists", "coc-snippets", "coc-highlight", "coc-ecdict", "coc-marketplace"]
+
 	set nobackup
 	set nowritebackup
 	" You will have bad experience for diagnostic messages when it's default 4000.

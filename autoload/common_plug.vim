@@ -33,38 +33,11 @@ func common_plug#add()
 	Plug 'cossonleo/neo-smooth-scroll.nvim'
 
 	Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-	if g:lsp_plug == 'coc'
-		Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	else
-		Plug 'neovim/nvim-lsp'
-		"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-		"Plug 'Shougo/deoplete-lsp'
-		"Plug 'Shougo/neosnippet.vim'
-		"Plug 'Shougo/neosnippet-snippets'
-	endif
-	"Plug 'haya14busa/incsearch.vim'
-	"Plug 'haya14busa/incsearch-easymotion.vim'
-	"Plug 'haya14busa/incsearch-fuzzy.vim'
-	"Plug 'easymotion/vim-easymotion'
-
 endfunc
-
-" You can use other keymappings like <C-l> instead of <CR> if you want to
-" use these mappings as default search and sometimes want to move cursor with
-" EasyMotion.
-function! s:incsearch_config(...) abort
-  return incsearch#util#deepextend(deepcopy({
-  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
-  \   'keymap': {
-  \     "\<tab>": '<Over>(easymotion)'
-  \   },
-  \   'is_expr': 0
-  \ }), get(a:, 1, {}))
-endfunction
 
 function! s:leaderf_grep_cmd()
 	let l:default_input = expand('<cword>')
-	let l:cancel_return = "asdfasask12fkas.asdfasf9asdfasf;sfafasdfffffi" . l:default_input . "afasdfasdf.xvadfas.fasdfas.afdasd.asdf.asdfas.asdfas.asfdas.asdfax2123fwfe"
+	let l:cancel_return = "cancel_returncanc.cancelreturn;sfafasdfffffi" . l:default_input . "cancel_returncanc.cancelreturn.asdfas.asfdas.asdfax2123fwfe"
 	"call inputsave()
 	exe 'echohl PromHl'
 	let l:input = input({
@@ -94,12 +67,6 @@ func common_plug#config()
 
 	"rust
 	let g:cargo_makeprg_params = 'build'
-
-	if g:lsp_plug == 'coc'
-		call coc_plug#coc_config()
-	el
-		call builtin_lsp#config()
-	en
 
 	let g:onedark_color_overrides = {
 				\ "black": {"gui": "#000000", "cterm": "235", "cterm16": 0}
