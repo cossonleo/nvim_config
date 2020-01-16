@@ -26,6 +26,13 @@ exe "hi User4 guifg=#000000 guibg=" . s:onedark_colors.green.gui . " gui=bold"
 exe "hi User5 guifg=#000000 guibg=" . s:onedark_colors.red.gui . " gui=bold"
 exe "hi User6 guifg=#000000 guibg=" . s:onedark_colors.white.gui .  " gui=bold"
 
+function! GrepHl(prom)
+	let ret = []
+	call add(ret, [0, len(a:prom), 'PromInputHl'])
+	return ret
+endfunction
+	
+
 "hi User1 guifg=#C678DD gui=bold
 "hi StatusBlue guifg=#61AFEF gui=bold
 "hi StatusYellow guifg=#E5C07B

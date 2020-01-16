@@ -37,8 +37,10 @@ func common_plug#add()
 		Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	else
 		Plug 'neovim/nvim-lsp'
-		Plug 'Shougo/deoplete-lsp'
-		Plug 'Shougo/deoplete.nvim'
+		"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+		"Plug 'Shougo/deoplete-lsp'
+		"Plug 'Shougo/neosnippet.vim'
+		"Plug 'Shougo/neosnippet-snippets'
 	endif
 	"Plug 'haya14busa/incsearch.vim'
 	"Plug 'haya14busa/incsearch-easymotion.vim'
@@ -97,7 +99,6 @@ func common_plug#config()
 		call coc_plug#coc_config()
 	el
 		call builtin_lsp#config()
-		let g:deoplete#enable_at_startup = 1
 	en
 
 	let g:onedark_color_overrides = {
@@ -127,13 +128,13 @@ func common_plug#config()
 
 	" leaderf
 	let g:Lf_WindowPosition = 'popup'
-	let g:Lf_ShortcutF = "<leader><leader>"
     let g:Lf_PopupHeight = 0.7
 	let g:Lf_PopupWidth = 0.5
 	"let g:Lf_PopupPosition = [float2nr(&lines * 0.15), float2nr(&columns * 0.3)] " [ line, col ]
 	"let g:Lf_PreviewInPopup = 1
 	"let g:Lf_PopupPreviewPosition = 'cursor'
-	
+	let g:Lf_ShortcutF = "<leader><leader>"
+	let g:Lf_ShortcutB = "<leader>b"
 	nnoremap <silent><leader>t :LeaderfBufTag<CR>
 	nnoremap <silent><leader>f :LeaderfFunction<CR>
 	nnoremap <silent> <leader>g :call <SID>leaderf_grep_cmd()<cr><c-u>

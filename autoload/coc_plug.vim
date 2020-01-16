@@ -25,27 +25,27 @@ function! s:show_documentation()
   endif
 endfunction
 
-function! GrepHl(prom)
-	let ret = []
-	call add(ret, [0, len(a:prom), 'PromInputHl'])
-	return ret
-endfunction
-	
 function! s:grep_cmd()
 	let l:default_input = expand('<cword>')
+	let l:cancel_return = "asdfegcancelreturn_cancel_return_cancel_return" . l:default_input . "asdfdzcvcwerwtqwetcancelreturn_cancel_return"
 	"call inputsave()
 	exe 'echohl PromHl'
 	let l:input = input({
-				\ 'prompt': "find all > ", 
+				\ 'prompt': "G> ", 
 				\ 'default': l:default_input,
+				\ 'cancelreturn': l:cancel_return,
 				\ 'highlight': 'GrepHl'
 				\ })
 	exe 'echohl None'
-	"call inputrestore()
-	let l:input = trim(input)
-	if len(input) == 0
+	if l:input == ""
 		let l:input = l:default_input
+	elseif l:input == l:cancel_return
+		return
 	endif
+
+	if l:input == ""
+		return
+	en
 	exe ':CocList grep ' . l:input
 endfunction
 
@@ -176,13 +176,13 @@ func coc_plug#coc_config()
 	"
 	"nnoremap <leader><leader> :CocList files<cr>
 
-	nnoremap <leader>b :CocList buffers<cr>
+	"nnoremap <leader>b :CocList buffers<cr>
 
 	" Find symbol of current document
-	nnoremap <silent> <leader>t :<C-u>CocList outline<cr>
+	"nnoremap <silent> <leader>t :<C-u>CocList outline<cr>
 
 	" Search workspace symbols
-	nnoremap <silent> <leader>s :<C-u>CocList symbols<cr>
+	"nnoremap <silent> <leader>s :<C-u>CocList symbols<cr>
 
 	" diagnostic
 	nnoremap <silent> <leader>d :<C-u>CocList diagnostics<cr>
@@ -190,17 +190,8 @@ func coc_plug#coc_config()
 	" translation
 	nnoremap <silent> <leader>a :<C-u>CocCommand translator.popup<cr>
 
-	" Use <C-l> for trigger snippet expand.
-	"imap <C-l> <Plug>(coc-snippets-expand)
-	
-	" Use <C-j> for select text for visual placeholder of snippet.
-	"vmap <C-j> <Plug>(coc-snippets-select)
+	imap <c-j> <Plug>(coc-snippets-expand-jump)
 
-	" Use <C-j> for both expand and jump make expand higher priority.)(
-	:imap <c-j> <Plug>(coc-snippets-expand-jump)
-
-	"command! -nargs=0 CocGrep call <SID>grep_cmd(<q-args>)
-	"nnoremap <silent> <c-a> :CocGrep<cr>
 	nnoremap <silent> sg :call <SID>grep_cmd()<cr><c-u>
 	vnoremap <silent> sg :call <SID>grepfromselected(visualmode())<CR>
 
