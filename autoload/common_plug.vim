@@ -17,7 +17,6 @@ func common_plug#add()
 	Plug 'joshdick/onedark.vim'
 	Plug 'machakann/vim-sandwich'
 	Plug 'kshenoy/vim-signature'
-	Plug 'jiangmiao/auto-pairs'
 	Plug 'voldikss/vim-floaterm'
 	"Plug 'puremourning/vimspector'
 

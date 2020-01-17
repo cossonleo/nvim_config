@@ -15,6 +15,7 @@ let s:is_loaded = 1
 
 func! builtin_lsp#add()
 	Plug 'neovim/nvim-lsp'
+	Plug 'jiangmiao/auto-pairs'
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	Plug 'Shougo/deoplete-lsp'
 	Plug 'Shougo/neosnippet.vim'

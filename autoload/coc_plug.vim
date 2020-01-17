@@ -76,7 +76,8 @@ function! s:get_cur_word_range() abort
 endfunction
 
 func coc_plug#config()
-	let g:coc_global_extensions = ["coc-lists", "coc-snippets", "coc-highlight", "coc-ecdict", "coc-marketplace"]
+	" coc-lists
+	let g:coc_global_extensions = ["coc-pairs", "coc-snippets", "coc-highlight", "coc-ecdict", "coc-marketplace"]
 
 	set nobackup
 	set nowritebackup
@@ -126,8 +127,7 @@ func coc_plug#config()
 	autocmd CursorHold * silent call CocActionAsync('highlight')
 	
 	" Remap for rename current word
-	"nmap gc <Plug>(coc-rename)
-	nmap gc <Plug>(coc-refactor)
+	nmap gc <Plug>(coc-rename)
 	
 	" Remap for format selected region
 	"xmap <leader>f  <Plug>(coc-format-selected)
@@ -198,14 +198,19 @@ func coc_plug#config()
 
 	imap <c-j> <Plug>(coc-snippets-expand-jump)
 
-	nnoremap <silent> sg :call <SID>grep_cmd()<cr><c-u>
-	vnoremap <silent> sg :call <SID>grepfromselected(visualmode())<CR>
+	"nnoremap <silent> sg :call <SID>grep_cmd()<cr><c-u>
+	"vnoremap <silent> sg :call <SID>grepfromselected(visualmode())<CR>
 
 	let g:coc_enable_locationlist = 0
 	autocmd User CocLocationsChange CocList --normal location
 
+	inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                                  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+	nmap sl <Plug>(coc-cursors-position)
+	nmap sw <Plug>(coc-cursors-word)*
 	nmap ss <Plug>(coc-cursors-operator)
-	nmap sw <Plug>(coc-cursors-operator)iw
+	nmap sr <Plug>(coc-refactor)
 
 	"nmap <silent> <C-c> <Plug>(coc-cursors-position)
 	"nmap <silent> <C-d> <Plug>(coc-cursors-word)
