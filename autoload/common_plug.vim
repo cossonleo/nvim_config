@@ -106,11 +106,11 @@ func common_plug#config()
 	nnoremap <silent><leader>f :LeaderfFunction<CR>
 	nnoremap <silent> <leader>g :call <SID>leaderf_grep_cmd()<cr><c-u>
 
-    let g:Lf_CtagsFuncOpts = {
-            \ 'c': '--c-kinds=fp',
-            \ 'rust': '--rust-kinds=nsicgtvM',
-			\ 'go': '--go-kinds=ctvsia'
-            \ }
+    "let g:Lf_CtagsFuncOpts = {
+    "        \ 'c': '--c-kinds=fp',
+    "        \ 'rust': '--rust-kinds=nsicgtvMfP',
+	"		\ 'go': '--go-kinds=ctvsia'
+    "        \ }
 
 	" Go example
     "call lsp#add_filetype_config({
