@@ -43,7 +43,6 @@
 			]
 		}
 	},
-	"rust-analyzer.enableCargoWatchOnStartup": "enabled",
 	"suggest.timeout": 5000,
 	"translator.toLang": "zh",
 	"coc.preferences.currentFunctionSymbolAutoUpdate": true,
