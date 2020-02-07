@@ -77,7 +77,7 @@ augroup vimrc-incsearch-highlight
 augroup END
 
 
-let g:lsp_plug = 'coc' "'coc'
+let g:lsp_plug = '' "'coc'
 
 """""""""""""""""""""""下面时插件设置"""""""""""""""""""""''"""
 call plug#begin('~/.config/nvim/plugged')
