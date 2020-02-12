@@ -100,3 +100,7 @@ en
 
 menu project.Files :16Lexplore<cr>
 menu ToolBar.Project :16Lexplore<cr>
+
+if has('win32') || has('win64')
+	set guifont=:h20
+endif

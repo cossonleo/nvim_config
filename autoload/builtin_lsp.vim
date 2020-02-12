@@ -17,7 +17,7 @@ func! builtin_lsp#add()
 	Plug 'neovim/nvim-lsp'
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'roxma/nvim-yarp'
-	Plug 'Anexen/ncm2', { 'tag': 'feature/built-in-lsp' }
+	Plug 'ncm2/ncm2'
 	Plug 'ncm2/ncm2-bufword'
 	Plug 'ncm2/ncm2-path'
 endf
