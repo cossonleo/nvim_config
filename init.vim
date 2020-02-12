@@ -79,8 +79,15 @@ augroup END
 
 let g:lsp_plug = '' "'coc'
 
+if has('win32') || has('win64')
+	set guifont=:h20
+	let g:plug_dir = '~/AppData/Local/nvim/plugged'
+else
+	let g:plug_dir = '~/.config/nvim/plugged'
+endif
+
 """""""""""""""""""""""下面时插件设置"""""""""""""""""""""''"""
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin(g:plug_dir)
 	call common_plug#add()
 
 	if g:lsp_plug == 'coc'
@@ -101,6 +108,3 @@ en
 menu project.Files :16Lexplore<cr>
 menu ToolBar.Project :16Lexplore<cr>
 
-if has('win32') || has('win64')
-	set guifont=:h20
-endif
