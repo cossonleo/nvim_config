@@ -32,6 +32,7 @@ func common_plug#add()
 	Plug 'cossonleo/neo-smooth-scroll.nvim'
 
 	Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+	Plug 'voldikss/vim-translator'
 endfunc
 
 function! s:leaderf_grep_cmd()
@@ -118,4 +119,8 @@ func common_plug#config()
     "      \ 'name': 'gopls',
     "      \ 'cmd': 'gopls'
     "      \ })
+
+	"translator
+	nnoremap <silent><leader>a :TranslateW<CR>
+
 endf
