@@ -45,6 +45,7 @@ EOF
 	nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 	nnoremap <silent> gc    <cmd>lua vim.lsp.buf.rename()<CR>
 	nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+	nnoremap <silent> gq 	<cmd>lua vim.lsp.buf.formatting()<cr>
 	"nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 
 	set completeopt=menuone,noinsert,noselect
