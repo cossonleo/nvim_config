@@ -16,6 +16,8 @@ let s:is_loaded = 1
 func! builtin_lsp#add()
 	Plug 'neovim/nvim-lsp'
 	Plug 'jiangmiao/auto-pairs'
+	
+	" pip3 install msgpack pynvim
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'  }
 	Plug 'Shougo/deoplete-lsp', { 'do': ':UpdateRemotePlugins'  }
 	"Plug 'roxma/nvim-yarp'
@@ -71,8 +73,6 @@ EOF
 		let col = col('.') - 1
 		return !col || getline('.')[col - 1]  =~ '\s'
 	endfunction "}}}
-
-	inoremap <silent><expr> <S-TAB> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 	" ncm2
 	"set completeopt=menuone,noinsert,noselect
