@@ -17,6 +17,7 @@ func! builtin_lsp#add()
 	Plug 'neovim/nvim-lsp'
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'cossonleo/nvim-completor'
+	Plug 'Shougo/echodoc.vim'
 endf
 
 func builtin_lsp#config()
@@ -46,4 +47,7 @@ EOF
 	"nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 
 	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "<Tab>"
+
+	let g:echodoc#enable_at_startup = 1
+	let g:echodoc#type = "floating"
 endfunc
