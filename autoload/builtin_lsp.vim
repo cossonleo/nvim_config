@@ -30,7 +30,12 @@ lua << EOF
 	require('vim.lsp.log').set_level(4)
 	local nvim_lsp = require('nvim_lsp')
 	nvim_lsp.rust_analyzer.setup{}	
-	nvim_lsp.gopls.setup{}
+	nvim_lsp.gopls.setup{
+		settings = {
+			usePlaceholders = true,	
+			completeUnimported = true,
+		}
+	}
 	nvim_lsp.clangd.setup{}
 	nvim_lsp.pyls.setup{}
 	nvim_lsp.dockerls.setup{}
