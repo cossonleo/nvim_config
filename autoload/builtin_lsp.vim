@@ -47,6 +47,7 @@ EOF
 	"nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 
 	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "<Tab>"
+	inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 	let g:echodoc#enable_at_startup = 1
 	let g:echodoc#type = "floating"
