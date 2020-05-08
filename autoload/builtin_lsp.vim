@@ -20,11 +20,22 @@ func! builtin_lsp#add()
 	Plug 'Shougo/echodoc.vim'
 endf
 
+func! builtin_lsp#reference()
+	lua vim.lsp.buf.references()
+	call nvim_command("copen")
+endfunc
+
 func builtin_lsp#config()
 lua << EOF
+	require('vim.lsp.log').set_level(4)
 	local nvim_lsp = require('nvim_lsp')
 	nvim_lsp.rust_analyzer.setup{}	
-	nvim_lsp.gopls.setup{}
+	nvim_lsp.gopls.setup{
+		settings = {
+			usePlaceholders = true,	
+			completeUnimported = true,
+		}
+	}
 	nvim_lsp.clangd.setup{}
 	nvim_lsp.pyls.setup{}
 	nvim_lsp.dockerls.setup{}
@@ -40,7 +51,7 @@ EOF
 	nnoremap <silent> gd 	<cmd>lua vim.lsp.buf.definition()<CR>
 	nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 	nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-	nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+	nnoremap <silent> gr    <cmd>call builtin_lsp#reference()<CR>
 	nnoremap <silent> gc    <cmd>lua vim.lsp.buf.rename()<CR>
 	nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 	nnoremap <silent> gq 	<cmd>lua vim.lsp.buf.formatting()<cr>
