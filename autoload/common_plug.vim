@@ -18,6 +18,7 @@ func common_plug#add()
 	Plug 'machakann/vim-sandwich'
 	Plug 'kshenoy/vim-signature'
 	Plug 'voldikss/vim-floaterm'
+	Plug 'terryma/vim-multiple-cursors'
 	"Plug 'puremourning/vimspector'
 
 	"Plug 'skywind3000/vim-tvision'
@@ -33,6 +34,7 @@ func common_plug#add()
 
 	Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 	Plug 'voldikss/vim-translator'
+	Plug 'kyazdani42/nvim-tree.lua'
 endfunc
 
 function! s:leaderf_grep_cmd()
@@ -87,10 +89,14 @@ func common_plug#config()
 
 	" vim-floaterm
 	let g:floaterm_winblend = 10
-	let g:floaterm_width = &columns * 2 / 3
-	let g:floaterm_height = &lines * 3 / 4
+	"let g:floaterm_width = &columns * 2 / 3
+	"let g:floaterm_height = &lines * 3 / 4
+	let g:floaterm_width = 0.7
+	let g:floaterm_height = 0.8
 	let g:floaterm_position = 'center'
 	let g:floaterm_keymap_toggle = '<F4>'
+	let g:floaterm_keymap_new    = '<leader><F4>'
+	let g:floaterm_keymap_next   = '<F16>'
 	let g:floaterm_border_color = "#FFFFFF"
 	autocmd User Startified setlocal buflisted
 
@@ -123,4 +129,44 @@ func common_plug#config()
 	"translator
 	nnoremap <silent><leader>a :TranslateW<CR>
 
+	"nvim-tree.lua
+	let g:lua_tree_side = 'left' "left by default
+	let g:lua_tree_size = 40 "30 by default
+	let g:lua_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default, not working on mac atm
+	let g:lua_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+	let g:lua_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
+	let g:lua_tree_follow = 0 "0 by default, this option will bind BufEnter to the LuaTreeFindFile command
+	" :help LuaTreeFindFile for more info
+	let g:lua_tree_show_icons = {
+		\ 'git': 1,
+		\ 'folders': 1,
+		\ 'files': 1,
+		\}
+	"If 0, do not show the icons for one of 'git' 'folder' and 'files'
+	"1 by default, notice that if 'files' is 1, it will only display
+	"if web-devicons is installed and on your runtimepath
+
+	" You can edit keybindings be defining this variable
+	" You don't have to define all keys.
+	" NOTE: the 'edit' key will wrap/unwrap a folder and open a file
+	let g:lua_tree_bindings = {
+		\ 'edit':        '<CR>',
+		\ 'edit_vsplit': '<C-v>',
+		\ 'edit_split':  '<C-x>',
+		\ 'edit_tab':    '<C-t>',
+		\ 'cd':          '.',
+		\ 'create':      'a',
+		\ 'remove':      'd',
+		\ 'rename':      'r'
+		\ }
+
+	nnoremap <leader>e :LuaTreeToggle<CR>
+	"nnoremap <leader>r :LuaTreeRefresh<CR>
+	"nnoremap <leader>n :LuaTreeFindFile<CR>
+
+	set termguicolors " this variable must be enabled for colors to be applied properly
+
+	" a list of groups can be found at `:help lua_tree_highlight`
+	"highlight LuaTreeFolderName guibg=cyan gui=bold,underline
+	"highlight LuaTreeFolderIcon guibg=blue
 endf

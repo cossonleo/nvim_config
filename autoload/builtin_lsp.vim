@@ -32,8 +32,10 @@ lua << EOF
 	nvim_lsp.rust_analyzer.setup{}	
 	nvim_lsp.gopls.setup{
 		settings = {
-			usePlaceholders = true,	
-			completeUnimported = true,
+			gopls = {
+				usePlaceholders = true,	
+				completeUnimported = true,
+			}
 		}
 	}
 	nvim_lsp.clangd.setup{}
@@ -44,6 +46,15 @@ lua << EOF
 	nvim_lsp.bashls.setup{}
 	nvim_lsp.rust_analyzer.setup{}	
 	nvim_lsp.sumneko_lua.setup{}
+	nvim_lsp.jsonls.setup{
+		settings = {
+			json = {
+				format = {
+					enable = true
+				}
+			}
+		}
+	}
 EOF
 
 	autocmd Filetype rust,go,c,cpp,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
