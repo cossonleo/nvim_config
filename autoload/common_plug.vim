@@ -35,6 +35,7 @@ func common_plug#add()
 	Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 	Plug 'voldikss/vim-translator'
 	Plug 'kyazdani42/nvim-tree.lua'
+"	Plug 'kyazdani42/nvim-web-devicons' " for file icons
 endfunc
 
 function! s:leaderf_grep_cmd()
@@ -138,9 +139,9 @@ func common_plug#config()
 	let g:lua_tree_follow = 0 "0 by default, this option will bind BufEnter to the LuaTreeFindFile command
 	" :help LuaTreeFindFile for more info
 	let g:lua_tree_show_icons = {
-		\ 'git': 1,
-		\ 'folders': 1,
-		\ 'files': 1,
+		\ 'git': 0,
+		\ 'folders': 0,
+		\ 'files': 0,
 		\}
 	"If 0, do not show the icons for one of 'git' 'folder' and 'files'
 	"1 by default, notice that if 'files' is 1, it will only display
