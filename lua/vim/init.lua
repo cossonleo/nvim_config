@@ -5,5 +5,7 @@ function server.hello()
 	print(s)
 end
 
+local afads = 1
+
 
 return server

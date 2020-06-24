@@ -169,5 +169,7 @@ func common_plug#config()
 
 	" a list of groups can be found at `:help lua_tree_highlight`
 	"highlight LuaTreeFolderName guibg=cyan gui=bold,underline
-	"highlight LuaTreeFolderIcon guibg=blue
+
+	"let s:one_colors = onedark#GetColors()
+	highlight LuaTreeFolderIcon guifg=#61AFEF
 endf

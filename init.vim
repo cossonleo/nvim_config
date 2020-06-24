@@ -1,34 +1,23 @@
 """"""""""""""""""""""""""""""""""""""""""
-lua << EOF
-vim.o.hidden = true
-vim.o.confirm = true
-vim.o.termguicolors = true
-vim.o.tabstop = 4
-vim.o.diffopt = "internal,filler,closeoff,vertical,algorithm:patience"
-vim.bo.shiftwidth = 4
-vim.wo.cursorline = true
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.wo.cursorcolumn = false
-EOF
 
-"set cursorline
+set cursorline
 "set cursorcolumn
-"set number
-"set relativenumber
+set number
+set relativenumber
 set showcmd
 set cmdheight=2
 set ruler
-"set confirm
+set confirm
 set scrolloff=0
-"set tabstop=4
-"set shiftwidth=4
+set tabstop=4
+set shiftwidth=4
 set clipboard=unnamedplus " 系统安装xclip或xsel
+set hidden
 set completeopt=longest,menu
 "set updatetime=500
 set selection=inclusive "exclusive inclusive old
 set nohlsearch
-"set termguicolors
+set termguicolors
 "set mouse=a
 "set ignorecase
 set smartcase
@@ -44,7 +33,7 @@ set fileencodings=utf-8,ucs-bom,gb2312,gbk,gb18030,latin1
 "set termencoding=encoding
 "set encoding=prc
 
-"set diffopt+=vertical,algorithm:patience
+set diffopt+=vertical,algorithm:patience
 
 " neovim python支持 需要sudo pip3 install --upgrade neovim 
 "let g:python3_host_prog = '/usr/bin/python3'
