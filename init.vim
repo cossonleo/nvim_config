@@ -1,47 +1,5 @@
-""""""""""""""""""""""""""""""""""""""""""
-
-set cursorline
-"set cursorcolumn
-set number
-set relativenumber
-set showcmd
-set cmdheight=2
-set ruler
-set confirm
-set scrolloff=0
-set tabstop=4
-set shiftwidth=4
-set clipboard=unnamedplus " 系统安装xclip或xsel
-set hidden
-set completeopt=longest,menu
-"set updatetime=500
-set selection=inclusive "exclusive inclusive old
-set nohlsearch
-set termguicolors
-"set mouse=a
-"set ignorecase
-set smartcase
-set fo=""
-"set list
-"set foldmethod=syntax
-
-set maxmempattern=10000
-set wildmenu
-set wildmode=longest,full
-"set wildmode=list:longest,full
-set fileencodings=utf-8,ucs-bom,gb2312,gbk,gb18030,latin1
-"set termencoding=encoding
-"set encoding=prc
-
-set diffopt+=vertical,algorithm:patience
-
-" neovim python支持 需要sudo pip3 install --upgrade neovim 
-"let g:python3_host_prog = '/usr/bin/python3'
-"let g:python3_host_skip_check = 1
-"let g:loaded_python_provider = 0
-
-"let mapleader=' '
-
+lua require 'cossonleo'
+"
 " map
 "noremap <c-a> :wa<cr>
 "inoremap <c-a> <esc>:wa<cr>
