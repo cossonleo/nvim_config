@@ -1,14 +1,4 @@
 lua require 'cossonleo'
-"
-" map
-"noremap <c-a> :wa<cr>
-"inoremap <c-a> <esc>:wa<cr>
-tnoremap <Esc> <C-\><C-n>
-tnoremap <C-w><C-w> <C-\><C-N><C-w><C-w>
-tnoremap <C-w>h <C-\><C-N><C-w>h
-tnoremap <C-w>j <C-\><C-N><C-w>j
-tnoremap <C-w>k <C-\><C-N><C-w>k
-tnoremap <C-w>l <C-\><C-N><C-w>l
  
 if has("autocmd")   " 打开时光标放在上次退出时的位置
     autocmd BufReadPost *
@@ -18,14 +8,6 @@ if has("autocmd")   " 打开时光标放在上次退出时的位置
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" netrw
-"nnoremap <leader>e :18Lexplore<cr>
-"let g:netrw_list_hide = '.*\.swp$'
-"let g:netrw_preview   = 1
-"let g:netrw_liststyle = 3
-"let g:netrw_banner = 0
-"let g:netrw_winsize   = 16
 
 
 augroup vimrc-incsearch-highlight
