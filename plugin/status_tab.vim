@@ -35,7 +35,8 @@ endfunc
 func! s:norstl()
 	setl stl=%2*%{get(b:,'cur_file_size','')}%*
 	setl stl+=%1*\ [b:%n]\ %*
-	setl stl+=%*\ %.50f\ %*
+	"setl stl+=%*\ %.50f\ %*
+	setl stl+=%*\ %f\ %*
 	setl stl+=%5*%m%r%h%w%q%*
 	setl stl+=%*%=%* 		"左右分割
 	if exists("g:use_coc")

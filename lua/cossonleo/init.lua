@@ -31,19 +31,4 @@ vim.api.nvim_set_keymap("t", "<c-w>j", "<c-\\><c-N><c-w>j", {noremap = true})
 vim.api.nvim_set_keymap("t", "<c-w>k", "<c-\\><c-N><c-w>k", {noremap = true})
 vim.api.nvim_set_keymap("t", "<c-w>l", "<c-\\><c-N><c-w>l", {noremap = true})
 
-local M = {}
-function M.grep_dir()
-	local default = vim.fn.expand('<cword>')
-	vim.api.nvim_command("echohl PromHl")
-	vim.fn.inputsave()
-	local input = vim.fn.input({prompt = 'rg> ', default = default, highlight = 'GrepHl'})
-	vim.fn.inputrestore()
-	vim.api.nvim_command("echohl None")
-
-	if #input == 0 then
-	    return
-	end
-	vim.api.nvim_command('Leaderf rg ' .. input)
-end
-
-return M
+vim.api.nvim_set_keymap("n", "<leader>g", ":lua require('cossonleo.utils').grep_dir()<cr>", {noremap = true})

@@ -4,6 +4,8 @@ lua my_init_lua = require 'cossonleo'
 " source 只认字符串
 exe 'source ' . s:config_home . '/common_plug.vim'
 exe 'source ' . s:config_home . '/builtin_lsp.vim'
+exe 'source ' . s:config_home . '/finder_plug.vim'
+exe 'source ' . s:config_home . '/program_plug.vim'
 "source s:config_home . '/coc_plug.vim'
  
 " 打开时光标放在上次退出时的位置
