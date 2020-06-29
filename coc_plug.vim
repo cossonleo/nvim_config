@@ -11,6 +11,7 @@ if exists("s:is_loaded")
 	finish
 endif
 let s:is_loaded = 1
+let g:use_coc = 1
 
 autocmd User PlugAddEvent call <SID>add()
 autocmd User PlugEndEvent call <SID>config()

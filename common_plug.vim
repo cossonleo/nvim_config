@@ -41,33 +41,6 @@ func s:add()
 "	Plug 'kyazdani42/nvim-web-devicons' " for file icons
 endfunc
 
-function! s:leaderf_grep_cmd()
-	let l:default_input = expand('<cword>')
-	let l:cancel_return = "cancel_returncanc.cancelreturn;sfafasdfffffi" . l:default_input . "cancel_returncanc.cancelreturn.asdfas.asfdas.asdfax2123fwfe"
-	"call inputsave()
-	exe 'echohl PromHl'
-	let l:input = input({
-				\ 'prompt': ">G> ", 
-				\ 'default': l:default_input,
-				\ 'cancelreturn': l:cancel_return,
-				\ 'highlight': 'GrepHl'
-				\ })
-
-	exe 'echohl None'
-	"call inputrestore()
-	"let l:input = trim(input)
-	if len(l:input) == 0
-		let l:input = l:default_input
-	elseif l:input == l:cancel_return
-		return
-	endif
-
-	if len(l:input) == 0
-		return
-	endif
-
-	exe ':Leaderf rg ' . l:input
-endfunction
 
 func s:config()
 
@@ -115,7 +88,7 @@ func s:config()
 	let g:Lf_ShortcutB = "<leader>b"
 	nnoremap <silent><leader>t :LeaderfBufTag<CR>
 	nnoremap <silent><leader>f :LeaderfFunction<CR>
-	nnoremap <silent> <leader>g :call <SID>leaderf_grep_cmd()<cr><c-u>
+	nnoremap <silent><leader>g :lua my_init_lua.grep_dir()<cr>
 
     "let g:Lf_CtagsFuncOpts = {
     "        \ 'c': '--c-kinds=fp',

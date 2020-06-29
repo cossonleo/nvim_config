@@ -38,7 +38,7 @@ func! s:norstl()
 	setl stl+=%*\ %.50f\ %*
 	setl stl+=%5*%m%r%h%w%q%*
 	setl stl+=%*%=%* 		"左右分割
-	if g:lsp_plug == 'coc'
+	if exists("g:use_coc")
 		setl stl+=%*\ %{get(b:,'coc_current_function','')}\ %*
 		setl stl+=%5*%{coc#status()}%*
 	en
