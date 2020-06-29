@@ -12,7 +12,10 @@ if exists("s:is_loaded")
 endif
 let s:is_loaded = 1
 
-func common_plug#add()
+autocmd User PlugAddEvent call <SID>add()
+autocmd User PlugEndEvent call <SID>config()
+
+func s:add()
 	Plug 'luochen1990/rainbow'
 	Plug 'joshdick/onedark.vim'
 	Plug 'machakann/vim-sandwich'
@@ -66,7 +69,7 @@ function! s:leaderf_grep_cmd()
 	exe ':Leaderf rg ' . l:input
 endfunction
 
-func common_plug#config()
+func s:config()
 
 	"rust
 	let g:cargo_makeprg_params = 'build'
@@ -173,3 +176,4 @@ func common_plug#config()
 	"let s:one_colors = onedark#GetColors()
 	highlight LuaTreeFolderIcon guifg=#61AFEF
 endf
+

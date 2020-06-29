@@ -12,8 +12,10 @@ if exists("s:is_loaded")
 endif
 let s:is_loaded = 1
 
+autocmd User PlugAddEvent call <SID>add()
+autocmd User PlugEndEvent call <SID>config()
 
-func! builtin_lsp#add()
+func! s:add()
 	Plug 'neovim/nvim-lsp'
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'cossonleo/nvim-completor'
@@ -26,7 +28,7 @@ func! builtin_lsp#reference()
 	call nvim_command("copen")
 endfunc
 
-func builtin_lsp#config()
+func s:config()
 lua << EOF
 	require('vim.lsp.log').set_level(4)
 	local nvim_lsp = require('nvim_lsp')
