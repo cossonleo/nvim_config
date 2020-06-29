@@ -1,6 +1,7 @@
 -- 延迟加载
 
 local M = {}
+
 function M.grep_dir()
 	local default = vim.fn.expand('<cword>')
 	vim.api.nvim_command("echohl PromHl")
@@ -14,4 +15,5 @@ function M.grep_dir()
 	end
 	vim.api.nvim_command('Leaderf rg ' .. input)
 end
+
 return M
