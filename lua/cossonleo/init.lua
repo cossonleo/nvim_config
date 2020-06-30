@@ -2,6 +2,7 @@ vim.o.hidden = true
 vim.o.confirm = true
 vim.o.termguicolors = true
 vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 vim.o.diffopt = "internal,filler,closeoff,vertical,algorithm:patience"
 vim.o.showcmd = true
 vim.o.cmdheight = 2
