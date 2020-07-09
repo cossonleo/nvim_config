@@ -22,16 +22,10 @@ func s:add()
 	Plug 'kshenoy/vim-signature'
 	Plug 'voldikss/vim-floaterm'
 	Plug 'terryma/vim-multiple-cursors'
-	"Plug 'puremourning/vimspector'
-
-	"Plug 'skywind3000/vim-tvision'
-
-	"Plug 'tpope/vim-fugitive'
 	Plug 'whiteinge/diffconflicts'
 	Plug 'cossonleo/dirdiff.nvim'
 	Plug 'cossonleo/neo-comment.nvim'
 	Plug 'cossonleo/neo-smooth-scroll.nvim'
-
 	Plug 'voldikss/vim-translator'
 endfunc
 
