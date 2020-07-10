@@ -5,6 +5,8 @@ vim.o.termguicolors = true
 --vim.o.shiftwidth = 4
 vim.bo.tabstop = 4
 vim.bo.shiftwidth = 4
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 vim.bo.expandtab = false
 vim.o.diffopt = "internal,filler,closeoff,vertical,algorithm:patience"
 vim.o.showcmd = true
@@ -43,4 +45,8 @@ vim.api.nvim_set_keymap("n", "gc", ":lua vim.lsp.buf.rename()<CR>", {noremap = t
 vim.api.nvim_set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gq", ":lua vim.lsp.buf.formatting()<cr>", {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap("n", "<c-k>", ":lua vim.lsp.buf.signature_help()<CR>", {noremap = true, silent = true})
+
+
+vim.api.nvim_set_keymap('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "<Tab>"]], {noremap = true, expr = true})
+vim.api.nvim_set_keymap('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], {noremap = true, expr = true})
 

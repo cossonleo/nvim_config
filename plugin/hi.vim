@@ -23,7 +23,7 @@ exe "hi User1 guifg=#000000 guibg=" . s:onedark_colors.purple.gui . " gui=bold"
 exe "hi User2 guifg=#000000 guibg=" . s:onedark_colors.blue.gui . " gui=bold"
 exe "hi User3 guifg=#000000 guibg=" . s:onedark_colors.yellow.gui . " gui=bold"
 exe "hi User4 guifg=#000000 guibg=" . s:onedark_colors.green.gui . " gui=bold"
-exe "hi User5 guifg=#000000 guibg=" . s:onedark_colors.red.gui . " gui=bold"
+exe "hi User5 guifg=#000000 guibg=" . s:onedark_colors.cyan.gui . " gui=bold"
 exe "hi User6 guifg=#000000 guibg=" . s:onedark_colors.white.gui .  " gui=bold"
 
 function! GrepHl(prom)

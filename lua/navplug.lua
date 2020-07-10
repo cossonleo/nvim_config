@@ -1,21 +1,15 @@
 
-if exists("s:is_loaded")
-	finish
-endif
-let s:is_loaded = 1
+vim.api.nvim_exec([[
+autocmd User PlugAddEvent Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+autocmd User PlugAddEvent Plug 'kyazdani42/nvim-tree.lua'
+autocmd User PlugEndEvent lua require'navplug'.config()
+autocmd UIEnter * lua vim.g.lua_tree_auto_open = 1
+]], nil)
 
-autocmd User PlugAddEvent call <SID>add()
-autocmd User PlugEndEvent call <SID>config()
-
-func s:add()
-	Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-	Plug 'kyazdani42/nvim-tree.lua'
-endfunc
-
-func s:config()
-lua << EOF
+M = {}
+M.config = function()
 	vim.g.Lf_WindowPosition = 'popup'
-    vim.g.Lf_PopupHeight = 0.7
+	vim.g.Lf_PopupHeight = 0.7
 	vim.g.Lf_PopupWidth = 0.5
 	vim.g.Lf_ShortcutF = "<leader><leader>"
 	vim.g.Lf_ShortcutB = "<leader>b"
@@ -41,7 +35,5 @@ lua << EOF
 		rename = 'r',
 	}
 	vim.api.nvim_set_keymap("n", "<leader>e", ":LuaTreeToggle<CR>", {noremap = true, silent = true})
-EOF
-
-	autocmd UIEnter * lua vim.g.lua_tree_auto_open = 1
-endfunc
+end
+return M

@@ -43,6 +43,7 @@ func! s:norstl()
 		setl stl+=%*\ %{get(b:,'coc_current_function','')}\ %*
 		setl stl+=%5*%{coc#status()}%*
 	en
+	setl stl+=%5*%{v:lua.nvim_lsp_status()}%*
 	setl stl+=%3*%y%*
 	setl stl+=%2*\ %l\ :\ %c\ %*
 	setl stl+=%4*\ %p%%\ /\ %L\ %*
