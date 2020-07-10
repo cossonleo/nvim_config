@@ -19,6 +19,12 @@ let s:is_loaded = 1
 au FileType * call s:file_size()
 au BufWritePost * call s:file_size()
 au FileType * call s:set_stl()
+au BufFilePost * call s:get_short_fname()
+au BufRead * call s:get_short_fname()
+
+func! s:get_short_fname()
+	let b:cur_short_fname = pathshorten(expand('%'))
+endfunc
 
 func! s:set_stl()
 	if &ft == 'netrw'
@@ -36,14 +42,16 @@ func! s:norstl()
 	setl stl=%2*%{get(b:,'cur_file_size','')}%*
 	setl stl+=%1*\ [b:%n]\ %*
 	"setl stl+=%*\ %.50f\ %*
-	setl stl+=%*\ %f\ %*
+	"setl stl+=%*\ %f\%%*
+	setl stl+=%*\ %{get(b:,'cur_short_fname','')}\ %*
 	setl stl+=%5*%m%r%h%w%q%*
 	setl stl+=%*%=%* 		"左右分割
 	if exists("g:use_coc")
 		setl stl+=%*\ %{get(b:,'coc_current_function','')}\ %*
 		setl stl+=%5*%{coc#status()}%*
 	en
-	setl stl+=%5*%{v:lua.nvim_lsp_status()}%*
+	"setl stl+=%5*%{v:lua.nvim_lsp_status()}%*
+	setl stl+=%*\ %{v:lua.nvim_lsp_status()}\ %*
 	setl stl+=%3*%y%*
 	setl stl+=%2*\ %l\ :\ %c\ %*
 	setl stl+=%4*\ %p%%\ /\ %L\ %*
