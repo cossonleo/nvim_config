@@ -1,10 +1,10 @@
 let s:config_home = stdpath("config")
+
 lua my_init_lua = require 'cossonleo'
 
-
-lua require'baseplug'
-lua require'navplug'
-lua require'devplug'
+"lua require'baseplug'
+"lua require'navplug'
+"lua require'devplug'
 
 " source 只认字符串
 "exe 'source ' . s:config_home . '/baseplug.vim'

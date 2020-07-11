@@ -1,13 +1,6 @@
-
-vim.api.nvim_exec([[
-autocmd User PlugAddEvent Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-autocmd User PlugAddEvent Plug 'kyazdani42/nvim-tree.lua'
-autocmd User PlugEndEvent lua require'navplug'.config()
-autocmd UIEnter * lua vim.g.lua_tree_auto_open = 1
-]], nil)
-
 M = {}
-M.config = function()
+
+M["'Yggdroot/LeaderF', { 'do': './install.sh' }"] = function()
 	vim.g.Lf_WindowPosition = 'popup'
 	vim.g.Lf_PopupHeight = 0.7
 	vim.g.Lf_PopupWidth = 0.5
@@ -15,7 +8,9 @@ M.config = function()
 	vim.g.Lf_ShortcutB = "<leader>b"
 	vim.api.nvim_set_keymap("n", "<leader>t", ":LeaderfBufTag<CR>", {noremap = true, silent = true})
 	vim.api.nvim_set_keymap("n", "<leader>f", ":LeaderfFunction<CR>", {noremap = true, silent = true})
+end
 
+M["'kyazdani42/nvim-tree.lua'"] = function()
 	vim.g.lua_tree_side = 'left' -- left by default
 	vim.g.lua_tree_size = 40 --30 by default
 	vim.g.lua_tree_ignore = { '.git', 'node_modules', '.cache' } --empty by default, not working on mac atm
@@ -36,4 +31,5 @@ M.config = function()
 	}
 	vim.api.nvim_set_keymap("n", "<leader>e", ":LuaTreeToggle<CR>", {noremap = true, silent = true})
 end
+
 return M
