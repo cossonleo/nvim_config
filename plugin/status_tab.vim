@@ -16,47 +16,13 @@ if exists("s:is_loaded")
 endif
 let s:is_loaded = 1
 
-au FileType * call s:file_size()
-au BufWritePost * call s:file_size()
-au FileType * call s:set_stl()
-au BufFilePost * call s:get_short_fname()
-au BufRead * call s:get_short_fname()
+au FileType netrw,LuaTree setl stl=%*\ line:%l/%L
+au BufWritePost,BufReadPost * call s:file_size()
+au BufWritePost,BufReadPost * call s:get_short_fname()
+
 
 func! s:get_short_fname()
 	let b:cur_short_fname = pathshorten(expand('%'))
-endfunc
-
-func! s:set_stl()
-	if &ft == 'netrw'
-		call s:netrwstl()
-	else
-		call s:norstl()
-	endif
-endfunc
-
-func! s:netrwstl()
-	setl stl=%*\ line:%l/%L
-endfunc
-
-func! s:norstl()
-	setl stl=%2*%{get(b:,'cur_file_size','')}%*
-	setl stl+=%1*\ [b:%n]\ %*
-	"setl stl+=%*\ %.50f\ %*
-	"setl stl+=%*\ %f\%%*
-	setl stl+=%*\ %{get(b:,'cur_short_fname','')}\ %*
-	setl stl+=%5*%m%r%h%w%q%*
-	setl stl+=%*%=%* 		"左右分割
-	if exists("g:use_coc")
-		setl stl+=%*\ %{get(b:,'coc_current_function','')}\ %*
-		setl stl+=%5*%{coc#status()}%*
-	en
-	"setl stl+=%5*%{v:lua.nvim_lsp_status()}%*
-	setl stl+=%*\ %{v:lua.nvim_lsp_status()}\ %*
-	setl stl+=%3*%y%*
-	setl stl+=%2*\ %l\ :\ %c\ %*
-	setl stl+=%4*\ %p%%\ /\ %L\ %*
-	setl stl+=%1*%{'\ '.(&fenc!=''?&fenc:&enc).'\ '}      "编码1
-	setl stl+=%{(&bomb?\",BOM\":\"\")}%*            "编码2
 endfunc
 
 function! s:file_size()
@@ -78,50 +44,60 @@ function! s:file_size()
 	let b:cur_file_size = l:size
 endfunction
 
-call s:set_stl()
+set stl=%4*%{get(b:,'cur_file_size','')}%*
+set stl+=%1*\ [b:%n]\ %*
+set stl+=%*\ %{get(b:,'cur_short_fname','')}\ %*
+set stl+=%5*%m%r%h%w%q%*
+set stl+=%*%=%* 		"左右分割
+set stl+=%*\ %{v:lua.nvim_lsp_status()}\ %*
+set stl+=%3*%y%*
+set stl+=%2*\ %l:%c\ %*
+set stl+=%4*\ %p%%/%L\ %*
+set stl+=%1*%{'\ '.(&fenc!=''?&fenc:&enc).'\ '}      "编码1
+set stl+=%{(&bomb?\",BOM\":\"\")}%*            "编码2
 
 """"""""""""""""""""""""""""""""""""""tabline"""""""""""""""""""""""""""""""""""""""
-set tabline=%!MyTabLine()
-
-function! MyTabLine()
-  let s = ''
-  for i in range(tabpagenr('$'))
-    " select the highlighting
-    if i + 1 == tabpagenr()
-      let s .= '%#TabLineSel#'
-    else
-      let s .= '%#TabLine#'
-    endif
-
-    " set the tab page number (for mouse clicks)
-    let s .= '%' . (i + 1) . 'T'
-
-    " the label is made by MyTabLabel()
-    let s .= ' '. (i+1) .' %{MyTabLabel(' . (i + 1) . ')} '
-  endfor
-
-  " after the last tab fill with TabLineFill and reset tab page nr
-  let s .= '%#TabLineFill#%T'
-
-  " right-align the label to close the current tab page
-  if tabpagenr('$') > 1
-    let s .= '%=%#TabLine#%999Xclose'
-  endif
-
-  return s
-endfunction
-
-
-function! MyTabLabel(n)
-	let buflist = tabpagebuflist(a:n)
-	let winnr = tabpagewinnr(a:n)
-	let str = bufname(buflist[winnr - 1])
-	let sub_strs = split(str, "/")
-	let leng = len(sub_strs)
-	if leng < 2
-		return str
-	endif
-	return sub_strs[leng - 2] . '/' . sub_strs[leng - 1]
-endfunction
+"set tabline=%!MyTabLine()
+"
+"function! MyTabLine()
+"  let s = ''
+"  for i in range(tabpagenr('$'))
+"    " select the highlighting
+"    if i + 1 == tabpagenr()
+"      let s .= '%#TabLineSel#'
+"    else
+"      let s .= '%#TabLine#'
+"    endif
+"
+"    " set the tab page number (for mouse clicks)
+"    let s .= '%' . (i + 1) . 'T'
+"
+"    " the label is made by MyTabLabel()
+"    let s .= ' '. (i+1) .' %{MyTabLabel(' . (i + 1) . ')} '
+"  endfor
+"
+"  " after the last tab fill with TabLineFill and reset tab page nr
+"  let s .= '%#TabLineFill#%T'
+"
+"  " right-align the label to close the current tab page
+"  if tabpagenr('$') > 1
+"    let s .= '%=%#TabLine#%999Xclose'
+"  endif
+"
+"  return s
+"endfunction
+"
+"
+"function! MyTabLabel(n)
+"	let buflist = tabpagebuflist(a:n)
+"	let winnr = tabpagewinnr(a:n)
+"	let str = bufname(buflist[winnr - 1])
+"	let sub_strs = split(str, "/")
+"	let leng = len(sub_strs)
+"	if leng < 2
+"		return str
+"	endif
+"	return sub_strs[leng - 2] . '/' . sub_strs[leng - 1]
+"endfunction
 
 

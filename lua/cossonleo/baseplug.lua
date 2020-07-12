@@ -28,6 +28,11 @@ M["'voldikss/vim-floaterm'"] = function()
 	vim.g.floaterm_border_color = "#FFFFFF"
 end
 
+M["'norcalli/nvim-colorizer.lua'"] = function()
+	-- require 'colorizer'.setup()
+	require 'colorizer'.setup(nil, { css = true; })
+end
+
 M["'terryma/vim-multiple-cursors'"] = function()
 end
 

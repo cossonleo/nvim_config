@@ -19,12 +19,11 @@ hi link LspWarning WarningMsg
 hi StatusLine guifg=#8a8a8a  guibg=#1A1A1A  gui=bold
 hi StatusLineNC guifg=#8a8a8a  guibg=#1A1A1A  gui=bold
 
-exe "hi User1 guifg=#000000 guibg=" . s:onedark_colors.purple.gui . " gui=bold"
-exe "hi User2 guifg=#000000 guibg=" . s:onedark_colors.blue.gui . " gui=bold"
-exe "hi User3 guifg=#000000 guibg=" . s:onedark_colors.yellow.gui . " gui=bold"
-exe "hi User4 guifg=#000000 guibg=" . s:onedark_colors.green.gui . " gui=bold"
-exe "hi User5 guifg=#000000 guibg=" . s:onedark_colors.cyan.gui . " gui=bold"
-exe "hi User6 guifg=#000000 guibg=" . s:onedark_colors.white.gui .  " gui=bold"
+hi User1 guifg=#F5F5F5 guibg=#556B2F gui=bold
+hi User2 guifg=#F5F5F5 guibg=#696969 gui=bold
+hi User3 guifg=#F5F5F5 guibg=#3C3C3C gui=bold
+hi User4 guifg=#F5F5F5 guibg=#616130 gui=bold
+hi User5 guifg=#F5F5F5 guibg=#424200 gui=bold
 
 function! GrepHl(prom)
 	let ret = []
