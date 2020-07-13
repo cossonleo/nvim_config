@@ -17,7 +17,7 @@ endif
 let s:is_loaded = 1
 
 au FileType netrw,LuaTree setl stl=%*\ line:%l/%L
-au BufWritePost,BufReadPost * call s:file_size()
+au BufWritePost,BufReadPost * lua require'cossonleo.util'.update_current_file_size()
 au BufWritePost,BufReadPost * call s:get_short_fname()
 
 
@@ -25,35 +25,15 @@ func! s:get_short_fname()
 	let b:cur_short_fname = pathshorten(expand('%'))
 endfunc
 
-function! s:file_size()
-    let l:size = getfsize(expand('%'))
-    if l:size == 0 || l:size == -1 || l:size == -2
-		let l:size = ''
-    endif
-
-    if l:size < 1024
-        let l:size = l:size.'B'
-    elseif l:size < 1024*1024
-        let l:size = printf('%.1f', l:size/1024.0).'K'
-    elseif l:size < 1024*1024*1024
-        let l:size = printf('%.1f', l:size/1024.0/1024.0) . 'M'
-    else
-        let l:size = printf('%.1f', l:size/1024.0/1024.0/1024.0) . 'G'
-    endif
-
-	let b:cur_file_size = l:size
-endfunction
-
-set stl=%4*%{get(b:,'cur_file_size','')}%*
-set stl+=%1*\ [b:%n]\ %*
-set stl+=%*\ %{get(b:,'cur_short_fname','')}\ %*
+set stl=%4*%{get(b:,'current_file_size','')}/%L%*
+set stl+=%1*\ [b:%n]%*
+set stl+=%*\ %{get(b:,'cur_short_fname','')}%*
 set stl+=%5*%m%r%h%w%q%*
 set stl+=%*%=%* 		"左右分割
-set stl+=%*\ %{v:lua.nvim_lsp_status()}\ %*
+set stl+=%*%{v:lua.nvim_lsp_status()}\ %*
 set stl+=%3*%y%*
-set stl+=%2*\ %l:%c\ %*
-set stl+=%4*\ %p%%/%L\ %*
-set stl+=%1*%{'\ '.(&fenc!=''?&fenc:&enc).'\ '}      "编码1
+set stl+=%2*\ (%l,%c)%*
+set stl+=%1*\ %{(&fenc!=''?&fenc:&enc)}      "编码1
 set stl+=%{(&bomb?\",BOM\":\"\")}%*            "编码2
 
 """"""""""""""""""""""""""""""""""""""tabline"""""""""""""""""""""""""""""""""""""""
