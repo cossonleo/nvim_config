@@ -21,9 +21,13 @@ if has('win32') || has('win64')
 	set guifont=:h20
 endif
 
+if &term =~# '^screen'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
 """""""""""""""""""""""下面时插件设置"""""""""""""""""""""''"""
 call plug#begin(s:config_home . "/plugged")
 doautocmd User PlugAddEvent
 call plug#end()
 doautocmd User PlugEndEvent
-
