@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 M["'Yggdroot/LeaderF', { 'do': './install.sh' }"] = function()
 	vim.g.Lf_WindowPosition = 'popup'

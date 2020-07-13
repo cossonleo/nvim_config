@@ -1,5 +1,5 @@
 
-M = {}
+local M = {}
 
 M["'luochen1990/rainbow'"] = function()
 	vim.g.EasyMotion_do_mapping = 0
