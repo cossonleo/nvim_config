@@ -2,15 +2,6 @@ let s:config_home = stdpath("config")
 
 lua my_init_lua = require 'cossonleo'
 
-"lua require'baseplug'
-"lua require'navplug'
-"lua require'devplug'
-
-" source 只认字符串
-"exe 'source ' . s:config_home . '/baseplug.vim'
-"exe 'source ' . s:config_home . '/navplug.vim'
-"exe 'source ' . s:config_home . '/devplug.vim'
-"source s:config_home . '/coc_plug.vim'
  
 " 打开时光标放在上次退出时的位置
 autocmd BufReadPost *
