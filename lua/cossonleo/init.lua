@@ -38,7 +38,7 @@ vim.api.nvim_set_keymap("n", "<leader>g", ":lua require('cossonleo.delay').grep_
 
 vim.api.nvim_set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gD", ":lua vim.lsp.buf.implementation()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "gr", ":lua require'cossonleo'.references()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "gr", ":lua require'cossonleo.lsp'.references()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gc", ":lua vim.lsp.buf.rename()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gk", ":lua vim.lsp.buf.hover()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gq", ":lua vim.lsp.buf.formatting()<cr>", {noremap = true, silent = true})
