@@ -8,6 +8,7 @@ M["'Yggdroot/LeaderF', { 'do': './install.sh' }"] = function()
 	vim.g.Lf_ShortcutB = "<leader>b"
 	vim.api.nvim_set_keymap("n", "<leader>t", ":LeaderfBufTag<CR>", {noremap = true, silent = true})
 	vim.api.nvim_set_keymap("n", "<leader>f", ":LeaderfFunction<CR>", {noremap = true, silent = true})
+	vim.api.nvim_set_keymap("n", "<leader>c", ":LeaderfQuickFix<CR>", {noremap = true, silent = true})
 end
 
 M["'kyazdani42/nvim-tree.lua'"] = function()

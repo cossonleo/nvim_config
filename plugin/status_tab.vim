@@ -30,7 +30,7 @@ set stl+=%1*\ [b:%n]%*
 set stl+=%*\ %{get(b:,'cur_short_fname','')}%*
 set stl+=%5*%m%r%h%w%q%*
 set stl+=%*%=%* 		"左右分割
-set stl+=%*%{v:lua.nvim_lsp_status()}\ %*
+set stl+=%*%{v:lua.nvim_lsp_status()}%*
 set stl+=%3*%y%*
 set stl+=%2*\ (%l,%c)%*
 set stl+=%1*\ %{(&fenc!=''?&fenc:&enc)}      "编码1
