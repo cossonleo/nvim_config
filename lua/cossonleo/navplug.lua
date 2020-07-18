@@ -2,7 +2,7 @@ local M = {}
 
 M["'Yggdroot/LeaderF', { 'do': './install.sh' }"] = function()
 	vim.g.Lf_WindowPosition = 'popup'
-	vim.g.Lf_PopupHeight = 0.7
+	vim.g.Lf_PopupHeight = 0.8
 	vim.g.Lf_PopupWidth = 0.5
 	vim.g.Lf_ShortcutF = "<leader><leader>"
 	vim.g.Lf_ShortcutB = "<leader>b"
