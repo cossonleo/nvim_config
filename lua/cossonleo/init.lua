@@ -42,6 +42,8 @@ vim.api.nvim_set_keymap("n", "gr", ":lua require'cossonleo.lsp'.references()<CR>
 vim.api.nvim_set_keymap("n", "gc", ":lua vim.lsp.buf.rename()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gk", ":lua vim.lsp.buf.hover()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gq", ":lua vim.lsp.buf.formatting()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "gs", ":lua require'cossonleo.lsp'.document_symbol()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "gS", ":lua require'cossonleo.lsp'.workspace_symbol()<CR>", {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap("n", "<c-k>", ":lua vim.lsp.buf.signature_help()<CR>", {noremap = true, silent = true})
 
 
