@@ -83,6 +83,8 @@ M["'nvim-lua/lsp-status.nvim'"] = function()
 		status_symbol = '',
 	}
 end
+M["'chrisbra/csv.vim'"] = function()
+end
 
 nvim_lsp_status = function()
 	if #vim.lsp.buf_get_clients() > 0 then

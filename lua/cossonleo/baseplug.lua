@@ -2,7 +2,6 @@
 local M = {}
 
 M["'luochen1990/rainbow'"] = function()
-	vim.g.EasyMotion_do_mapping = 0
 	vim.g.rainbow_active = 1
 end
 
@@ -11,11 +10,10 @@ M["'joshdick/onedark.vim'"] = function()
 	vim.api.nvim_command("colorscheme onedark")
 end
 
-M["'machakann/vim-sandwich'"] = function()
-end
+-- M["'machakann/vim-sandwich'"] = function() end
+M["'tpope/vim-surround'"] = function() end
 
-M["'kshenoy/vim-signature'"] = function()
-end
+M["'kshenoy/vim-signature'"] = function() end
 
 M["'voldikss/vim-floaterm'"] = function()
 	vim.g.floaterm_winblend = 10
@@ -28,27 +26,31 @@ M["'voldikss/vim-floaterm'"] = function()
 	vim.g.floaterm_border_color = "#FFFFFF"
 end
 
-M["'norcalli/nvim-colorizer.lua'"] = function()
-	-- require 'colorizer'.setup()
-	require 'colorizer'.setup(nil, { css = true; })
-end
+M["'norcalli/nvim-colorizer.lua'"] = function() require 'colorizer'.setup(nil, { css = true; }) end
 
-M["'terryma/vim-multiple-cursors'"] = function()
-end
+M["'terryma/vim-multiple-cursors'"] = function() end
 
-M["'whiteinge/diffconflicts'"] = function()
-end
+M["'whiteinge/diffconflicts'"] = function() end
 
-M["'cossonleo/dirdiff.nvim'"] = function()
-end
+M["'cossonleo/dirdiff.nvim'"] = function() end
 
-M["'cossonleo/neo-comment.nvim'"] = function()
-end
+M["'cossonleo/neo-comment.nvim'"] = function() end
 
-M["'cossonleo/neo-smooth-scroll.nvim'"] = function()
+M["'cossonleo/neo-smooth-scroll.nvim'"] = function() end
+
+M["'easymotion/vim-easymotion'"] = function() 
+	-- vim.api.nvim_set_keymap('n', 's', '<Plug>(easymotion-prefix)', {noremap = true, silent = true})
+	-- vim.api.nvim_set_keymap('n', 's', '<Plug>(easymotion-s)', {noremap = true, silent = true})
+	-- vim.api.nvim_exec("nnoremap s <Plug>(easymotion-s)", "")
+
+	vim.g.EasyMotion_do_mapping = 0
+	vim.api.nvim_set_keymap('n', 's', ':call EasyMotion#S(1, 0, 2)<cr>', {noremap = true, silent = true})
+	vim.api.nvim_set_keymap('n', 'g/', ':call EasyMotion#S(-1, 0, 2)<cr>', {noremap = true, silent = true})
+	-- vim.g.EasyMotion_leader_key = "s"
 end
 
 M["'voldikss/vim-translator'"] = function()
+	vim.g.EasyMotion_do_mapping = 0
 	vim.api.nvim_set_keymap('n', '<leader>a', ':TranslateW<CR>', {noremap = true, silent = true})
 end
 
