@@ -18,7 +18,7 @@ M["'kyazdani42/nvim-tree.lua'"] = function()
 	vim.g.lua_tree_auto_close = 1 --0 by default, closes the tree when it's the last window
 	vim.g.lua_tree_follow = 0 --0 by default, this option will bind BufEnter to the LuaTreeFindFile command
 	-- :help LuaTreeFindFile for more info
-	vim.g.lua_tree_show_icons = {git = 0, folders = 0, files = 0 }
+	vim.g.lua_tree_show_icons = {git = 1, folders = 1, files = 1 }
 
 	vim.g.lua_tree_bindings = {
 		edit = '<CR>',
@@ -31,6 +31,11 @@ M["'kyazdani42/nvim-tree.lua'"] = function()
 		rename = 'r',
 	}
 	vim.api.nvim_set_keymap("n", "<leader>e", ":LuaTreeToggle<CR>", {noremap = true, silent = true})
+end
+
+-- nerd-fonts
+M["'kyazdani42/nvim-web-devicons'"] = function()
+
 end
 
 return M
