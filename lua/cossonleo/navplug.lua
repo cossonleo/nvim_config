@@ -19,16 +19,14 @@ M["'kyazdani42/nvim-tree.lua'"] = function()
 	vim.g.lua_tree_follow = 0 --0 by default, this option will bind BufEnter to the LuaTreeFindFile command
 	-- :help LuaTreeFindFile for more info
 	vim.g.lua_tree_show_icons = {git = 1, folders = 1, files = 1 }
+	vim.g.lua_tree_tab_open = 1
 
 	vim.g.lua_tree_bindings = {
-		edit = '<CR>',
-		edit_vsplit = '<C-v>',
-		edit_split = '<C-x>',
-		edit_tab = '<C-t>',
-		cd = '.',
-		create = 'a',
-		remove = 'd',
-		rename = 'r',
+		edit = '<CR>', edit_vsplit = '<C-v>', edit_split = '<C-x>', edit_tab = '<C-t>',
+		toggle_ignored = 'I', toggle_dotfiles = 'H', preview = '<Tab>', cd = '.',
+		create = 'a', remove = 'd', rename = 'r', refresh = 'R',
+		cut = 'x', copy = 'c', paste = 'p',
+		-- prev_git_item = '[c', next_git_item = ']c',
 	}
 	vim.api.nvim_set_keymap("n", "<leader>e", ":LuaTreeToggle<CR>", {noremap = true, silent = true})
 end

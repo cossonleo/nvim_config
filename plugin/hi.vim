@@ -30,7 +30,6 @@ function! GrepHl(prom)
 	call add(ret, [0, len(a:prom), 'PromInputHl'])
 	return ret
 endfunction
-	
 
 "hi User1 guifg=#C678DD gui=bold
 "hi StatusBlue guifg=#61AFEF gui=bold
