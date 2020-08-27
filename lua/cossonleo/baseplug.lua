@@ -36,7 +36,8 @@ M["'cossonleo/dirdiff.nvim'"] = function() end
 
 M["'cossonleo/neo-comment.nvim'"] = function() end
 
-M["'cossonleo/neo-smooth-scroll.nvim'"] = function() end
+-- M["'cossonleo/neo-smooth-scroll.nvim'"] = function() end
+M["'psliwka/vim-smoothie'"] = function() end
 
 M["'easymotion/vim-easymotion'"] = function() 
 	-- vim.api.nvim_set_keymap('n', 's', '<Plug>(easymotion-prefix)', {noremap = true, silent = true})
