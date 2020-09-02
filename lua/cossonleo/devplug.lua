@@ -11,7 +11,11 @@ M["'peterhoeg/vim-qml', {'for':['qml']}"] = function() end
 
 M["'nvim-treesitter/nvim-treesitter'"] = function()
 	require'nvim-treesitter.configs'.setup {
-		highlight = { enable = true, disable = {} },
+		ensure_installed = 'all', -- one of 'all', 'language', or a list of languages
+		highlight = { 
+			enable = true, 
+			disable = {} 
+		},
 		incremental_selection = {
 			enable = true,
 			disable = {},
@@ -22,7 +26,66 @@ M["'nvim-treesitter/nvim-treesitter'"] = function()
 			  node_decremental = "grm",      -- decrement to the previous node
 			}
 		},
-		ensure_installed = 'all' -- one of 'all', 'language', or a list of languages
+		refactor = {
+			highlight_definitions = { enable = false },
+			highlight_current_scope = { enable = false },
+			smart_rename = {
+				enable = false,
+				keymaps = {
+					smart_rename = "grr",
+				},
+			},
+			navigation = {
+				enable = false,
+				keymaps = {
+					goto_definition_lsp_fallback = "gnd",
+					list_definitions = "gnD",
+					goto_next_usage = "]r",
+					goto_previous_usage = "[r",
+				},
+			},
+		},
+		textobjects = {
+			enable = true,
+			select = {
+				enable = true,
+				keymaps = {
+					-- You can use the capture groups defined in textobjects.scm
+					["af"] = "@function.outer",
+					["if"] = "@function.inner",
+					["ac"] = "@class.outer",
+					["ic"] = "@class.inner",
+
+					-- Or you can define your own textobjects like this
+					["iF"] = {
+				--		python = "(function_definition) @function",
+				--		cpp = "(function_definition) @function",
+				--		c = "(function_definition) @function",
+				--		java = "(method_declaration) @function",
+					},
+				},
+			},	
+
+			move = {
+				enable = true,
+				goto_next_start = {
+					["]m"] = "@function.outer",
+					-- ["]]"] = "@class.outer",
+				},
+				goto_next_end = {
+					["]M"] = "@function.outer",
+					-- ["]["] = "@class.outer",
+				},
+				goto_previous_start = {
+					["[m"] = "@function.outer",
+					-- ["[["] = "@class.outer",
+				},
+				goto_previous_end = {
+					["[M"] = "@function.outer",
+					-- ["[]"] = "@class.outer",
+				},
+			},
+		},
 	}
 end
 
@@ -69,7 +132,7 @@ M["'nvim-lua/diagnostic-nvim'"] = function()
 	vim.g.space_before_virtual_text = 5
 	vim.g.diagnostic_enable_underline = 0
 
-	vim.api.nvim_set_keymap('n', ']e',  '<cmd>NextDiagnosticCycle<cr>', {silent = true, noremap = true})
+	vim.api.nvim_set_keymap('n', ']e','<cmd>NextDiagnosticCycle<cr>', {silent = true, noremap = true})
 	vim.api.nvim_set_keymap('n', '[e',  '<cmd>PrevDiagnosticCycle<cr>', {silent = true, noremap = true})
 	vim.api.nvim_set_keymap('n', '<leader>d',  '<cmd>OpenDiagnostic<cr>', {silent = true, noremap = true})
 end
