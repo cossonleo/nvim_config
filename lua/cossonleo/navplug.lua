@@ -1,15 +1,15 @@
 local M = {}
 
-M["'Yggdroot/LeaderF', { 'do': './install.sh' }"] = function()
-	vim.g.Lf_WindowPosition = 'popup'
-	vim.g.Lf_PopupHeight = 0.8
-	vim.g.Lf_PopupWidth = 0.5
-	vim.g.Lf_ShortcutF = "<leader><leader>"
-	vim.g.Lf_ShortcutB = "<leader>b"
-	vim.api.nvim_set_keymap("n", "<leader>t", ":LeaderfBufTag<CR>", {noremap = true, silent = true})
-	vim.api.nvim_set_keymap("n", "<leader>f", ":LeaderfFunction<CR>", {noremap = true, silent = true})
-	vim.api.nvim_set_keymap("n", "<leader>c", ":LeaderfQuickFix<CR>", {noremap = true, silent = true})
-end
+-- M["'Yggdroot/LeaderF', { 'do': './install.sh' }"] = function()
+-- 	vim.g.Lf_WindowPosition = 'popup'
+-- 	vim.g.Lf_PopupHeight = 0.8
+-- 	vim.g.Lf_PopupWidth = 0.5
+-- 	vim.g.Lf_ShortcutF = "<leader><leader>"
+-- 	vim.g.Lf_ShortcutB = "<leader>b"
+-- 	vim.api.nvim_set_keymap("n", "<leader>t", ":LeaderfBufTag<CR>", {noremap = true, silent = true})
+-- 	vim.api.nvim_set_keymap("n", "<leader>f", ":LeaderfFunction<CR>", {noremap = true, silent = true})
+-- 	vim.api.nvim_set_keymap("n", "<leader>c", ":LeaderfQuickFix<CR>", {noremap = true, silent = true})
+-- end
 
 M["'kyazdani42/nvim-tree.lua'"] = function()
 	vim.g.lua_tree_side = 'left' -- left by default
@@ -33,7 +33,15 @@ end
 
 -- nerd-fonts
 M["'kyazdani42/nvim-web-devicons'"] = function()
-
+end
+--M["'cossonleo/easyfind.nvim'"] = function()
+--end
+M["'nvim-lua/popup.nvim'"]  = function() end
+M["'nvim-lua/plenary.nvim'"] = function() end
+M["'nvim-lua/telescope.nvim'"] = function() 
+ 	vim.api.nvim_set_keymap("n", "<leader>g", ":lua require'telescope.builtin'.grep_string{}<cr>", {noremap = true, silent = true})
+ 	vim.api.nvim_set_keymap("n", "<leader>b", ":lua require'telescope.builtin'.buffers{}<CR>", {noremap = true, silent = true})
+ 	vim.api.nvim_set_keymap("n", "<leader><leader>", ":lua require'telescope.builtin'.find_files{}<CR>", {noremap = true, silent = true})
 end
 
 return M
