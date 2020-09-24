@@ -2,19 +2,20 @@
 
 local M = {}
 
--- function M.grep_dir()
--- 	local default = vim.fn.expand('<cword>')
--- 	vim.api.nvim_command("echohl PromHl")
--- 	vim.fn.inputsave()
--- 	local input = vim.fn.input({prompt = 'rg> ', default = default, highlight = 'GrepHl'})
--- 	vim.fn.inputrestore()
--- 	vim.api.nvim_command("echohl None")
--- 
--- 	if #input == 0 then
--- 	    return
--- 	end
--- 	vim.api.nvim_command('Leaderf rg ' .. input)
--- end
+function M.grep_dir()
+	local default = vim.fn.expand('<cword>')
+	vim.api.nvim_command("echohl PromHl")
+	vim.fn.inputsave()
+	local input = vim.fn.input({prompt = 'rg> ', highlight = 'GrepHl'})
+	vim.fn.inputrestore()
+	vim.api.nvim_command("echohl None")
+
+	local opt = nil
+	if #input > 0 then
+		opt = { search = input }
+	end
+	require'telescope.builtin'.grep_string(opt)
+end
 
 M.add = function(plug_table)
 	local plugs = {}

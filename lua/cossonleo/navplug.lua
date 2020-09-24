@@ -39,7 +39,11 @@ end
 M["'nvim-lua/popup.nvim'"]  = function() end
 M["'nvim-lua/plenary.nvim'"] = function() end
 M["'nvim-lua/telescope.nvim'"] = function() 
- 	vim.api.nvim_set_keymap("n", "<leader>g", ":lua require'telescope.builtin'.grep_string{}<cr>", {noremap = true, silent = true})
+	local config = require'telescope.config'
+	config.values['layout_strategy'] = 'center'
+	config.values['sorting_strategy'] = "ascending"
+	config.values['selection_strategy'] = 'reset'
+ 	-- vim.api.nvim_set_keymap("n", "<leader>g", ":lua require'telescope.builtin'.grep_string{}<cr>", {noremap = true, silent = true})
  	vim.api.nvim_set_keymap("n", "<leader>b", ":lua require'telescope.builtin'.buffers{}<CR>", {noremap = true, silent = true})
  	vim.api.nvim_set_keymap("n", "<leader><leader>", ":lua require'telescope.builtin'.find_files{}<CR>", {noremap = true, silent = true})
 end

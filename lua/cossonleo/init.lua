@@ -34,7 +34,7 @@ vim.api.nvim_set_keymap("t", "<c-w>j", "<c-\\><c-N><c-w>j", {noremap = true})
 vim.api.nvim_set_keymap("t", "<c-w>k", "<c-\\><c-N><c-w>k", {noremap = true})
 vim.api.nvim_set_keymap("t", "<c-w>l", "<c-\\><c-N><c-w>l", {noremap = true})
 
--- vim.api.nvim_set_keymap("n", "<leader>g", ":lua require('cossonleo.delay').grep_dir()<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>g", ":lua require('cossonleo.delay').grep_dir()<cr>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gD", ":lua vim.lsp.buf.implementation()<CR>", {noremap = true, silent = true})
