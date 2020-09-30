@@ -38,14 +38,22 @@ end
 --end
 M["'nvim-lua/popup.nvim'"]  = function() end
 M["'nvim-lua/plenary.nvim'"] = function() end
-M["'nvim-lua/telescope.nvim'"] = function() 
-	local config = require'telescope.config'
-	config.values['layout_strategy'] = 'center'
-	config.values['sorting_strategy'] = "ascending"
-	config.values['selection_strategy'] = 'reset'
+M["'cossonleo/telescope.nvim'"] = function() 
+	local config = require'telescope.config'.values
+	local map_i = config.default_mappings.i
+	local actions = require('telescope.actions')
+
+	config.layout_strategy = 'vertical'
+--	config.layout_strategy = 'center'
+--	config.sorting_strategy = "ascending"
+	config.selection_strategy = 'reset'
+	map_i["<C-j>"] = actions.move_selection_next
+	map_i["<C-k>"] = actions.move_selection_previous
+	map_i["<esc>"] = actions.close
  	-- vim.api.nvim_set_keymap("n", "<leader>g", ":lua require'telescope.builtin'.grep_string{}<cr>", {noremap = true, silent = true})
  	vim.api.nvim_set_keymap("n", "<leader>b", ":lua require'telescope.builtin'.buffers{}<CR>", {noremap = true, silent = true})
  	vim.api.nvim_set_keymap("n", "<leader><leader>", ":lua require'telescope.builtin'.find_files{}<CR>", {noremap = true, silent = true})
+ 	vim.api.nvim_set_keymap("n", "<leader>f", ":lua require'telescope.builtin'.list_func{}<CR>", {noremap = true, silent = true})
 end
 
 return M
