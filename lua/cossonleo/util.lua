@@ -26,15 +26,43 @@ M.update_current_file_size = function()
 
 end
 
+local cquery = nil
+local ft = ""
+
 function M.statusline()
-	local cquery = queries.get_query(vim.bo.filetype, 'locals')
+	local cur_ft = vim.bo.filetype
+	if ft ~=  cur_ft then
+		ft = cur_ft
+		cquery = queries.get_query(ft, 'locals')
+	end
 	if not cquery then
-		print("cquery is nil" .. vim.bo.filetype)
 		return ""
 	end
 
 	local current_node = nil
 	local cur_line = nil
+
+	local check_match = function(name)
+		if not name then
+			return nil
+		end
+		if name == "definition.function" then
+			return "F"
+		end
+		if name == "definition.method" then
+			return "F"
+		end
+		if name == "definition.type" then
+			return "T"
+		end
+		if name == "definition.macro" then
+			return "M"
+		end
+		if name == "definition.namespace" then
+			return "N"
+		end
+		return nil
+	end
 
 	local search = function()
 		local cur_start, _, _ = current_node:start()
@@ -45,9 +73,10 @@ function M.statusline()
 					return nil
 				end
 
-				local name = cquery.captures[id] -- name of the capture in the query
-				if name and (name == "definition.function" or name == "definition.method") then
-					return ts_utils.get_node_text(node, 0)[1] or ""
+				local t = check_match(cquery.captures[id]) -- name of the capture in the query
+				if t then
+					local text = ts_utils.get_node_text(node, 0)[1] or ""
+					return t .. ":" .. text
 				end
 			end
 		end
