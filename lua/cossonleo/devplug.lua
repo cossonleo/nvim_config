@@ -5,7 +5,7 @@ local on_attach = function(client)
 	require('lsp-status').on_attach(client)
 end
 
-M["'cespare/vim-toml', {'for': ['toml']}"] = function() end
+--M["'cespare/vim-toml', {'for': ['toml']}"] = function() end
 
 M["'peterhoeg/vim-qml', {'for':['qml']}"] = function() end
 
