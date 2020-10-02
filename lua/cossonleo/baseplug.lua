@@ -5,6 +5,10 @@ M["'luochen1990/rainbow'"] = function()
 	vim.g.rainbow_active = 1
 end
 
+--M["'overcache/NeoSolarized'"] = function()
+--	vim.api.nvim_command("colorscheme NeoSolarized")
+--end
+
 M["'joshdick/onedark.vim'"] = function()
 	vim.g.onedark_color_overrides = {black = {gui = "#000000", cterm = "235", cterm16 = 0}}
 	vim.api.nvim_command("colorscheme onedark")
@@ -45,8 +49,8 @@ M["'easymotion/vim-easymotion'"] = function()
 	-- vim.api.nvim_exec("nnoremap s <Plug>(easymotion-s)", "")
 
 	vim.g.EasyMotion_do_mapping = 0
-	vim.api.nvim_set_keymap('n', 's', ':call EasyMotion#S(1, 0, 2)<cr>', {noremap = true, silent = true})
-	vim.api.nvim_set_keymap('n', 'g/', ':call EasyMotion#S(-1, 0, 2)<cr>', {noremap = true, silent = true})
+	-- vim.api.nvim_set_keymap('n', 's', ':call EasyMotion#S(1, 0, 2)<cr>', {noremap = true, silent = true})
+	vim.api.nvim_set_keymap('n', '/', ':call EasyMotion#S(-1, 0, 2)<cr>', {noremap = true, silent = true})
 	-- vim.g.EasyMotion_leader_key = "s"
 end
 

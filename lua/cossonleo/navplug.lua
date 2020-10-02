@@ -54,6 +54,10 @@ M["'cossonleo/telescope.nvim'"] = function()
  	vim.api.nvim_set_keymap("n", "<leader>b", ":lua require'telescope.builtin'.buffers{}<CR>", {noremap = true, silent = true})
  	vim.api.nvim_set_keymap("n", "<leader><leader>", ":lua require'telescope.builtin'.find_files{}<CR>", {noremap = true, silent = true})
  	vim.api.nvim_set_keymap("n", "<leader>f", ":lua require'telescope.builtin'.list_func{}<CR>", {noremap = true, silent = true})
+	vim.api.nvim_set_keymap("n", "<leader>r", ":lua require'telescope.builtin'.lsp_references{}<CR>", {noremap = true, silent = true})
+	vim.api.nvim_set_keymap("n", "<leader>s", ":lua require'telescope.builtin'.lsp_document_symbols{}<CR>", {noremap = true, silent = true})
+	vim.api.nvim_set_keymap("n", "<leader>S", ":lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>", {noremap = true, silent = true})
+	vim.api.nvim_set_keymap("n", "<leader>g", ":lua require('cossonleo.delay').grep_dir()<cr>", {noremap = true})
 end
 
 return M

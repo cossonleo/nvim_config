@@ -2,12 +2,10 @@ local M = {}
 
 local on_attach = function(client)
 	require('diagnostic').on_attach(client)
-	require('lsp-status').on_attach(client)
+	-- require('lsp-status').on_attach(client)
 end
 
---M["'cespare/vim-toml', {'for': ['toml']}"] = function() end
-
-M["'peterhoeg/vim-qml', {'for':['qml']}"] = function() end
+-- M["'peterhoeg/vim-qml', {'for':['qml']}"] = function() end
 
 M["'nvim-treesitter/nvim-treesitter'"] = function()
 	require'nvim-treesitter.configs'.setup {
@@ -20,8 +18,8 @@ M["'nvim-treesitter/nvim-treesitter'"] = function()
 			enable = true,
 			disable = {},
 			keymaps = {                       -- mappings for incremental selection (visual mappings)
-			  init_selection = 'gnn',         -- maps in normal mode to init the node/scope selection
-			  node_incremental = "grn",       -- increment to the upper named parent
+			  init_selection = 'gn',         -- maps in normal mode to init the node/scope selection
+			  node_incremental = "gn",       -- increment to the upper named parent
 			  scope_incremental = "grc",      -- increment to the upper scope (as defined in locals.scm)
 			  node_decremental = "grm",      -- decrement to the previous node
 			}
@@ -150,11 +148,12 @@ M["'chrisbra/csv.vim'"] = function()
 end
 
 nvim_lsp_status = function()
-	if #vim.lsp.buf_get_clients() > 0 then
-		return require('lsp-status').status()
-	end
-
-	return ''
+--	if #vim.lsp.buf_get_clients() > 0 then
+--		return require('lsp-status').status()
+--	end
+--
+--	return ''
+--	require'cossonleo.util'.statusline()
 end
 
 return M

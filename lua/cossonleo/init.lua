@@ -34,16 +34,12 @@ vim.api.nvim_set_keymap("t", "<c-w>j", "<c-\\><c-N><c-w>j", {noremap = true})
 vim.api.nvim_set_keymap("t", "<c-w>k", "<c-\\><c-N><c-w>k", {noremap = true})
 vim.api.nvim_set_keymap("t", "<c-w>l", "<c-\\><c-N><c-w>l", {noremap = true})
 
-vim.api.nvim_set_keymap("n", "<leader>g", ":lua require('cossonleo.delay').grep_dir()<cr>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gD", ":lua vim.lsp.buf.implementation()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "gr", ":lua require'telescope.builtin'.lsp_references{}<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gc", ":lua vim.lsp.buf.rename()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gk", ":lua vim.lsp.buf.hover()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gq", ":lua vim.lsp.buf.formatting()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "gs", ":lua require'telescope.builtin'.lsp_document_symbols{}<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "gS", ":lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>", {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap("n", "<c-k>", ":lua vim.lsp.buf.signature_help()<CR>", {noremap = true, silent = true})
 
 
