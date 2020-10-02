@@ -1,13 +1,44 @@
+
 local M = {}
 
-local on_attach = function(client)
+local on_attch = function(client)
 	require('diagnostic').on_attach(client)
 	-- require('lsp-status').on_attach(client)
 end
 
--- M["'peterhoeg/vim-qml', {'for':['qml']}"] = function() end
+function M.rainbow()
+	vim.g.rainbow_active = 1
+end
 
-M["'nvim-treesitter/nvim-treesitter'"] = function()
+function M.vim_easymotion()
+	vim.g.EasyMotion_do_mapping = 0
+	vim.api.nvim_set_keymap('n', '/', ':call EasyMotion#S(-1, 0, 2)<cr>', {noremap = true, silent = true})
+end
+function M.onedark()
+	vim.g.onedark_color_overrides = {black = {gui = "#000000", cterm = "235", cterm16 = 0}}
+	vim.cmd[[ colorscheme onedark ]]
+end
+function M.vim_floaterm()
+	vim.g.floaterm_winblend = 10
+	vim.g.floaterm_width = 0.7
+	vim.g.floaterm_height = 0.8
+	vim.g.floaterm_position = 'center'
+	vim.g.floaterm_keymap_toggle = '<F4>'
+	vim.g.floaterm_keymap_new    = '<leader><F4>'
+	vim.g.floaterm_keymap_next   = '<F16>'
+	vim.g.floaterm_border_color = "#FFFFFF"
+end
+
+function M.nvim_colorizer()
+	require 'colorizer'.setup(nil, { css = true; })
+end
+
+function M.vim_translator()
+	vim.g.EasyMotion_do_mapping = 0
+	vim.api.nvim_set_keymap('n', '<leader>a', ':TranslateW<CR>', {noremap = true, silent = true})
+end
+
+function M.nvim_treesitter()
 	require'nvim-treesitter.configs'.setup {
 		ensure_installed = 'all', -- one of 'all', 'language', or a list of languages
 		highlight = { 
@@ -87,7 +118,7 @@ M["'nvim-treesitter/nvim-treesitter'"] = function()
 	}
 end
 
-M["'neovim/nvim-lsp'"] = function()
+function M.nvim_lsp()
 	require('vim.lsp.log').set_level(4)
 	local lsp_status = require('lsp-status')
 	local nvim_lsp = require('nvim_lsp')
@@ -112,18 +143,12 @@ M["'neovim/nvim-lsp'"] = function()
 	}
 end
 
-M["'jiangmiao/auto-pairs'"] = function()
-end
-
-M["'cossonleo/nvim-completor'"] = function()
-end
-
-M["'Shougo/echodoc.vim'"] = function()
+function M.echodoc()
 	vim.g['echodoc#enable_at_startup'] = 1
 	vim.g['echodoc#type'] = "floating"
 end
 
-M["'nvim-lua/diagnostic-nvim'"] = function()
+function M.diagnostic_nvim()
 	vim.g.diagnostic_insert_delay = 1
 	vim.g.diagnostic_enable_virtual_text = 1
 	vim.g.space_before_virtual_text = 5
@@ -135,7 +160,7 @@ M["'nvim-lua/diagnostic-nvim'"] = function()
 	vim.api.nvim_set_keymap('n', '<leader>d',  '<cmd>OpenDiagnostic<cr>', {silent = true, noremap = true})
 end
 
-M["'nvim-lua/lsp-status.nvim'"] = function()
+function M.lsp_status()
 	local lsp_status = require('lsp-status')
 	lsp_status.register_progress()
 	lsp_status.config{
@@ -144,16 +169,46 @@ M["'nvim-lua/lsp-status.nvim'"] = function()
 		status_symbol = '',
 	}
 end
-M["'chrisbra/csv.vim'"] = function()
+
+function M.nvim_tree()
+	vim.g.lua_tree_side = 'left' -- left by default
+	vim.g.lua_tree_size = 40 --30 by default
+	vim.g.lua_tree_ignore = { '.git', 'node_modules', '.cache' } --empty by default, not working on mac atm
+	vim.g.lua_tree_auto_close = 1 --0 by default, closes the tree when it's the last window
+	vim.g.lua_tree_follow = 0 --0 by default, this option will bind BufEnter to the LuaTreeFindFile command
+	-- :help LuaTreeFindFile for more info
+	vim.g.lua_tree_show_icons = {git = 1, folders = 1, files = 1 }
+	vim.g.lua_tree_tab_open = 1
+
+	vim.g.lua_tree_bindings = {
+		edit = '<CR>', edit_vsplit = '<C-v>', edit_split = '<C-x>', edit_tab = '<C-t>',
+		toggle_ignored = 'I', toggle_dotfiles = 'H', preview = '<Tab>', cd = '.',
+		create = 'a', remove = 'd', rename = 'r', refresh = 'R',
+		cut = 'x', copy = 'c', paste = 'p',
+		-- prev_git_item = '[c', next_git_item = ']c',
+	}
+	vim.api.nvim_set_keymap("n", "<leader>e", ":LuaTreeToggle<CR>", {noremap = true, silent = true})
 end
 
-nvim_lsp_status = function()
---	if #vim.lsp.buf_get_clients() > 0 then
---		return require('lsp-status').status()
---	end
---
---	return ''
---	require'cossonleo.util'.statusline()
+function M.telescope()
+	local config = require'telescope.config'.values
+	local map_i = config.default_mappings.i
+	local actions = require('telescope.actions')
+
+	config.layout_strategy = 'vertical'
+--	config.layout_strategy = 'center'
+--	config.sorting_strategy = "ascending"
+	config.selection_strategy = 'reset'
+	map_i["<C-j>"] = actions.move_selection_next
+	map_i["<C-k>"] = actions.move_selection_previous
+	map_i["<esc>"] = actions.close
+ 	vim.api.nvim_set_keymap("n", "<leader>b", ":lua require'telescope.builtin'.buffers{}<CR>", {noremap = true, silent = true})
+ 	vim.api.nvim_set_keymap("n", "<leader><leader>", ":lua require'telescope.builtin'.find_files{}<CR>", {noremap = true, silent = true})
+ 	vim.api.nvim_set_keymap("n", "<leader>f", ":lua require'telescope.builtin'.list_func{}<CR>", {noremap = true, silent = true})
+	vim.api.nvim_set_keymap("n", "<leader>r", ":lua require'telescope.builtin'.lsp_references{}<CR>", {noremap = true, silent = true})
+	vim.api.nvim_set_keymap("n", "<leader>s", ":lua require'telescope.builtin'.lsp_document_symbols{}<CR>", {noremap = true, silent = true})
+	vim.api.nvim_set_keymap("n", "<leader>S", ":lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>", {noremap = true, silent = true})
+	vim.api.nvim_set_keymap("n", "<leader>g", ":lua require('cossonleo.delay').grep_dir()<cr>", {noremap = true})
 end
 
 return M

@@ -1,8 +1,5 @@
 let s:config_home = stdpath("config")
 
-lua my_init_lua = require 'cossonleo'
-
- 
 " 打开时光标放在上次退出时的位置
 autocmd BufReadPost *
 \ if line("'\"") > 0 && line ("'\"") <= line("$") |
@@ -26,8 +23,11 @@ if &term =~# '^screen'
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
+lua require'plugins'
+lua my_init_lua = require 'cossonleo'
+
 """""""""""""""""""""""下面时插件设置"""""""""""""""""""""''"""
-call plug#begin(s:config_home . "/plugged")
-doautocmd User PlugAddEvent
-call plug#end()
-doautocmd User PlugEndEvent
+"call plug#begin(s:config_home . "/plugged")
+"doautocmd User PlugAddEvent
+"call plug#end()
+"doautocmd User PlugEndEvent

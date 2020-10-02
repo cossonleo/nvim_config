@@ -10,6 +10,7 @@
 "au BufRead,BufEnter,BufWritePost,BufCreate * call SetStl()
 "au BufRead,BufWritePost,BufCreate * call SetStl()
 "au FileType * call SetStl()
+finish
 
 if exists("s:is_loaded")
 	finish
