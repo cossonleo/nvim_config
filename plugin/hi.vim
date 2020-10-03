@@ -1,14 +1,15 @@
-finish
 if exists("s:is_loaded")
 	finish
 endif
 let s:is_loaded = 1
 
-let s:onedark_colors = onedark#GetColors()
+if get(g:, "colors_name", "") == "onedark"
+	let s:onedark_colors = onedark#GetColors()
 
-"hi PromInputHl gui=bold guifg=#cb4b16 guibg=#1A1A1A
-hi PromInputHl gui=bold
-exe "hi PromHl guibg=#000000 guifg=" . s:onedark_colors.blue.gui . " gui=bold"
+	"hi PromInputHl gui=bold guifg=#cb4b16 guibg=#1A1A1A
+	hi PromInputHl gui=bold
+	exe "hi PromHl guibg=#000000 guifg=" . s:onedark_colors.blue.gui . " gui=bold"
+endif
 
 hi NormalFloat guibg=#1A1A1A
 hi DeniteCL guibg=#3D3D3D

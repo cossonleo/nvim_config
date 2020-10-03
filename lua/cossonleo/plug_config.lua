@@ -1,4 +1,3 @@
-
 local M = {}
 
 local on_attch = function(client)
@@ -12,7 +11,7 @@ end
 
 function M.vim_easymotion()
 	vim.g.EasyMotion_do_mapping = 0
-	vim.api.nvim_set_keymap('n', '/', ':call EasyMotion#S(-1, 0, 2)<cr>', {noremap = true, silent = true})
+	vim.cmd[[ nnoremap <silent> / :call EasyMotion#S(-1, 0, 2)<cr> ]]
 end
 function M.onedark()
 	vim.g.onedark_color_overrides = {black = {gui = "#000000", cterm = "235", cterm16 = 0}}
@@ -35,10 +34,11 @@ end
 
 function M.vim_translator()
 	vim.g.EasyMotion_do_mapping = 0
-	vim.api.nvim_set_keymap('n', '<leader>a', ':TranslateW<CR>', {noremap = true, silent = true})
+	vim.cmd[[ nnoremap <silent> <leader>a :TranslateW<CR> ]]
 end
 
 function M.nvim_treesitter()
+	vim.g.nvim_treesitter = true
 	require'nvim-treesitter.configs'.setup {
 		ensure_installed = 'all', -- one of 'all', 'language', or a list of languages
 		highlight = { 
@@ -155,9 +155,9 @@ function M.diagnostic_nvim()
 	vim.g.space_before_virtual_text = 5
 	vim.g.diagnostic_enable_underline = 0
 
-	vim.api.nvim_set_keymap('n', ']e','<cmd>NextDiagnosticCycle<cr>', {silent = true, noremap = true})
-	vim.api.nvim_set_keymap('n', '[e',  '<cmd>PrevDiagnosticCycle<cr>', {silent = true, noremap = true})
-	vim.api.nvim_set_keymap('n', '<leader>d',  '<cmd>OpenDiagnostic<cr>', {silent = true, noremap = true})
+	vim.cmd[[ nnoremap <silent> ]e <cmd>NextDiagnosticCycle<cr> ]]
+	vim.cmd[[ nnoremap <silent> [e <cmd>PrevDiagnosticCycle<cr> ]]
+	vim.cmd[[ nnoremap <silent> <leader>d <cmd>OpenDiagnostic<cr> ]]
 end
 
 function M.lsp_status()
@@ -187,10 +187,13 @@ function M.nvim_tree()
 		cut = 'x', copy = 'c', paste = 'p',
 		-- prev_git_item = '[c', next_git_item = ']c',
 	}
-	vim.api.nvim_set_keymap("n", "<leader>e", ":LuaTreeToggle<CR>", {noremap = true, silent = true})
+	-- vim.api.nvim_set_keymap("n", "<leader>e", ":LuaTreeToggle<CR>", {noremap = true, silent = true})
+	vim.cmd[[ nnoremap <silent> <leader>e :LuaTreeToggle<CR> ]]
+	vim.cmd[[ autocmd UIEnter * lua vim.g.lua_tree_auto_open = 1 ]]
 end
 
 function M.telescope()
+	vim.g.telescope = true
 	local config = require'telescope.config'.values
 	local map_i = config.default_mappings.i
 	local actions = require('telescope.actions')
@@ -202,13 +205,14 @@ function M.telescope()
 	map_i["<C-j>"] = actions.move_selection_next
 	map_i["<C-k>"] = actions.move_selection_previous
 	map_i["<esc>"] = actions.close
- 	vim.api.nvim_set_keymap("n", "<leader>b", ":lua require'telescope.builtin'.buffers{}<CR>", {noremap = true, silent = true})
- 	vim.api.nvim_set_keymap("n", "<leader><leader>", ":lua require'telescope.builtin'.find_files{}<CR>", {noremap = true, silent = true})
- 	vim.api.nvim_set_keymap("n", "<leader>f", ":lua require'telescope.builtin'.list_func{}<CR>", {noremap = true, silent = true})
-	vim.api.nvim_set_keymap("n", "<leader>r", ":lua require'telescope.builtin'.lsp_references{}<CR>", {noremap = true, silent = true})
-	vim.api.nvim_set_keymap("n", "<leader>s", ":lua require'telescope.builtin'.lsp_document_symbols{}<CR>", {noremap = true, silent = true})
-	vim.api.nvim_set_keymap("n", "<leader>S", ":lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>", {noremap = true, silent = true})
-	vim.api.nvim_set_keymap("n", "<leader>g", ":lua require('cossonleo.delay').grep_dir()<cr>", {noremap = true})
+
+ 	vim.cmd[[ nnoremap <silent> <leader>b :lua require'telescope.builtin'.buffers{}<CR> ]]
+ 	vim.cmd[[ nnoremap <silent> <leader><leader> :lua require'telescope.builtin'.find_files{}<CR> ]]
+	vim.cmd[[ nnoremap <silent> <leader>f :lua require'telescope.builtin'.list_func()<CR> ]]
+	vim.cmd[[ nnoremap <silent> <leader>r :lua require'telescope.builtin'.lsp_references()<CR> ]]
+	vim.cmd[[ nnoremap <silent> <leader>s :lua require'telescope.builtin'.lsp_document_symbols{}<CR> ]]
+	vim.cmd[[ nnoremap <silent> <leader>S :lua require'telescope.builtin'.lsp_workspace_symbols{}<CR> ]]
+	vim.cmd[[ nnoremap <silent> <leader>g :lua require('cossonleo.util').grep_dir()<cr> ]]
 end
 
 return M

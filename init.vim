@@ -23,11 +23,4 @@ if &term =~# '^screen'
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-lua require'plugins'
-lua my_init_lua = require 'cossonleo'
-
-"""""""""""""""""""""""下面时插件设置"""""""""""""""""""""''"""
-"call plug#begin(s:config_home . "/plugged")
-"doautocmd User PlugAddEvent
-"call plug#end()
-"doautocmd User PlugEndEvent
+lua require 'cossonleo'

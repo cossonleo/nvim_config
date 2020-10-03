@@ -1,10 +1,3 @@
-
-local queries = require'nvim-treesitter.query'
---local parser = vim.treesitter.get_parser(0, "rust")
---local tstree = parser:parse()
---local root = tstree:root()
-local ts_utils = require 'nvim-treesitter.ts_utils'
-
 M = {}
 
 M.update_current_file_size = function()
@@ -27,13 +20,20 @@ M.update_current_file_size = function()
 end
 
 local cquery = nil
-local ft = ""
+local filetype = ""
 
 function M.statusline()
+	if not vim.g.nvim_treesitter then
+		return
+	end
+
+	local queries = require'nvim-treesitter.query'
+	local ts_utils = require 'nvim-treesitter.ts_utils'
+
 	local cur_ft = vim.bo.filetype
-	if ft ~=  cur_ft then
-		ft = cur_ft
-		cquery = queries.get_query(ft, 'locals')
+	if filetype ~=  cur_ft then
+		filetype = cur_ft
+		cquery = queries.get_query(filetype, 'locals')
 	end
 	if not cquery then
 		return ""
@@ -95,6 +95,25 @@ function M.statusline()
 			return ret
 		end
 	until(false)
+end
+
+function M.grep_dir()
+	if not vim.g.telescope then
+		print("not install telescope")
+		return
+	end
+	local default = vim.fn.expand('<cword>')
+	vim.api.nvim_command("echohl PromHl")
+	vim.fn.inputsave()
+	local input = vim.fn.input({prompt = 'rg> ', highlight = 'GrepHl'})
+	vim.fn.inputrestore()
+	vim.api.nvim_command("echohl None")
+
+	local opt = nil
+	if #input > 0 then
+		opt = { search = input }
+	end
+	require'telescope.builtin'.grep_string(opt)
 end
 
 return M

@@ -3,3 +3,5 @@ dein
 .netrwbook
 .netrwhist
 coc
+nvim_pkg
+plugin/packer_compiled.vim

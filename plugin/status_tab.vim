@@ -10,7 +10,6 @@
 "au BufRead,BufEnter,BufWritePost,BufCreate * call SetStl()
 "au BufRead,BufWritePost,BufCreate * call SetStl()
 "au FileType * call SetStl()
-finish
 
 if exists("s:is_loaded")
 	finish
@@ -18,7 +17,7 @@ endif
 let s:is_loaded = 1
 
 au FileType netrw,LuaTree setl stl=%*\ line:%l/%L
-au BufWritePost,BufReadPost * lua require'cossonleo.util'.update_current_file_size()
+au BufWritePost,BufReadPost * lua require'cossonleo'.update_current_file_size()
 au BufWritePost,BufReadPost * call s:get_short_fname()
 
 
@@ -27,7 +26,7 @@ func! s:get_short_fname()
 endfunc
 
 function! TsStatusLine() abort
-  return luaeval("require'cossonleo.util'.statusline()")
+  return luaeval("require'cossonleo'.statusline()")
 endfunction
 
 set stl=%4*%{get(b:,'current_file_size','')}/%L%*
