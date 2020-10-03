@@ -22,11 +22,9 @@ end
 local cquery = nil
 local filetype = ""
 
-function M.statusline()
-	if not vim.g.nvim_treesitter then
-		print("not install nvim_treesitter")
-		return
-	end
+function M.ts_stl()
+	local has_ts, _ = pcall(require, 'nvim-treesitter')
+	if not has_ts then return "" end
 
 	local queries = require'nvim-treesitter.query'
 	local ts_utils = require 'nvim-treesitter.ts_utils'
@@ -100,8 +98,9 @@ function M.statusline()
 end
 
 function M.grep_dir()
-	if not vim.g.telescope then
-		print("not install telescope")
+	local has_tl, _ = pcall(require, 'telescope')
+	if not has_tl then
+		print("not installed telescope")
 		return
 	end
 	local default = vim.fn.expand('<cword>')
@@ -116,6 +115,83 @@ function M.grep_dir()
 		opt = { search = input }
 	end
 	require'telescope.builtin'.grep_string(opt)
+end
+
+local spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' }
+function M.lsp_info()
+	local has_ls, ls = pcall(require, 'lsp-status')
+	if not has_ls then return "" end
+
+  if #vim.lsp.buf_get_clients() == 0 then
+    return ''
+  end
+
+  local buf_diagnostics = ls.diagnostics()
+  local buf_messages = ls.messages()
+  local only_hint = true
+  local some_diagnostics = false
+  local status_parts = {}
+  if buf_diagnostics.errors and buf_diagnostics.errors > 0 then
+    table.insert(status_parts, 'E' .. ' ' .. buf_diagnostics.errors)
+    only_hint = false
+    some_diagnostics = true
+  end
+
+  if buf_diagnostics.warnings and buf_diagnostics.warnings > 0 then
+    table.insert(status_parts, 'W' .. ' ' .. buf_diagnostics.warnings)
+    only_hint = false
+    some_diagnostics = true
+  end
+
+  if buf_diagnostics.info and buf_diagnostics.info > 0 then
+    table.insert(status_parts, 'I' .. ' ' .. buf_diagnostics.info)
+    only_hint = false
+    some_diagnostics = true
+  end
+
+  if buf_diagnostics.hints and buf_diagnostics.hints > 0 then
+    table.insert(status_parts, 'H' .. ' ' .. buf_diagnostics.hints)
+    some_diagnostics = true
+  end
+
+  local msgs = {}
+  for _, msg in ipairs(buf_messages) do
+    local name = msg.name
+    local client_name = '[' .. name .. ']'
+    local contents = ''
+    if msg.progress then
+      contents = msg.title
+      if msg.message then
+        contents = contents .. ' ' .. msg.message
+      end
+
+      if msg.percentage then
+        contents = contents .. ' (' .. msg.percentage .. ')'
+      end
+
+      if msg.spinner then
+        contents = spinner_frames[(msg.spinner % #spinner_frames) + 1] .. ' ' .. contents
+      end
+    elseif msg.status then
+      contents = msg.content
+      if msg.uri then
+        local filename = vim.uri_to_fname(msg.uri)
+        filename = vim.fn.fnamemodify(filename, ':~:.')
+        local space = math.min(60, math.floor(0.6 * vim.fn.winwidth(0)))
+        if #filename > space then
+          filename = vim.fn.pathshorten(filename)
+        end
+
+        contents = '(' .. filename .. ') ' .. contents
+      end
+    else
+      contents = msg.content
+    end
+
+    table.insert(msgs, client_name .. ' ' .. contents)
+  end
+
+  return vim.trim(table.concat(status_parts, ' ') .. ' ' .. table.concat(msgs, ' '))
 end
 
 return M

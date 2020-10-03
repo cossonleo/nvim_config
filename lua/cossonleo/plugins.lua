@@ -37,7 +37,8 @@ use { 'Shougo/echodoc.vim', config = config.echodoc }
 use { 'nvim-lua/diagnostic-nvim', config = config.diagnostic_nvim }
 use { 'nvim-lua/lsp-status.nvim', config = config.lsp_status }
 use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
-use { 'cossonleo/telescope.nvim', config = config.telescope }
+-- use { 'cossonleo/telescope.nvim', config = config.telescope }
+use { 'nvim-lua/telescope.nvim', config = config.telescope }
 
 vim.cmd [[command! PackerInstall  lua require('packer').install()]]
 vim.cmd [[command! PackerUpdate   lua require('packer').update()]]

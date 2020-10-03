@@ -44,13 +44,18 @@ require'cossonleo.plugins'
 
 local M = {}
 
-function M.statusline()
-	return require'cossonleo.util'.statusline()
+function M.ts_stl()
+	return require'cossonleo.util'.ts_stl()
 end
 
 function M.update_current_file_size()
 	require'cossonleo.util'.update_current_file_size()
 end
+
+function M.lsp_info()
+	return require'cossonleo.util'.lsp_info()
+end
+
 return M
 
 

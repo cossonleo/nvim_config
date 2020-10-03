@@ -26,7 +26,11 @@ func! s:get_short_fname()
 endfunc
 
 function! TsStatusLine() abort
-  return luaeval("require'cossonleo'.statusline()")
+  return luaeval("require'cossonleo'.ts_stl()")
+endfunction
+
+function! LspInfoStl() abort
+  return luaeval("require'cossonleo'.lsp_info()")
 endfunction
 
 hi link User3  CursorLine
@@ -35,7 +39,7 @@ set stl+=%3*\ [b:%n]%*
 set stl+=%3*\ %{get(b:,'cur_short_fname','')}%*
 set stl+=%3*%m%r%h%w%q%*
 set stl+=%3*%=%* 		"左右分割
-"set stl+=%*%{v:lua.nvim_lsp_status()}%*
+set stl+=%*%{LspInfoStl()}\ %*
 set stl+=%3*%{TsStatusLine()}\ %*
 set stl+=%3*%y%*
 set stl+=%3*\ (%l,%c)%*

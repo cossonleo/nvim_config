@@ -1,8 +1,10 @@
 local M = {}
 
 local on_attch = function(client)
-	require('diagnostic').on_attach(client)
-	-- require('lsp-status').on_attach(client)
+	local has_d, d = pcall(require, 'diagnostic')
+	if has_d then d.on_attach(client) end
+	local has_s, s = pcall(require, 'lsp-status')
+	if has_s then s.on_attach(client) end
 end
 
 function M.rainbow()
@@ -38,7 +40,6 @@ function M.vim_translator()
 end
 
 function M.nvim_treesitter()
-	vim.g.nvim_treesitter = true
 	require'nvim-treesitter.configs'.setup {
 		ensure_installed = 'all', -- one of 'all', 'language', or a list of languages
 		highlight = { 
@@ -193,7 +194,6 @@ function M.nvim_tree()
 end
 
 function M.telescope()
-	vim.g.telescope = true
 	local config = require'telescope.config'.values
 	local map_i = config.default_mappings.i
 	local actions = require('telescope.actions')
@@ -208,11 +208,12 @@ function M.telescope()
 
  	vim.cmd[[ nnoremap <silent> <leader>b :lua require'telescope.builtin'.buffers{}<CR> ]]
  	vim.cmd[[ nnoremap <silent> <leader><leader> :lua require'telescope.builtin'.find_files{}<CR> ]]
-	vim.cmd[[ nnoremap <silent> <leader>f :lua require'telescope.builtin'.list_func()<CR> ]]
+	-- vim.cmd[[ nnoremap <silent> <leader>f :lua require'telescope.builtin'.list_func()<CR> ]]
 	vim.cmd[[ nnoremap <silent> <leader>r :lua require'telescope.builtin'.lsp_references()<CR> ]]
 	vim.cmd[[ nnoremap <silent> <leader>s :lua require'telescope.builtin'.lsp_document_symbols{}<CR> ]]
 	vim.cmd[[ nnoremap <silent> <leader>S :lua require'telescope.builtin'.lsp_workspace_symbols{}<CR> ]]
 	vim.cmd[[ nnoremap <silent> <leader>g :lua require('cossonleo.util').grep_dir()<cr> ]]
+	vim.cmd[[ nnoremap <silent> <leader>f :lua require('cossonleo.ts_ext').list_scope_item()<cr> ]]
 end
 
 return M
