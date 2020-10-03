@@ -24,6 +24,7 @@ local filetype = ""
 
 function M.statusline()
 	if not vim.g.nvim_treesitter then
+		print("not install nvim_treesitter")
 		return
 	end
 
@@ -58,9 +59,9 @@ function M.statusline()
 		if name == "definition.macro" then
 			return "M"
 		end
-		if name == "definition.namespace" then
-			return "N"
-		end
+		--if name == "definition.namespace" then
+		--	return "N"
+		--end
 		return nil
 	end
 
@@ -76,7 +77,8 @@ function M.statusline()
 				local t = check_match(cquery.captures[id]) -- name of the capture in the query
 				if t then
 					local text = ts_utils.get_node_text(node, 0)[1] or ""
-					return t .. ":" .. text
+					--return t .. ":" .. text
+					return text
 				end
 			end
 		end

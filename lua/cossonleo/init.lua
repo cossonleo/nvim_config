@@ -45,7 +45,7 @@ require'cossonleo.plugins'
 local M = {}
 
 function M.statusline()
-	require'cossonleo.util'.statusline()
+	return require'cossonleo.util'.statusline()
 end
 
 function M.update_current_file_size()
