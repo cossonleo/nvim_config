@@ -15,7 +15,6 @@ vim.o.completeopt = 'menuone,noselect,noinsert'
 vim.o.updatetime = 500
 vim.o.selection = 'inclusive'
 vim.o.hlsearch = false
-vim.o.termguicolors = true
 vim.o.smartcase = true
 vim.o.formatoptions = ""
 vim.o.maxmempattern = 10000

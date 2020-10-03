@@ -29,16 +29,17 @@ function! TsStatusLine() abort
   return luaeval("require'cossonleo'.statusline()")
 endfunction
 
-set stl=%4*%{get(b:,'current_file_size','')}/%L%*
-set stl+=%1*\ [b:%n]%*
-set stl+=%*\ %{get(b:,'cur_short_fname','')}%*
-set stl+=%5*%m%r%h%w%q%*
-set stl+=%*%=%* 		"左右分割
+hi link User3  CursorLine
+set stl=%3*%{get(b:,'current_file_size','')}/%L%*
+set stl+=%3*\ [b:%n]%*
+set stl+=%3*\ %{get(b:,'cur_short_fname','')}%*
+set stl+=%3*%m%r%h%w%q%*
+set stl+=%3*%=%* 		"左右分割
 "set stl+=%*%{v:lua.nvim_lsp_status()}%*
-set stl+=%*%{TsStatusLine()}\ %*
+set stl+=%3*%{TsStatusLine()}\ %*
 set stl+=%3*%y%*
-set stl+=%2*\ (%l,%c)%*
-set stl+=%1*\ %{(&fenc!=''?&fenc:&enc)}      "编码1
+set stl+=%3*\ (%l,%c)%*
+set stl+=%3*\ %{(&fenc!=''?&fenc:&enc)}      "编码1
 set stl+=%{(&bomb?\",BOM\":\"\")}%*            "编码2
 
 """"""""""""""""""""""""""""""""""""""tabline"""""""""""""""""""""""""""""""""""""""
