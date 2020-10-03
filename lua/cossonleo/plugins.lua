@@ -1,11 +1,11 @@
--- vim.cmd[[ packadd packer.nvim ]]
+
+vim.cmd[[ packadd packer.nvim ]]
 
 local config = require'cossonleo.plug_config'
-
 local packer = require'packer'
 
 packer.init{
-	package_root = vim.fn.stdpath("config") .. "/nvim_pkg",
+	package_root = vim.fn.stdpath("config") .. "/pack",
 	compile_path = vim.fn.stdpath("config") .. "/plugin/packer_compiled.vim",
 }
 packer.reset()
