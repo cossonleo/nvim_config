@@ -13,7 +13,11 @@ end
 
 function M.vim_easymotion()
 	vim.g.EasyMotion_do_mapping = 0
-	vim.cmd[[ nnoremap <silent> / :call EasyMotion#S(-1, 0, 2)<cr> ]]
+	-- vim.cmd[[nnoremap <silent> / :call EasyMotion#S(-1, 0, 2)<cr>]]
+	vim.cmd[[ nnoremap / <Plug>(easymotion-sn) ]]
+	vim.cmd[[ onoremap / <Plug>(easymotion-tn) ]]
+	vim.cmd[[ nnoremap n <Plug>(easymotion-next)]]
+	vim.cmd[[ nnoremap N <Plug>(easymotion-prev]]
 end
 function M.onedark()
 	vim.g.onedark_color_overrides = {black = {gui = "#000000", cterm = "235", cterm16 = 0}}
