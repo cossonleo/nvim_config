@@ -1,11 +1,5 @@
 local M = {}
 
-local on_attch = function(client)
-	local has_d, d = pcall(require, 'diagnostic')
-	if has_d then d.on_attach(client) end
-	local has_s, s = pcall(require, 'lsp-status')
-	if has_s then s.on_attach(client) end
-end
 
 function M.rainbow()
 	vim.g.rainbow_active = 1
@@ -125,27 +119,31 @@ end
 
 function M.nvim_lsp()
 	require('vim.lsp.log').set_level(4)
-	local lsp_status = require('lsp-status')
+
 	local nvim_lsp = require('nvim_lsp')
-	nvim_lsp.gopls.setup{
-		on_attach=on_attach,
-		settings = { gopls = { usePlaceholders = true,	completeUnimported = true } }
-	}
-	nvim_lsp.clangd.setup{callbacks = lsp_status.extensions.clangd.setup(),
-		on_attach=on_attach, capabilities = lsp_status.capabilities}
-	nvim_lsp.pyls.setup{on_attach=on_attach, capabilities = lsp_status.capabilities}
-	nvim_lsp.dockerls.setup{on_attach=on_attach, capabilities = lsp_status.capabilities}
-	nvim_lsp.vimls.setup{on_attach=on_attach, capabilities = lsp_status.capabilities}
-	nvim_lsp.tsserver.setup{on_attach=on_attach, capabilities = lsp_status.capabilities}
-	nvim_lsp.bashls.setup{on_attach=on_attach, capabilities = lsp_status.capabilities}
-	nvim_lsp.rust_analyzer.setup{on_attach=on_attach, capabilities = lsp_status.capabilities}
-	-- nvim_lsp.sumneko_lua.setup{on_attach=on_attach, capabilities = lsp_status.capabilities}
-	nvim_lsp.intelephense.setup{on_attach=on_attach, capabilities = lsp_status.capabilities}
-	nvim_lsp.jsonls.setup{
-		on_attach=on_attach,
+	local clsp = require'cossonleo.lsp'
+	local add = function(ls, opt)
+		local config = opt or {}
+		config.on_attach = config.on_attach or clsp.default_config.on_attach
+		config.capabilities = config.capabilities or clsp.default_config.capabilities
+		nvim_lsp[ls].setup(config)
+	end
+
+	add('gopls', {settings = { gopls = { usePlaceholders = true,	completeUnimported = true } }})
+	add('clangd')
+	add('pyls')
+	add('dockerls')
+	add('vimls')
+	add('tsserver')
+	add('bashls')
+	add('rust_analyzer')
+	add('intelephense')
+	add('jsonls', {
 		settings = { json = { format = { enable = true } } }, 
-		capabilities = lsp_status.capabilities
-	}
+	})
+	--
+	--add('sumneko_lua')
+	--nvim_lsp.clangd.setup{callbacks = lsp_status.extensions.clangd.setup(),
 end
 
 function M.echodoc()

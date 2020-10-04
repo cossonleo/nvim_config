@@ -16,35 +16,23 @@ if exists("s:is_loaded")
 endif
 let s:is_loaded = 1
 
+lua cossonleo = require'cossonleo'
+
 au FileType netrw,LuaTree setl stl=%*\ line:%l/%L
-au BufWritePost,BufReadPost * lua require'cossonleo'.update_current_file_size()
-au BufWritePost,BufReadPost * call s:get_short_fname()
+au BufWritePost,BufReadPost * lua cossonleo.file_name_limit(50)
+au BufWritePost,BufReadPost * lua cossonleo.current_file_size(50)
 
-
-func! s:get_short_fname()
-	let b:cur_short_fname = pathshorten(expand('%'))
-endfunc
-
-function! TsStatusLine() abort
-  return luaeval("require'cossonleo'.ts_stl()")
-endfunction
-
-function! LspInfoStl() abort
-  return luaeval("require'cossonleo'.lsp_info()")
-endfunction
-
-hi link User3  CursorLine
-set stl=%3*%{get(b:,'current_file_size','')}/%L%*
-set stl+=%3*\ [b:%n]%*
-set stl+=%3*\ %{get(b:,'cur_short_fname','')}%*
-set stl+=%3*%m%r%h%w%q%*
-set stl+=%3*%=%* 		"左右分割
-set stl+=%*%{LspInfoStl()}\ %*
-set stl+=%3*%{TsStatusLine()}\ %*
-set stl+=%3*%y%*
-set stl+=%3*\ (%l,%c)%*
-set stl+=%3*\ %{(&fenc!=''?&fenc:&enc)}      "编码1
-set stl+=%{(&bomb?\",BOM\":\"\")}%*            "编码2
+set stl = ""
+set stl+=%#CursorLine#%{get(b:,'cur_fsize','')}\ 
+set stl+=%#CursorLine#%{get(b:,'fit_len_fname','')}\ 
+set stl+=%#CursorLine#%m%r%h%w%q
+set stl+=%#CursorLine#%= 		"左右分割
+set stl+=%#CursorLine#%{v:lua.cossonleo.lsp_info()}\ 
+set stl+=%#CursorLine#%{v:lua.cossonleo.ts_stl()}\ 
+set stl+=%#CursorLine#%y\ 
+set stl+=%#CursorLine#(%l,%c)/%L\ 
+set stl+=%#CursorLine#%{(&fenc!=''?&fenc:&enc)}      "编码1
+set stl+=%{(&bomb?\",BOM\":\"\")}            "编码2
 
 """"""""""""""""""""""""""""""""""""""tabline"""""""""""""""""""""""""""""""""""""""
 "set tabline=%!MyTabLine()

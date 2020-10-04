@@ -44,16 +44,25 @@ require'cossonleo.plugins'
 
 local M = {}
 
-function M.ts_stl()
-	return require'cossonleo.util'.ts_stl()
+local function get_util()
+	return require'cossonleo.util'
 end
 
-function M.update_current_file_size()
-	require'cossonleo.util'.update_current_file_size()
+function M.ts_stl()
+	return get_util().ts_stl()
+end
+
+function M.current_file_size()
+	vim.b.cur_fsize = get_util().current_file_size()
 end
 
 function M.lsp_info()
-	return require'cossonleo.util'.lsp_info()
+	return get_util().lsp_info()
+end
+
+function M.file_name_limit(len)
+	local len = len or 50
+	vim.b.fit_len_fname = get_util().file_name_limit(len)
 end
 
 return M
