@@ -7,11 +7,11 @@ end
 
 function M.vim_easymotion()
 	vim.g.EasyMotion_do_mapping = 0
-	-- vim.cmd[[nnoremap <silent> / :call EasyMotion#S(-1, 0, 2)<cr>]]
-	vim.cmd[[ nnoremap / <Plug>(easymotion-sn) ]]
-	vim.cmd[[ onoremap / <Plug>(easymotion-tn) ]]
-	vim.cmd[[ nnoremap n <Plug>(easymotion-next)]]
-	vim.cmd[[ nnoremap N <Plug>(easymotion-prev]]
+	vim.cmd[[nnoremap <silent> / :call EasyMotion#S(-1, 0, 2)<cr>]]
+	--vim.cmd[[ nnoremap / <Plug>(easymotion-sn) ]]
+	--vim.cmd[[ onoremap / <Plug>(easymotion-tn) ]]
+	--vim.cmd[[ nnoremap n <Plug>(easymotion-next)]]
+	--vim.cmd[[ nnoremap N <Plug>(easymotion-prev]]
 end
 function M.onedark()
 	vim.g.onedark_color_overrides = {black = {gui = "#000000", cterm = "235", cterm16 = 0}}
@@ -152,7 +152,8 @@ function M.echodoc()
 end
 
 function M.diagnostic_nvim()
-	vim.g.diagnostic_insert_delay = 1
+	vim.g.diagnostic_insert_delay = 0
+	--vim.g.diagnostic_insert_delay = 1
 	vim.g.diagnostic_enable_virtual_text = 1
 	vim.g.space_before_virtual_text = 5
 	vim.g.space_before_virtual_text = 5

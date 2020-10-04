@@ -7,13 +7,13 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.window = capabilities.window or {}
 capabilities.window.workDoneProgress = true
 
---local lstatus = require("cossonleo.lsp_status")
+local lstatus = require("cossonleo.lsp_status")
 M.default_config = {
 	capabilities = capabilities,
 	on_attach = function(client)
 		local has_d, d = pcall(require, 'diagnostic')
 		if has_d then d.on_attach(client) end
-		--lstatus.on_attach(client)
+		lstatus.on_attach(client)
 	end,
 }
 
