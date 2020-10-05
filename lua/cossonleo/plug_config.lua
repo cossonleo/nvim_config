@@ -15,8 +15,9 @@ function M.vim_easymotion()
 end
 function M.onedark()
 	vim.g.onedark_color_overrides = {black = {gui = "#000000", cterm = "235", cterm16 = 0}}
-	vim.cmd[[ colorscheme onedark ]]
+	pcall(vim.cmd, [[ colorscheme onedark ]])
 end
+
 function M.vim_floaterm()
 	vim.g.floaterm_winblend = 10
 	vim.g.floaterm_width = 0.7
@@ -29,7 +30,9 @@ function M.vim_floaterm()
 end
 
 function M.nvim_colorizer()
-	require 'colorizer'.setup(nil, { css = true; })
+	local has, c = pcall(require, 'colorizer')
+	if not has then return end
+	c.setup(nil, { css = true; })
 end
 
 function M.vim_translator()
@@ -38,7 +41,9 @@ function M.vim_translator()
 end
 
 function M.nvim_treesitter()
-	require'nvim-treesitter.configs'.setup {
+	local has, ts = pcall(require, 'nvim-treesitter.configs')
+	if not has then return end
+	ts.setup {
 		ensure_installed = 'all', -- one of 'all', 'language', or a list of languages
 		highlight = { 
 			enable = true, 
@@ -119,8 +124,9 @@ end
 
 function M.nvim_lsp()
 	require('vim.lsp.log').set_level(4)
+	local has, nvim_lsp = pcall(require, 'nvim_lsp')
+	if not has then return end
 
-	local nvim_lsp = require('nvim_lsp')
 	local clsp = require'cossonleo.lsp'
 	local add = function(ls, opt)
 		local config = opt or {}
@@ -152,8 +158,7 @@ function M.echodoc()
 end
 
 function M.diagnostic_nvim()
-	vim.g.diagnostic_insert_delay = 0
-	--vim.g.diagnostic_insert_delay = 1
+	vim.g.diagnostic_insert_delay = 1
 	vim.g.diagnostic_enable_virtual_text = 1
 	vim.g.space_before_virtual_text = 5
 	vim.g.space_before_virtual_text = 5
@@ -165,7 +170,8 @@ function M.diagnostic_nvim()
 end
 
 function M.lsp_status()
-	local lsp_status = require('lsp-status')
+	local has, lsp_status = pcall(require, 'lsp-status')
+	if not has then return end
 	lsp_status.register_progress()
 	lsp_status.config{
 		indicator_errors = 'E',
@@ -197,7 +203,9 @@ function M.nvim_tree()
 end
 
 function M.telescope()
-	local config = require'telescope.config'.values
+	local has, tconfig = pcall(require, 'telescope.config')
+	if not has then return end
+	local config = tconfig.values
 	local map_i = config.default_mappings.i
 	local actions = require('telescope.actions')
 
