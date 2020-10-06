@@ -28,7 +28,7 @@ set stl+=%#CursorLine#%{get(b:,'fit_len_fname','')}\
 set stl+=%#CursorLine#%m%r%h%w%q
 set stl+=%#CursorLine#%= 		"左右分割
 set stl+=%#CursorLine#%{v:lua.cossonleo.lsp_info()}\ 
-set stl+=%#CursorLine#%{v:lua.cossonleo.ts_stl()}\ 
+set stl+=%#CursorLine#%{luaeval('require[[ts_ext]].stl()')}\ 
 set stl+=%#CursorLine#%y\ 
 set stl+=%#CursorLine#(%l,%c)/%L\ 
 set stl+=%#CursorLine#%{(&fenc!=''?&fenc:&enc)}      "编码1
