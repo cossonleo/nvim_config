@@ -1,19 +1,19 @@
 (
 	(function_declaration
-		name: (identifier) @complete.function)
+		name: (identifier) @complete)
 ) 
 
 (
 	(type_declaration 
 	  (type_spec
-		name: (type_identifier) @complete.type)
+		name: (type_identifier) @complete)
 	)
 ) 
 
 (source_file
 	(var_declaration
 		(var_spec
-			name: (identifier) @complete.global
+			name: (identifier) @complete
 		)
 	)
 )
@@ -21,22 +21,21 @@
 (source_file
 	(const_declaration
 		(const_spec
-			name: (identifier) @complete.const
+			name: (identifier) @complete
 		)
 	)
 )
 
 (
 	(function_declaration
-		name: (identifier) @decl.function
-		body: (block)? @decl_scope_inner) @decl_scope
+		name: (identifier) @decl.function) @decl_scope
 ) 
 
 (
 	(method_declaration
 		name: (field_identifier) @decl.method
-		body: (block)? @decl_scope_inner) @decl_scope
-) 
+		body: (block)? @decl_scope_inner)  @decl_scope
+)
 
 (
 	(type_declaration 
@@ -49,6 +48,20 @@
 	) @decl_scope
 ) 
 
+(
+  (short_var_declaration 
+    left: (expression_list
+  		  (identifier) @decl.var
+  	  )
+  ) 
+)
+
+(
+(var_spec 
+  name: (identifier) @decl.var)
+)
+
+
 ;(局部变量也会被纳入
 ;	(var_declaration
 ;		(var_spec
@@ -57,11 +70,13 @@
 ;	)
 ;)
 
-;(short_var_declaration 
-;  left: (expression_list
-;          (identifier) @decl_ident
-;	  )
-;  right: (expression_list
-;		(func_literal) @lamda
-;	  )
-;) 
+;(
+;	(short_var_declaration 
+;	  left: (expression_list
+;			  (identifier) @decl.var
+;		  )
+;	  right: (expression_list
+;			(func_literal) @lamda
+;		  )
+;	) 
+;)

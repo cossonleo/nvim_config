@@ -96,8 +96,9 @@ function M.test_list_decls_text()
 	local decls = {}
 
 	for _, loc in ipairs(locals) do
-		if loc.decl_ident and loc.decl_ident.node then
-		local text = ts_utils.get_node_text(loc.decl_ident.node, 0)[1] or nil
+		if loc.complete and loc.complete.node then
+		--if loc.complete.function  then
+		local text = ts_utils.get_node_text(loc.complete.node, 0)[1] or nil
 		if text then table.insert(decls, text) end
 		end
 	end

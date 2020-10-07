@@ -24,3 +24,21 @@ if &term =~# '^screen'
 endif
 
 lua require 'cossonleo'
+
+inoremap <F5> <C-R>=ListMonths()<CR>
+
+func! ListMonths()
+lua << EOF
+local ts_utils = require 'nvim-treesitter.ts_utils'
+local current_node = ts_utils.get_node_at_cursor()
+local start_row, _, _ = current_node:start()
+local count = 0
+for child_node in current_node:iter_children() do
+	local rr, _, _ = child_node:start()
+	count = count + 1
+	print(rr .. " " .. count)
+end
+--print(start_row)
+EOF
+return ""
+endfunc
