@@ -21,8 +21,42 @@ local function is_scope_kind(kind)
 	return kind == "function" or kind == "type" or kind == "method"
 end
 
+local cquery = nil
+local filetype = ""
+local function set_query_var()
+	local cur_ft = vim.bo.filetype
+	if filetype ~=	cur_ft then
+		filetype = cur_ft
+		cquery = queries.get_query(filetype, 'locals')
+	end
+end
+
+local function get_ts_complete_items()
+	--set_query_var()
+	local locals = ts_locals.get_locals(0)
+
+	local completes = {}
+
+	for _, loc in ipairs(locals) do
+		if loc.complete then
+			table.insert(completes, loc.complete)
+			local text = ts_utils.get_node_text(loc.complete, 0)[1] or nil
+			if text then table.insert(completes, {text = text, node = loc.complete})
+		end
+	end
+
+	return completes
+end
+
 local function get_smallest_context(source)
-	local scopes = ts_locals.get_scopes()
+	local current_node = ts_utils.get_node_at_cursor()
+	local decls = M.get_decls()
+	while current_node ~= nil and not vim.tbl_contains(decls, current_node) do
+		current_node = current_node:parent()
+	end
+	return current_node
+
+	local scopes = ts_locals.get_locals()
 	local current = source
 
 	while current ~= nil and not vim.tbl_contains(scopes, current) do
@@ -56,24 +90,24 @@ local function get_complete_items(bufnr, line_current, prefix)
 	local ts_decl = require'ts_ext.decl'
 
 	local at_point = ts_utils.get_node_at_cursor()
-	for _, definitions in ipairs(ts_decl.get_decl_ident_with_text()) do
-		for _, match in ipairs(definitions) do
-			local node_text = match.text
-			local node = match.node
-			if vim.startswith(node_text, prefix) then
-				table.insert(complete_items, {
-					word = node_text:sub(#prefix + 1),
-					abbr = node_text,
-					menu = "TS",
-					--kind = node.kind,
-					--menu = full_text,
-					--info = full_text,
-					score = score,
-					icase = 1,
-					dup = 0,
-					empty = 1
-				})
-			end
+	local decls = ts_decl.get_decl_idents_with_text()
+	for _, decl in ipairs(decls) do
+		local node_text = decl.text
+		local node = decl.node
+		local start_line, _, _ = node:start()
+		if vim.startswith(node_text, prefix) then
+			table.insert(complete_items, {
+				word = node_text:sub(#prefix + 1),
+				abbr = node_text,
+				menu = "TS",
+				--kind = node.kind,
+				--menu = full_text,
+				info = full_text,
+				score = score,
+				icase = 1,
+				dup = 0,
+				empty = 1
+			})
 		end
 		--local matches = prepare_match(definitions)
 		--for _, match in ipairs(matches) do

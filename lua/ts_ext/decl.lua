@@ -29,7 +29,7 @@ function M.get_decls()
 	return decls
 end
 
-function M.get_decl_ident_text(current_node)
+function M.get_decl_name(current_node)
 	if not cquery then return nil end
 	local cur_start, _, _ = current_node:start()
 	for pattern, match in cquery:iter_matches(current_node, 0, current_node:start(), current_node:end_()) do
@@ -57,7 +57,7 @@ function M.get_decl_inents()
 	return decls
 end
 
-function M.get_decl_ident_with_text()
+function M.get_decl_idents_with_text()
 	reset()
 	local locals = ts_locals.get_locals(0)
 
@@ -84,7 +84,7 @@ end
 function M.get_smallest_decl_context_text()
 	local node = M.get_smallest_decl_context()
 	if node then
-		return M.get_decl_ident_text(node) or ""
+		return M.get_decl_name(node) or ""
 	end
 	return ""
 end
