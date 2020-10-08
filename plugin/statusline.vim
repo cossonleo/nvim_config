@@ -21,17 +21,19 @@ lua cossonleo = require'cossonleo'
 au FileType netrw,LuaTree setl stl=%*\ line:%l/%L
 au BufWritePost,BufReadPost * lua cossonleo.file_name_limit(50)
 au BufWritePost,BufReadPost * lua cossonleo.current_file_size(50)
-
+"StatusLine
+"StatusLineNC
+"
 set stl = ""
-set stl+=%#CursorLine#%{get(b:,'cur_fsize','')}\ 
-set stl+=%#CursorLine#%{get(b:,'fit_len_fname','')}\ 
-set stl+=%#CursorLine#%m%r%h%w%q
-set stl+=%#CursorLine#%= 		"左右分割
-set stl+=%#CursorLine#%{v:lua.cossonleo.lsp_info()}\ 
-set stl+=%#CursorLine#%{luaeval('require[[ts_ext]].stl()')}\ 
-set stl+=%#CursorLine#%y\ 
-set stl+=%#CursorLine#(%l,%c)/%L\ 
-set stl+=%#CursorLine#%{(&fenc!=''?&fenc:&enc)}      "编码1
+set stl+=%#StatusLine#%{get(b:,'cur_fsize','')}\ 
+set stl+=%#StatusLine#%{get(b:,'fit_len_fname','')}\ 
+set stl+=%#StatusLine#%m%r%h%w%q
+set stl+=%#StatusLine#%= 		"左右分割
+set stl+=%#StatusLine#%{v:lua.cossonleo.lsp_info()}\ 
+set stl+=%#StatusLine#%{luaeval('require[[ts_ext]].stl()')}\ 
+set stl+=%#StatusLine#%y\ 
+set stl+=%#StatusLine#(%l,%c)/%L\ 
+set stl+=%#StatusLine#%{(&fenc!=''?&fenc:&enc)}      "编码1
 set stl+=%{(&bomb?\",BOM\":\"\")}            "编码2
 
 """"""""""""""""""""""""""""""""""""""tabline"""""""""""""""""""""""""""""""""""""""

@@ -32,65 +32,136 @@ local function set_query_var()
 	end
 end
 
-local function get_smallest_context(context_type)
-	set_query_var()
-	local current_node = ts_utils.get_node_at_cursor()
+local function get_smallest_context(context_type, node)
+	local current_node = (node and node:parent()) or ts_utils.get_node_at_cursor()
 	repeat
+		if not current_node then break end
 		local start_row, _, _ = current_node:start()
-		local end_row, _, _ = current_node:end_()
-		local matches = _query:iter_matches(current_node, 0, start_row, start_row + 1)
-		for pattern, match in matches do
-			for id, node in pairs(match) do
-				if node == current_node and _query.captures[id] == context_type then
-					return node
-				end
+		for id, inode in _query:iter_captures(current_node, 0, start_row, start_row + 1) do
+			if inode == current_node and _query.captures[id] == context_type then
+				return current_node
 			end
 		end
+		-- local matches = _query:iter_matches(current_node, 0, start_row, start_row + 1)
+		-- for pattern, match in matches do
+		-- 	for id, node in pairs(match) do
+		-- 		if node == current_node and _query.captures[id] == context_type then
+		-- 			return node
+		-- 		end
+		-- 	end
+		-- end
 		current_node = current_node:parent()
-	until(not current_ndoe)
+	until(false)
+	return nil
+end
+
+local function is_node_capture_kind(node, kind)
+	set_query_var()
+	local start = node:start()
+	for id, inode in _query:iter_captures(node, 0, start, start + 1) do
+		if inode == node and _query.captures[id] == kind then
+			return true
+		end
+	end
+	return false
+end
+
+local function get_small_complete_context(node)
+	-- local cur_node = get_smallest_context("complete_context_pre", node)
+	
+	local current_node = (node and node:parent()) or ts_utils.get_node_at_cursor()
+	repeat
+		if not current_node then break end
+		local start_row, _, _ = current_node:start()
+		for id, inode in _query:iter_captures(current_node, 0, start_row, start_row + 1) do
+			if inode == current_node  then
+				if _query.captures[id] == "complete_context" then
+					return current_node
+				end
+				--if _query.captures[id] == "complete_context_pre" then
+				--	local after = current_node:parent()
+				--	if is_node_capture_kind(after, "complete_context") then
+				--		current_node = after
+				--	end
+				--	return current_node
+				--end
+			end
+		end
+		-- local matches = _query:iter_matches(current_node, 0, start_row, start_row + 1)
+		-- for pattern, match in matches do
+		-- 	for id, node in pairs(match) do
+		-- 		if node == current_node and _query.captures[id] == context_type then
+		-- 			return node
+		-- 		end
+		-- 	end
+		-- end
+		current_node = current_node:parent()
+	until(false)
 	return nil
 end
 
 local function find_complete_item_within_child(node)
-	local start_row, _, _ = node:start()
-	local end_row, _, _ = node:end_()
+	set_query_var()
+	--local text = ts_utils.get_node_text(node, 0)[1] or "xxxxx"
+	local start_row = node:start()
+	--local end_row, _, _ = node:end_()
+	--print("-------------" .. text .. " " ..  start_row.. " " .. end_row.. " " .. node:child_count())
+	--print(vim.fn.string(_query.captures))
+	if node:child_count() == 0 then return  {node} end
+	for id, inode in _query:iter_captures(node, 0, start_row, start_row + 1) do
+		if inode == node then
+			if _query.captures[id] == "scope" then return {} end
+		end
+
+		--local mstart_row = mnode:start()
+		--local text = ts_utils.get_node_text(mnode, 0)[1] or "xxxxx"
+		--print(text .. " " .. (_query.captures[id] or "unknow")  .. " ".. mstart_row.. " " ..mnode:child_count())
+	end
+
+	local ret = {}
+	for child in node:iter_children() do
+		local items = find_complete_item_within_child(child)
+		vim.list_extend(ret, items)
+	end
+	return ret
 	--local matches = _query:iter_matches(node, 0, start_row, end_row + 1)
 	--for pattern, match in matches do
-		for id, mnode in _query:iter_captures(node, 0, start_row, end_row + 1) do
-			--if mnode == node then
-				--if _query.captures[id] == "decl_var" then
-	local text = ts_utils.get_node_text(mnode, 0)[1] or "xxxxx"
-					print(text .. " " .. (_query.captures[id] or "unknow")  .. " ".. start_row.. " " ..mnode:child_count())
-				--end
-				if node:child_count() == 0 then
-					if _query.captures[id] == "definition.var" then
-						return {node}
-					end
-				elseif _query.captures[id] == "scope" then
-					return {}
-				end
-			--end
-		--end
-	end
+	--	for id, mnode in pairs(match) do
+	--		--if mnode == node then
+	--			--if _query.captures[id] == "decl_var" then
+	--			local text = ts_utils.get_node_text(mnode, 0)[1] or "xxxxx"
+	--			print(text .. " " .. (_query.captures[id] or "unknow")  .. " ".. start_row.. " " ..mnode:child_count())
+	--			--end
+	--			--if node:child_count() == 0 then
+	--			--	if _query.captures[id] == "definition.var" then
+	--			--		return {node}
+	--			--	end
+	--			--elseif _query.captures[id] == "scope" then
+	--			--	return {}
+	--			--end
+	--		--end
+	--	end
+	--end
 
-	if node:child_count() == 0 then
-		return {}
-	end
+	--if node:child_count() == 0 then
+	--	return {}
+	--end
 
-	local items = {}
-	for child in node:iter_children() do
-		vim.tbl_extend("keep", items, find_complete_item_within_child(child))
-	end
-	return items
+	--print("------------------------------------------------")
+	--local items = {}
+	--for child in node:iter_children() do
+	--	vim.tbl_extend("keep", items, find_complete_item_within_child(child))
+	--end
+	--return items
 end
 
-local function is_decl_scope_node(node)
+local function is_top_node(node)
 	local start_row, _, _ = node:start()
 	local matches = _query:iter_matches(node, 0, start_row, start_row + 1)
 
 	for pattern, match in matches do
-		for id, node in pairs(match) do
-			if _query.captures[id] == "decl_scope" then
+		for id, _ in pairs(match) do
+			if _query.captures[id] == "complete_top" then
 				return true
 			end
 		end
@@ -98,48 +169,70 @@ local function is_decl_scope_node(node)
 	return false
 end
 
+local function is_def_node(node)
+	--local matches = _query:iter_matches(node, 0, start_row, start_row + 1)
+	local start_row, _, _ = node:start()
+	for id, inode in _query:iter_captures(node, 0, start_row, start_row + 1) do
+		if inode == node and _query.captures[id] == "complete_def" then
+			return true
+		end
+	end
+	return false
+end
+
+local function list_contain(list, elem)
+	for _, e in ipairs(list) do
+		if e == elem then return true end
+	end
+	return false
+end
+
 local function get_complete_nodes_in_context(line_current)
 	set_query_var()
 	local complete_nodes = {}
-	local check_line = line_current
-	local current_node = ts_utils.get_node_at_cursor()
-	local loop_end = false
+	local cur_line = line_current
+	-- local current_node = ts_utils.get_node_at_cursor()
+	local current_node = get_small_complete_context()
+	print("start", current_node:start())
 	repeat
-		if not current_node then
-			break
-		end
+		if not current_node then break end
 		local start_row, _, _ = current_node:start()
-		if start_row <= check_line then
+		if start_row < cur_line then
 			for child_node in current_node:iter_children() do
-				local cstart, cscol, _ = child_node:start()
-	--			local cend, cecol, _ = child_node:start()
-	--			local matches = _query:iter_matches(child_node, 0, cstart, cstart + 1)
-	--		for pattern, match in matches do
-	--			for id, node in pairs(match) do
-	--				local text = ts_utils.get_node_text(child_node, 0)[1] or "xxxxx"
-	--				local 
-	--				print(_query.captures[id] .. " " .. text .. " " .. cstart .. " " .. child_node:child_count() )
-	--			end
-	--		end
-				if cstart <= check_line then
-					vim.tbl_extend("keep", complete_nodes, find_complete_item_within_child(child_node))
+				local cstart = child_node:start()
+				local cend = child_node:end_()
+				if cstart < cur_line then
+					if is_def_node(child_node) then
+						print("----------------")
+						local items = find_complete_item_within_child(child_node)
+						if #items > 0 then
+							print("find ", #items)
+							for id, inode in _query:iter_captures(child_node, 0, cstart, cend + 1) do
+								if _query.captures[id] == "complete_item" and list_contain(items, inode) then
+									-- vim.tbl_extend("keep", complete_nodes, inode)
+									table.insert(complete_nodes, inode)
+								end
+							end
+						end
+					end
 				end
 			end
 		end
 
-		if is_decl_scope_node(current_node) then
-			break
-		end
-		check_line = start_row
-		current_node = current_node:parent()
+		--if is_top_node(current_node) then
+		--	break
+		--end
+		cur_line = start_row
+		--current_node = current_node:parent()
+		current_node = get_small_complete_context(current_node)
 		--:: continue ::
-		--if is_decl_scope_node(current_node) then
+		--if is_top_node(current_node) then
 		--	loop_end = true
 		--else
 		--	current_node = current_node:parent()
 		--end
 		--if not current_node then loop_end = ture end
-	until(false)
+	until(true)
 	return complete_nodes
 end
 
@@ -163,23 +256,23 @@ local function get_ts_complete_items(line_current)
 end
 
 
-local function get_smallest_context(source)
-	local current_node = ts_utils.get_node_at_cursor()
-	local decls = M.get_decls()
-	while current_node ~= nil and not vim.tbl_contains(decls, current_node) do
-		current_node = current_node:parent()
-	end
-	return current_node
-
-	--local scopes = ts_locals.get_locals()
-	--local current = source
-
-	--while current ~= nil and not vim.tbl_contains(scopes, current) do
-	--	current = current:parent()
-	--end
-
-	--return current or nil
-end
+--local function get_smallest_context(source)
+--	local current_node = ts_utils.get_node_at_cursor()
+--	local decls = M.get_decls()
+--	while current_node ~= nil and not vim.tbl_contains(decls, current_node) do
+--		current_node = current_node:parent()
+--	end
+--	return current_node
+--
+--	--local scopes = ts_locals.get_locals()
+--	--local current = source
+--
+--	--while current ~= nil and not vim.tbl_contains(scopes, current) do
+--	--	current = current:parent()
+--	--end
+--
+--	--return current or nil
+--end
 
 local function prepare_match(match, kind)
 	local matches = {}
@@ -320,4 +413,13 @@ end
 manager:add_src("ts_complete", request)
 log.info("add treesitter complete source finish")
 
-return {comp = get_complete_nodes_in_context}
+return {
+	comp = function() 
+		local items = get_complete_nodes_in_context(1000)
+		for _, item in ipairs(items) do
+			local text = ts_utils.get_node_text(item, 0)[1] or "xxxxx"
+			print("complete items", text)
+		end
+	end, 
+	find = find_complete_item_within_child
+}
