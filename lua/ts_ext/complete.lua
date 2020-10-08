@@ -54,22 +54,23 @@ end
 local function find_complete_item_within_child(node)
 	local start_row, _, _ = node:start()
 	local end_row, _, _ = node:end_()
-	local matches = _query:iter_matches(node, 0, start_row, end_row + 1)
-	for pattern, match in matches do
-		for id, mnode in pairs(match) do
+	--local matches = _query:iter_matches(node, 0, start_row, end_row + 1)
+	--for pattern, match in matches do
+		for id, mnode in _query:iter_captures(node, 0, start_row, end_row + 1) do
 			--if mnode == node then
-				local text = ts_utils.get_node_text(node, 0)[1] or "xxxxx"
-				print(_query.captures[id] .. " " .. text .. " ".. start_row.. " " ..node:child_count())
+				--if _query.captures[id] == "decl_var" then
+	local text = ts_utils.get_node_text(mnode, 0)[1] or "xxxxx"
+					print(text .. " " .. (_query.captures[id] or "unknow")  .. " ".. start_row.. " " ..mnode:child_count())
+				--end
 				if node:child_count() == 0 then
 					if _query.captures[id] == "definition.var" then
 						return {node}
 					end
 				elseif _query.captures[id] == "scope" then
-					print("-----------------------")
 					return {}
 				end
 			--end
-		end
+		--end
 	end
 
 	if node:child_count() == 0 then
@@ -104,38 +105,41 @@ local function get_complete_nodes_in_context(line_current)
 	local current_node = ts_utils.get_node_at_cursor()
 	local loop_end = false
 	repeat
-		--if not current_node then
-		--	goto continue
-		--end
-		local start_row, _, _ = current_node:start()
-		if start_row > check_line then
-			goto continue
+		if not current_node then
+			break
 		end
-
-		for child_node in current_node:iter_children() do
-			local cstart, cscol, _ = child_node:start()
---			local cend, cecol, _ = child_node:start()
---			local matches = _query:iter_matches(child_node, 0, cstart, cstart + 1)
---		for pattern, match in matches do
---			for id, node in pairs(match) do
---				local text = ts_utils.get_node_text(child_node, 0)[1] or "xxxxx"
---				local 
---				print(_query.captures[id] .. " " .. text .. " " .. cstart .. " " .. child_node:child_count() )
---			end
---		end
-			if cstart < check_line then
-				vim.tbl_extend("keep", complete_nodes, find_complete_item_within_child(child_node))
+		local start_row, _, _ = current_node:start()
+		if start_row <= check_line then
+			for child_node in current_node:iter_children() do
+				local cstart, cscol, _ = child_node:start()
+	--			local cend, cecol, _ = child_node:start()
+	--			local matches = _query:iter_matches(child_node, 0, cstart, cstart + 1)
+	--		for pattern, match in matches do
+	--			for id, node in pairs(match) do
+	--				local text = ts_utils.get_node_text(child_node, 0)[1] or "xxxxx"
+	--				local 
+	--				print(_query.captures[id] .. " " .. text .. " " .. cstart .. " " .. child_node:child_count() )
+	--			end
+	--		end
+				if cstart <= check_line then
+					vim.tbl_extend("keep", complete_nodes, find_complete_item_within_child(child_node))
+				end
 			end
 		end
-		check_line = start_row
-		:: continue ::
+
 		if is_decl_scope_node(current_node) then
-			loop_end = true
-		else
-			current_node = current_node:parent()
+			break
 		end
-		if not current_node then loop_end = ture end
-	until(loop_end)
+		check_line = start_row
+		current_node = current_node:parent()
+		--:: continue ::
+		--if is_decl_scope_node(current_node) then
+		--	loop_end = true
+		--else
+		--	current_node = current_node:parent()
+		--end
+		--if not current_node then loop_end = ture end
+	until(false)
 	return complete_nodes
 end
 

@@ -48,18 +48,13 @@
 	) @decl_scope
 ) 
 
-(
-  (short_var_declaration 
+(short_var_declaration 
     left: (expression_list
-  		  (identifier) @decl.var
-  	  )
-  ) 
-)
+			  (identifier) @decl_var ))
 
 (
 (var_spec 
-  name: (identifier) @decl.var)
-)
+  name: (identifier) @decl.var))
 
 
 ;(局部变量也会被纳入
