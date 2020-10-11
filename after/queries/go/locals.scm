@@ -2,33 +2,33 @@
 		name: (identifier) @complete_item
 		(parameter_list
 			(parameter_declaration
-				(identifier) @complete_item)) @complete_def) @complete_context)
+				(identifier) @complete_item)) @complete_def) @complete_global)
 
 ;((function_declaration
 	
 ((type_declaration 
 	(type_spec
-		name: (type_identifier) @complete_item))) @complete_context
+		name: (type_identifier) @complete_item))) @complete_global
 
 (source_file
 	(var_declaration
 		(var_spec
-			name: (identifier) @complete_item))) 
+			name: (identifier) @complete_item)) @complete_global) 
 
 (source_file
 	(const_declaration
 		(const_spec
-			name: (identifier) @complete_item)))
+			name: (identifier) @complete_item)) @complete_global)
 
 ((short_var_declaration 
     left: (expression_list
-			  (identifier) @complete_item )) @complete_def)
+			  (identifier) @complete_item )) @complete_context)
 
 (func_literal) @complete_context
-(source_file) @complete_context
-(if_statement) @complete_context
-(block) @complete_context_pre
-(for_statement) @complete_context
+(source_file) @complete_top
+(if_statement) @complete_scope
+(block) @complete_scope
+(for_statement) @complete_scope
 (method_declaration) @complete_context
 
 ;(

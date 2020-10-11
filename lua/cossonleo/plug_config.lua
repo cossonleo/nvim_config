@@ -60,66 +60,6 @@ function M.nvim_treesitter()
 			  node_decremental = "grm",      -- decrement to the previous node
 			}
 		},
-		refactor = {
-			highlight_definitions = { enable = false },
-			highlight_current_scope = { enable = false },
-			smart_rename = {
-				enable = false,
-				keymaps = {
-					smart_rename = "grr",
-				},
-			},
-			navigation = {
-				enable = false,
-				keymaps = {
-					goto_definition_lsp_fallback = "gnd",
-					list_definitions = "gnD",
-					goto_next_usage = "]r",
-					goto_previous_usage = "[r",
-				},
-			},
-		},
-		textobjects = {
-			enable = true,
-			select = {
-				enable = true,
-				keymaps = {
-					-- You can use the capture groups defined in textobjects.scm
-					["af"] = "@function.outer",
-					["if"] = "@function.inner",
-					["ac"] = "@class.outer",
-					["ic"] = "@class.inner",
-
-					-- Or you can define your own textobjects like this
-					["iF"] = {
-				--		python = "(function_definition) @function",
-				--		cpp = "(function_definition) @function",
-				--		c = "(function_definition) @function",
-				--		java = "(method_declaration) @function",
-					},
-				},
-			},	
-
-			move = {
-				enable = true,
-				goto_next_start = {
-					["]m"] = "@function.outer",
-					-- ["]]"] = "@class.outer",
-				},
-				goto_next_end = {
-					["]M"] = "@function.outer",
-					-- ["]["] = "@class.outer",
-				},
-				goto_previous_start = {
-					["[m"] = "@function.outer",
-					-- ["[["] = "@class.outer",
-				},
-				goto_previous_end = {
-					["[M"] = "@function.outer",
-					-- ["[]"] = "@class.outer",
-				},
-			},
-		},
 	}
 end
 
@@ -206,17 +146,36 @@ end
 function M.telescope()
 	local has, tconfig = pcall(require, 'telescope.config')
 	if not has then return end
-	local config = tconfig.values
-	local map_i = config.default_mappings.i
+	--local config = tconfig.values
 	local actions = require('telescope.actions')
 
-	config.layout_strategy = 'vertical'
+	require('telescope').setup {
+		defaults = {
+			mappings = {
+				i = {
+					["<C-j>"] = actions.move_selection_next,
+					["<C-k>"] = actions.move_selection_previous,
+					["<esc>"] = actions.close,
+					["<c-n>"] = false,
+					["<c-p>"] = false,
+
+				},
+			},
+			sorting_strategy = "ascending",
+			prompt_position = "top",
+			use_less = false,
+		}
+	}
+
+--	config.layout_strategy = 'vertical'
 --	config.layout_strategy = 'center'
 --	config.sorting_strategy = "ascending"
-	config.selection_strategy = 'reset'
-	map_i["<C-j>"] = actions.move_selection_next
-	map_i["<C-k>"] = actions.move_selection_previous
-	map_i["<esc>"] = actions.close
+--	config.selection_strategy = 'reset'
+--	map["<C-j>"] = actions.move_selection_next
+--	map["<C-k>"] = actions.move_selection_previous
+--	map["<esc>"] = actions.close
+--	map["<c-n>"] = false
+--	map["<c-p>"] = false
 
  	vim.cmd[[ nnoremap <silent> <leader>b :lua require'telescope.builtin'.buffers{}<CR> ]]
  	vim.cmd[[ nnoremap <silent> <leader><leader> :lua require'telescope.builtin'.find_files{}<CR> ]]

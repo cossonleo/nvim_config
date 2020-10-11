@@ -10,7 +10,7 @@ function M.stl()
 end
 
 function M.open_complete()
-	require'ts_ext.complete'
+	require'ts_ext.complete_ref'
 end
 
 return M
