@@ -134,6 +134,7 @@ function M.statusline()
 	reset()
 	--_cur_stl_node = get_smallest_decl_context()
 	local node = get_smallest_decl_context()
+	if not node then return "" end
 	local name_node = get_decl_name_node(node)
 	if not name_node then return "" end
 	return ts_utils.get_node_text(name_node, 0)[1] or ""
