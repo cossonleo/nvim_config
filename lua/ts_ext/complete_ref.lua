@@ -97,5 +97,5 @@ local function request(ctx)
 	completor.add_complete_items(ctx, items)
 end
 
-manager:add_src("ts_complete", request)
+--manager:add_src("ts_complete", request)
 log.info("add treesitter complete source finish")

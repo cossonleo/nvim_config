@@ -33,7 +33,8 @@ local function set_query_var()
 		_filetype = cur_ft
 		_query = queries.get_query(_filetype, QUERY_GROUP)
 		for id, kind in ipairs(_query.captures) do
-			init_kind_id[kind](id)
+			local init = init_kind_id[kind]
+			if init then init(id) end
 		end
 	end
 end
@@ -199,7 +200,7 @@ local function request(ctx)
 	completor.add_complete_items(ctx, items)
 end
 
-manager:add_src("ts_complete", request)
+--manager:add_src("ts_complete", request)
 log.info("add treesitter complete source finish")
 
 return {

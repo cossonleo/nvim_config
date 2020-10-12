@@ -6,7 +6,7 @@ function M.list_scope_item()
 end
 
 function M.stl()
-	return require'ts_ext.decl'.get_smallest_decl_context_text()
+	return require'ts_ext.context'.statusline()
 end
 
 function M.open_complete()
