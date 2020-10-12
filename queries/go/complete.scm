@@ -1,35 +1,45 @@
+;((function_declaration
+;		name: (identifier) @func_name
+;		(parameter_list
+;			(parameter_declaration
+;				(identifier) @complete_item)) @complete_def) @func)
+
 ((function_declaration
-		name: (identifier) @complete_item
-		(parameter_list
-			(parameter_declaration
-				(identifier) @complete_item)) @complete_def) @complete_global)
+		name: (identifier) @name.func) @func)
+
+((method_declaration
+        name: (field_identifier) @name.method) @method)
+
+((type_declaration 
+  (type_spec
+    name: (type_identifier) @name.type)) @type)
 
 ;((function_declaration
 	
-((type_declaration 
-	(type_spec
-		name: (type_identifier) @complete_item))) @complete_global
-
-(source_file
-	(var_declaration
-		(var_spec
-			name: (identifier) @complete_item)) @complete_global) 
-
-(source_file
-	(const_declaration
-		(const_spec
-			name: (identifier) @complete_item)) @complete_global)
-
-((short_var_declaration 
-    left: (expression_list
-			  (identifier) @complete_item )) @complete_context)
-
-(func_literal) @complete_scope
-(source_file) @complete_top
-(if_statement) @complete_scope
-(block) @complete_scope
-(for_statement) @complete_scope
-(method_declaration) @complete_context
+;((type_declaration 
+;	(type_spec
+;		name: (type_identifier) @complete_item))) @complete_global
+;
+;(source_file
+;	(var_declaration
+;		(var_spec
+;			name: (identifier) @complete_item)) @complete_global) 
+;
+;(source_file
+;	(const_declaration
+;		(const_spec
+;			name: (identifier) @complete_item)) @complete_global)
+;
+;((short_var_declaration 
+;    left: (expression_list
+;			  (identifier) @complete_item )) @complete_context)
+;
+;(func_literal) @complete_scope
+;(source_file) @complete_top
+;(if_statement) @complete_scope
+(block) @scope
+;(for_statement) @complete_scope
+;(method_declaration) @complete_context
 
 ;(
 ;	(function_declaration
