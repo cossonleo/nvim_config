@@ -1,6 +1,6 @@
-local queries = require'nvim-treesitter.query'
-local ts_locals = require'nvim-treesitter.locals'
-local parsers = require'nvim-treesitter.parsers'
+local queries = require'vim.treesitter.query'
+--local ts_locals = require'nvim-treesitter.locals'
+--local parsers = require'nvim-treesitter.parsers'
 local ts_utils = require'nvim-treesitter.ts_utils'
 local api = vim.api
 
@@ -33,6 +33,7 @@ local function set_query_var()
 	if _filetype ~=	cur_ft then
 		_filetype = cur_ft
 		_query = queries.get_query(_filetype, QUERY_GROUP)
+		if _query == nil then return end
 		for id, kind in ipairs(_query.captures) do
 			local init = init_kind_id[kind]
 			if init then init(id) end
@@ -40,9 +41,10 @@ local function set_query_var()
 	end
 end
 
-local function reset()
+local function check_and_reset()
 	set_query_var()
 	_capture_cache = {}
+	return _query ~= nil
 end
 
 local function node_id(node)
@@ -71,35 +73,20 @@ local function is_node_kind(node, kind, parent)
 	local kinds = get_node_capture_kind(node, parent)
 	if not kinds then return false end
 	for _, k in ipairs(kinds) do
-		if k == kind then return true end
+		if k == kind then 
+			return true 
+		end
 	end
 	return false
 end
 
-local function get_smallest_decl_context(node)
-	local current_node = (node and node:parent()) or ts_utils.get_node_at_cursor()
-	while current_node do
-		if is_node_kind(current_node, FUNC_KIND_ID) or 
-			is_node_kind(current_node, METHOD_KIND_ID) or
-			is_node_kind(current_node, TYPE_KIND_ID)
-		then 
-			return current_node 
-		end
-		current_node = current_node:parent()
-	end
-	return nil
-end
-
-local function get_decl_name_node(node, parent)
-	if not node or node:child_count() == 0 then return "" end
+local function get_decl_name_node(node, kind, parent)
+	if not node or node:child_count() == 0 then return nil end
 	local parent = parent or node
 	local not_leafs = {}
 	for child in node:iter_children() do
 		if child:child_count() == 0 then
-			if is_node_kind(child, FUNC_NAME_ID, parent) or 
-				is_node_kind(child, METHOD_NAME_ID, parent) or
-				is_node_kind(child, TYPE_NAME_ID, parent)
-			then
+			if is_node_kind(child, kind, parent) then
 				return child
 			end
 		elseif not is_node_kind(child, SCOPE_KIND_ID, parent) then
@@ -108,10 +95,31 @@ local function get_decl_name_node(node, parent)
 	end
 
 	for _, lnode in ipairs(not_leafs) do
-		local ln = get_decl_name_node(lnode, parent)
+		local ln = get_decl_name_node(lnode, kind, parent)
 		if ln then return ln end
 	end
 
+	return nil
+end
+
+
+local function get_smallest_decl_context(node)
+	local current_node = (node and node:parent()) or ts_utils.get_node_at_cursor()
+	while current_node do
+		if is_node_kind(current_node, FUNC_KIND_ID) then
+			print("1111111111")
+			return get_decl_name_node(current_node, FUNC_NAME_ID)
+		end
+		if is_node_kind(current_node, METHOD_KIND_ID) then
+			print("2222222222")
+			return get_decl_name_node(current_node, METHOD_NAME_ID)
+		end
+		if is_node_kind(current_node, TYPE_KIND_ID) then
+			print("3333333333")
+			return get_decl_name_node(current_node, TYPE_NAME_ID)
+		end
+		current_node = current_node:parent()
+	end
 	return nil
 end
 
@@ -127,17 +135,9 @@ local function is_cur_node()
 end
 
 function M.statusline()
-	--if _cur_stl_node and is_cur_node() then
-	--	return get_decl_name(_cur_stl_node) or ""
-	--end
-
-	reset()
-	--_cur_stl_node = get_smallest_decl_context()
+	if not check_and_reset() then return "" end
 	local node = get_smallest_decl_context()
-	if not node then return "" end
-	local name_node = get_decl_name_node(node)
-	if not name_node then return "" end
-	return ts_utils.get_node_text(name_node, 0)[1] or ""
+	return ts_utils.get_node_text(node, 0)[1] or ""
 end
 
 return M
