@@ -107,15 +107,12 @@ local function get_smallest_decl_context(node)
 	local current_node = (node and node:parent()) or ts_utils.get_node_at_cursor()
 	while current_node do
 		if is_node_kind(current_node, FUNC_KIND_ID) then
-			print("1111111111")
 			return get_decl_name_node(current_node, FUNC_NAME_ID)
 		end
 		if is_node_kind(current_node, METHOD_KIND_ID) then
-			print("2222222222")
 			return get_decl_name_node(current_node, METHOD_NAME_ID)
 		end
 		if is_node_kind(current_node, TYPE_KIND_ID) then
-			print("3333333333")
 			return get_decl_name_node(current_node, TYPE_NAME_ID)
 		end
 		current_node = current_node:parent()
