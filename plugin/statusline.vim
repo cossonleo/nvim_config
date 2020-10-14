@@ -30,7 +30,7 @@ set stl+=%#StatusLine#%{get(b:,'fit_len_fname','')}\
 set stl+=%#StatusLine#%m%r%h%w%q
 set stl+=%#StatusLine#%= 		"左右分割
 set stl+=%#StatusLine#%{v:lua.cossonleo.lsp_info()}\ 
-set stl+=%#StatusLine#%{luaeval('require[[ts_ext]].stl()')}\ 
+set stl+=%#StatusLine#%{luaeval('require[[ts_ext]].statusline()')}\ 
 set stl+=%#StatusLine#%y\ 
 set stl+=%#StatusLine#(%l,%c)/%L\ 
 set stl+=%#StatusLine#%{(&fenc!=''?&fenc:&enc)}      "编码1

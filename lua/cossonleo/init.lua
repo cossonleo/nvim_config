@@ -37,6 +37,8 @@ vim.cmd[[ nnoremap gD :lua vim.lsp.buf.implementation()<CR> ]]
 vim.cmd[[ nnoremap gc :lua vim.lsp.buf.rename()<CR ]]
 vim.cmd[[ nnoremap gk :lua vim.lsp.buf.hover()<CR> ]]
 vim.cmd[[ nnoremap gq :lua vim.lsp.buf.formatting()<cr> ]]
+vim.cmd" nnoremap <silent> [m :lua  require'ts_ext'.goto_context_start()<cr>"
+vim.cmd" nnoremap <silent> ]m :lua  require'ts_ext'.goto_context_end()<cr>"
 vim.cmd[[ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "<Tab>" ]]
 vim.cmd[[ inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>" ]]
 
