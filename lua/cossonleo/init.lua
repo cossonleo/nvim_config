@@ -26,12 +26,12 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.cursorcolumn = false
 
-vim.cmd[[ tnoremap <esc> <c-\\><c-N> ]]
-vim.cmd[[ tnoremap <c-w><c-w> <c-\\><c-N><c-w><c-w> ]]
-vim.cmd[[ tnoremap <c-w>h <c-\\><c-N><c-w>h ]]
-vim.cmd[[ tnoremap <c-w>j <c-\\><c-N><c-w>j ]]
-vim.cmd[[ tnoremap <c-w>k <c-\\><c-N><c-w>k ]]
-vim.cmd[[ tnoremap <c-w>l <c-\\><c-N><c-w>l ]]
+vim.cmd[[ tnoremap <esc> <c-\><c-N> ]]
+vim.cmd[[ tnoremap <c-w><c-w> <c-\><c-N><c-w><c-w> ]]
+vim.cmd[[ tnoremap <c-w>h <c-\><c-N><c-w>h ]]
+vim.cmd[[ tnoremap <c-w>j <c-\><c-N><c-w>j ]]
+vim.cmd[[ tnoremap <c-w>k <c-\><c-N><c-w>k ]]
+vim.cmd[[ tnoremap <c-w>l <c-\><c-N><c-w>l ]]
 vim.cmd[[ nnoremap gd :lua vim.lsp.buf.definition()<CR> ]]
 vim.cmd[[ nnoremap gD :lua vim.lsp.buf.implementation()<CR> ]]
 vim.cmd[[ nnoremap gc :lua vim.lsp.buf.rename()<CR ]]
