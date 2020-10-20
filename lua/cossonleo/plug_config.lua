@@ -78,7 +78,7 @@ function M.nvim_lsp()
 
 	add('gopls', {settings = { gopls = { usePlaceholders = true,	completeUnimported = true } }})
 	add('clangd')
-	add('pyls')
+	-- add('pyls')
 	add('dockerls')
 	add('vimls')
 	add('tsserver')
