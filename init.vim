@@ -23,7 +23,7 @@ if &term =~# '^screen'
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-"lua require 'cossonleo'
+lua require 'cossonleo'
 
 "inoremap <F5> <C-R>=ListMonths()<CR>
 "
