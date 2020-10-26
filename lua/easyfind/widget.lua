@@ -77,7 +77,7 @@ local function update()
 	end
 end
 
-local function show()
+local function _show()
 	main_buf.reset()
 	match_str = ""
 	match_cache = {}
@@ -89,7 +89,7 @@ function M.show(data)
 	if type(data) ~= "table" then return end
 	if #data == 0 then return end
 	list_data = data
-	show()
+	_show()
 end
 
 function M.do()
