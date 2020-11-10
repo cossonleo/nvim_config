@@ -8,7 +8,7 @@ use 'cossonleo/neo-comment.nvim'
 use 'psliwka/vim-smoothie'
 use 'tpope/vim-surround'
 use 'jiangmiao/auto-pairs'
----- use 'chrisbra/csv.vim'
+------ use 'chrisbra/csv.vim'
 use 'kyazdani42/nvim-web-devicons'
 use 'nvim-lua/popup.nvim'
 use 'nvim-lua/plenary.nvim'
@@ -23,7 +23,8 @@ use { 'voldikss/vim-translator', config = config.vim_translator }
 use { 'nvim-treesitter/nvim-treesitter', config = config.nvim_treesitter }
 use { 'neovim/nvim-lsp', config = config.nvim_lsp }
 use { 'nvim-lua/diagnostic-nvim', config = config.diagnostic_nvim }
-use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
-use { 'nvim-lua/telescope.nvim', config = config.telescope }
+-- use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
+-- use { 'nvim-lua/telescope.nvim', config = config.telescope }
+use { 'liuchengxu/vim-clap', config = config.vim_clap }
 
 vim_plug.load()
