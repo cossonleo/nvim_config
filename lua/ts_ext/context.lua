@@ -45,12 +45,8 @@ local function check_and_reset_env()
 	return _query ~= nil
 end
 
-local function node_id(node)
-	return string.format("%s_%d_%d_%d_%d", node:symbol(), node:range())
-end
-
 local function get_node_capture_kind(cur_node, parent)
-	local cur_id = node_id(cur_node)
+	local cur_id = cur_node:id()
 	local cache = _capture_cache[cur_id] or nil
 	if cache then return cache end
 
@@ -182,10 +178,17 @@ function _goto_smallest_decl_context(is_start)
 	a.nvim_win_set_cursor(0, {pos[1] + 1, pos[2]})
 end
 
+function test_capture()
+	set_query_var()
+	local current_node = ts_utils.get_node_at_cursor()
+	print(current_node:id())
+end
+
 return function(M)
 	M.statusline = _get_smallest_decl_context
 	M.goto_context_start = function() _goto_smallest_decl_context(true) end
 	M.goto_context_end = function() _goto_smallest_decl_context(false) end
+	M.test_capture = function() test_capture() end
 	--goto_pre_context = _goto_smallest_decl_context,
 	--goto_next_context = _goto_smallest_decl_context,
 end

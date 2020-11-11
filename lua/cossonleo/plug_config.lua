@@ -8,11 +8,8 @@ end
 function M.vim_easymotion()
 	vim.g.EasyMotion_do_mapping = 0
 	vim.cmd[[nnoremap <silent> / :call EasyMotion#S(-1, 0, 2)<cr>]]
-	--vim.cmd[[ nnoremap / <Plug>(easymotion-sn) ]]
-	--vim.cmd[[ onoremap / <Plug>(easymotion-tn) ]]
-	--vim.cmd[[ nnoremap n <Plug>(easymotion-next)]]
-	--vim.cmd[[ nnoremap N <Plug>(easymotion-prev]]
 end
+
 function M.onedark()
 	vim.g.onedark_color_overrides = {black = {gui = "#000000", cterm = "235", cterm16 = 0}}
 	pcall(vim.cmd, [[ colorscheme onedark ]])
@@ -68,11 +65,11 @@ function M.nvim_lsp()
 	local has, nvim_lsp = pcall(require, 'nvim_lsp')
 	if not has then return end
 
-	local ext = require'lsp_ext'
+	--local ext = require'lsp_ext'
 	local add = function(ls, opt)
 		local config = opt or {}
-		config.on_attach = config.on_attach or ext.default_config.on_attach
-		config.capabilities = config.capabilities or ext.default_config.capabilities
+		--config.on_attach = config.on_attach or ext.default_config.on_attach
+		--config.capabilities = config.capabilities or ext.default_config.capabilities
 		nvim_lsp[ls].setup(config)
 	end
 

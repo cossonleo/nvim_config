@@ -29,6 +29,9 @@ function! GrepHl(prom)
 	return ret
 endfunction
 
+"hi default link ClapDisplay Pmenu
+hi default link ClapDisplay StatusLine
+
 "hi User1 guifg=#C678DD gui=bold
 "hi StatusBlue guifg=#61AFEF gui=bold
 "hi StatusYellow guifg=#E5C07B
