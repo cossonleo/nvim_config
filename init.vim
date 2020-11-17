@@ -1,10 +1,10 @@
 let s:config_home = stdpath("config")
 
 " 打开时光标放在上次退出时的位置
-"autocmd BufReadPost *
-"\ if line("'\"") > 0 && line ("'\"") <= line("$") |
-"\   exe "normal g'\"" |
-"\ endif
+autocmd BufReadPost *
+\ if line("'\"") > 0 && line ("'\"") <= line("$") |
+\   exe "normal g'\"" |
+\ endif
 
 autocmd Filetype rust,go,c,cpp,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
@@ -42,3 +42,5 @@ lua require 'cossonleo'
 "EOF
 "return ""
 "endfunc
+"
+au FileType * lua require('ts_ext').on_filetype()
