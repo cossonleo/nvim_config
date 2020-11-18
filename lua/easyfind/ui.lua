@@ -1,4 +1,3 @@
-local M = {}
 local fuzzy = require("easyfind/fuzzy")
 local filter = fuzzy.match_and_pick_sort_str
 
@@ -8,6 +7,7 @@ local show_vec = {}
 -- 1-based
 local first_index = 0
 local select_line = 0
+local last_match_pattern = ""
 
 local buf_id = 0
 local win_id = 0
@@ -16,6 +16,7 @@ local show_conf = {}
 local search_sign_id = 0
 local search_sign_id2 = 0
 local select_sign_id = 0
+
 
 vim.fn.sign_define("easyfind_sign_search", {text = ">>", texthl = "Error", linehl = "CursorLine"})
 vim.fn.sign_define("easyfind_sign_search2", {text = ">", texthl = "Error", linehl = "CursorLine"})
@@ -78,15 +79,16 @@ local function init_buf_once()
 	vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-k>", pre_cmd, opts)
 	search_sign()
 
-	local match_atuo_cmd = "au TextChangedI <buffer=" .. buf_id .. "> lua require'easyfind/ui'.match()"
-	vim.cmd(match_atuo_cmd)
+	vim.cmd("au TextChangedI <buffer="
+		.. buf_id .. "> lua require'easyfind/ui'.match()")
 
 	--vim.api.nvim_buf_attach(buf_id, false, {
-	--	on_changedtick = function(...)
+	--	on_lines = function(...)
 	--		vim.schedule(function()
+	--			require("easyfind/ui").match()
 	--			--set_show_vec(true)
 	--			--set_buf(true)
-	--			print("+++++++++++++++++++++")
+	--			--print("+++++++++++++++++++++")
 	--		end)
 	--	end
 	--})
@@ -127,16 +129,10 @@ local function set_conf(conf)
 	show_conf = {row = row, col = col, width = width, height = height}
 end
 
-local function set_show_vec(on_match)
-	local search_line = ""
-	if on_match then
-		local lines = vim.api.nvim_buf_get_lines(buf_id, 0, 1, false)
-		if #lines > 0 then search_line = lines[1] end
-	end
-
+local function set_show_vec()
 	show_vec = {}
 	for i, item in ipairs(data_vec) do
-		if not on_match or search_line == "" or filter(item:get_data(), search_line) then
+		if last_match_pattern == "" or filter(item:data_for_match(), last_match_pattern) then
 			table.insert(show_vec, i)
 		end
 	end
@@ -144,21 +140,15 @@ local function set_show_vec(on_match)
 	select_line = 1
 end
 
-local function set_buf(on_match)
-	local search_line = ""
-	if on_match then
-		local lines = vim.api.nvim_buf_get_lines(buf_id, 0, 1, false)
-		if #lines > 0 then search_line = lines[1] end
-	end
-
-	local lines = {search_line}
+local function set_buf()
+	local lines = {last_match_pattern}
 	local count = show_conf.height - 1
 	for i = 0, count - 1 do
 		local index = i + first_index
 		if index > #show_vec then break end
 		local data_index = show_vec[index]
 		local item = data_vec[data_index]
-		table.insert(lines, item:get_loc() .. ": " .. item:get_data())
+		table.insert(lines, item:tips() .. item:data_for_match())
 	end
 
 	vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
@@ -170,6 +160,7 @@ end
 
 local function new(data, conf)
 	data_vec = data
+	last_match_pattern = ""
 	set_conf(conf)
 	set_show_vec()
 	set_buf()
@@ -193,7 +184,7 @@ local function move_next()
 
 	if #show_vec - first_index + 1 <= height then return "" end
 	first_index = first_index + 1
-	set_buf(true)
+	set_buf()
 	return ""
 end
 
@@ -206,7 +197,7 @@ local function move_pre()
 
 	if first_index > 1 then
 		first_index = first_index - 1
-		set_buf(true)
+		set_buf()
 		return ""
 	end
 
@@ -222,14 +213,18 @@ local function do_item()
 end
 
 init_buf_once()
-M.new = function(data, conf) new(data, conf) end
-M.move_next = function() return move_next() end
-M.move_pre = function() return move_pre() end
-M.do_item = function() do_item() end
-M.close = function() close_win() end
-M.match = function() 
-	set_show_vec(true)
-	set_buf(true)
-end
-
-return M
+return {
+	new = function(data, conf) new(data, conf) end,
+	move_next = function() return move_next() end,
+	move_pre = function() return move_pre() end,
+	do_item = function() do_item() end,
+	close = function() close_win() end,
+	match = function() 
+		local pattern = vim.fn.getline(1)
+		if pattern == last_match_pattern then return end
+		last_match_pattern = pattern
+		set_show_vec()
+		set_buf()
+		refresh_sign()
+	end,
+}

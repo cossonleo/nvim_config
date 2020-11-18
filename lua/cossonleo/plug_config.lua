@@ -169,7 +169,6 @@ function M.vim_clap()
 	vim.g.clap_provider_grep_executable = 'rg'
 	vim.g.clap_provider_grep_opts = '-H --no-heading --vimgrep --smart-case'
 	vim.g.clap_provider_grep_delay = 300
-	vim.cmd[[nnoremap <silent> <leader><leader> :Clap files<cr>]]
 	vim.cmd[[nnoremap <silent> <leader>b :Clap buffers<cr>]]
 end
 

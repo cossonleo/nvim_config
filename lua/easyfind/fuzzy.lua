@@ -17,15 +17,15 @@ module.match_and_pick_sort_str = function(str, pattern)
 	local plen = pattern:len()
 
 	if slen < plen then return nil end
-	if str:sub(1,1) ~= pattern:sub(1,1) then
-		return nil
-	end
+--	if str:sub(1,1) ~= pattern:sub(1,1) then
+--		return nil
+--	end
+--
+--	if plen == 1 then return {str:sub(2)} end
 
-	if plen == 1 then return {str:sub(2)} end
-
-	local n = 2
+	local n = 1
 	local sort_str = {}
-	for i = 2, plen, 1 do
+	for i = 1, plen do
 		if slen - n < plen - i then return nil end
 		local sub_str, pc = "", pattern:sub(i, i)
 		for j = n, slen, 1 do

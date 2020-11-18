@@ -45,6 +45,8 @@ vim.cmd"nnoremap <silent> ]m :lua  require'ts_ext'.goto_context_end()<cr>"
 vim.cmd[[inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "<Tab>"]]
 vim.cmd[[inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"]]
 
+vim.cmd[[nnoremap <silent> <leader><leader> :lua require("easyfind").files()<cr>]]
+
 require'cossonleo.plugins'
 
 local M = {}
