@@ -19,23 +19,6 @@ M.default_config = {
 
 return M
 
--- M.references = function()
--- 	local params = util.make_position_params()
--- 	params.context = {
--- 		includeDeclaration = true;
--- 	}
--- 	params[vim.type_idx] = vim.types.dictionary
--- 
--- 	return vim.lsp.buf_request(0, 'textDocument/references', params, function(_, _, result)
--- 		if not result then return end
--- 		vim.lsp.util.set_qflist(util.locations_to_items(result))
--- 		vim.api.nvim_command("LeaderfQuickFix")
--- 		-- local wvv = vim.fn.winsaveview()
--- 		-- vim.api.nvim_command("copen")
--- 		-- vim.api.nvim_command("wincmd p")
--- 		-- vim.fn.winrestview(wvv)
--- 	end)
--- end
 -- 
 -- M.document_symbol = function()
 -- 	local params = { textDocument = util.make_text_document_params() }

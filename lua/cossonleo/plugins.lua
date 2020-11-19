@@ -26,6 +26,6 @@ use { 'neovim/nvim-lsp', config = config.nvim_lsp }
 use { 'nvim-lua/diagnostic-nvim', config = config.diagnostic_nvim }
 -- use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
 -- use { 'nvim-lua/telescope.nvim', config = config.telescope }
-use { 'liuchengxu/vim-clap', config = config.vim_clap }
+--use { 'liuchengxu/vim-clap', config = config.vim_clap }
 
 vim_plug.load()

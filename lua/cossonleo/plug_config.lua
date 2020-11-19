@@ -162,14 +162,14 @@ end
 --	vim.cmd[[nnoremap <silent> <leader>f :lua require('cossonleo.ts_ext').list_scope_item()<cr>]]
 --end
 
-function M.vim_clap()
-	vim.g.clap_layout = {relative = 'editor', width = '67%', height = '66%', row = '16%', col = '16%'}
-	vim.g.clap_popup_input_delay = 100
-	vim.g.clap_popup_border = 'sharp'
-	vim.g.clap_provider_grep_executable = 'rg'
-	vim.g.clap_provider_grep_opts = '-H --no-heading --vimgrep --smart-case'
-	vim.g.clap_provider_grep_delay = 300
-	vim.cmd[[nnoremap <silent> <leader>b :Clap buffers<cr>]]
-end
+--function M.vim_clap()
+--	vim.g.clap_layout = {relative = 'editor', width = '67%', height = '66%', row = '16%', col = '16%'}
+--	vim.g.clap_popup_input_delay = 100
+--	vim.g.clap_popup_border = 'sharp'
+--	vim.g.clap_provider_grep_executable = 'rg'
+--	vim.g.clap_provider_grep_opts = '-H --no-heading --vimgrep --smart-case'
+--	vim.g.clap_provider_grep_delay = 300
+--	vim.cmd[[nnoremap <silent> <leader>b :Clap buffers<cr>]]
+--end
 
 return M
