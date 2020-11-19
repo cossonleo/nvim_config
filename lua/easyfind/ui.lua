@@ -109,6 +109,7 @@ local function open_win()
 	--vim.api.nvim_win_set_option(win_id, "signcolumn", "auto:9")
 	--vim.api.nvim_win_set_option(win_id, "signcolumn", "number")
 	vim.api.nvim_win_set_option(win_id, "signcolumn", "auto:3")
+	vim.api.nvim_win_set_option(win_id, "wrap", false)
 	refresh_sign()
 
 	vim.api.nvim_feedkeys("i", "n", true)

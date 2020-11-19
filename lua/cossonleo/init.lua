@@ -46,6 +46,8 @@ vim.cmd[[inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "<Tab>"]]
 vim.cmd[[inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"]]
 
 vim.cmd[[nnoremap <silent> <leader><leader> :lua require("easyfind").files()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>r :lua vim.lsp.buf.references()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>g :lua require("cossonleo/util").grep_dir()<cr>]]
 
 require'cossonleo.plugins'
 

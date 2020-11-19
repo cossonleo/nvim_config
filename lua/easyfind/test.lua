@@ -1,43 +1,32 @@
 local M = {}
-local uv = vim.loop
 
-local ui = require("easyfind/ui")
 
-local item_base = {
-	data = "",
-	loc = "",
-}
-
-function item_base:get_loc()
-	return self.loc
-end
-
-function item_base:get_data()
-	return self.data
-end
-
-function item_base:do_item()
-	print("aaaa", self.data, self.loc)
-end
-
-function new(data, loc)
-	local item = {data = data, loc = loc}
-	setmetatable(item, {__index = item_base})
-	return item
-end
-
-function M.test()
-	local vec = {}
-	local fd = uv.fs_opendir(".")
-	for i = 1, 8 do
-		local iter = uv.fs_readdir(fd)
-		if iter then
-			for _, d in ipairs(iter) do
-				table.insert(vec, new(d.name, ""))
-			end
+local ret = "test.lua"
+function other_uv(ret)
+	local luv = require("luv")
+	function exe(p)
+		local function readFileSync(path)
+			local uv = require("luv")
+			local fd = assert(uv.fs_open(path, "r", 438))
+			local stat = assert(uv.fs_fstat(fd))
+			local data = assert(uv.fs_read(fd, stat.size, 0))
+			assert(uv.fs_close(fd))
+			return data
 		end
+		return readFileSync(p)
 	end
-	ui.new(vec)
+
+	function cb(data)
+		ret = data
+	end
+
+	local work = luv.new_work(exe, cb)
+	work:queue(ret)
 end
+
+local lw = vim.loop.new_work(other_uv, function() end)
+lw:queue(ret)
+
+print(ret)
 
 return M

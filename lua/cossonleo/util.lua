@@ -21,23 +21,19 @@ end
 
 
 function M.grep_dir()
-	local has_tl, _ = pcall(require, 'telescope')
-	if not has_tl then
-		print("not installed telescope")
-		return
-	end
 	local default = vim.fn.expand('<cword>')
 	vim.api.nvim_command("echohl PromHl")
 	vim.fn.inputsave()
-	local input = vim.fn.input({prompt = 'rg> ', highlight = 'GrepHl'})
+	local input = vim.fn.input({prompt = 'rg> ', default = default, highlight = 'GrepHl'})
 	vim.fn.inputrestore()
 	vim.api.nvim_command("echohl None")
 
-	local opt = nil
-	if #input > 0 then
-		opt = { search = input }
+	--if #input == 0 then input = default end
+	if #input == 0 then
+		vim.cmd[[echo "no input for grep"]]
+		return 
 	end
-	require'telescope.builtin'.grep_string(opt)
+	require("easyfind").grep(input)
 end
 
 local spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' }

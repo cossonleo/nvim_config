@@ -3,7 +3,10 @@ local M = {}
 local uv = vim.loop
 
 function M.scan_dir_rec(path)
-	path = path or vim.fn.getcwd(-1, 0)
+	if not path or #path == "" then
+		return {}
+	end
+
 	local dir = uv.fs_opendir(path, nil, 1000)
 	if not dir then return end
 
@@ -13,7 +16,7 @@ function M.scan_dir_rec(path)
 		local iter = uv.fs_readdir(dir)
 		if not iter or #iter == 0 then 
 			uv.fs_closedir(dir)
-			return  false
+			return true
 		end
 		for _, entry in ipairs(iter) do
 			local p = path .. "/" .. entry.name
@@ -23,15 +26,15 @@ function M.scan_dir_rec(path)
 				table.insert(sub_dir, p)
 			end
 		end
-		return true
+		return false
 	end
 
 	repeat
-		local continue = readdir()
-	until continue
+		local tail = readdir()
+	until tail
 
 	for _, sd in ipairs(sub_dir) do
-		local sub_f = scan_dir(sd)
+		local sub_f = M.scan_dir_rec(sd)
 		vec = vim.list_extend(vec, sub_f)
 	end
 	return vec
