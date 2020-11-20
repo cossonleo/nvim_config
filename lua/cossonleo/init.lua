@@ -45,11 +45,14 @@ vim.cmd"nnoremap <silent> ]m :lua  require'ts_ext'.goto_context_end()<cr>"
 vim.cmd[[inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "<Tab>"]]
 vim.cmd[[inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"]]
 
-vim.cmd[[nnoremap <silent> <leader><leader> :lua require("easyfind").files()<cr>]]
-vim.cmd[[nnoremap <silent> <leader>b :lua require("easyfind").buf_list()<cr>]]
-vim.cmd[[nnoremap <silent> <leader>r :lua require("easyfind").reference()<cr>]]
-vim.cmd[[nnoremap <silent> <leader>g :lua require("cossonleo/util").grep_dir()<cr>]]
---vim.cmd[[nnoremap <silent> <leader>r :lua vim.lsp.buf.references()<cr>]]
+vim.cmd[[nnoremap <silent> <leader><leader> :lua require("easy_search").files()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>b :lua require("easy_search").buf_list()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>r :lua require("easy_search").reference()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>g :lua require("easy_search").grep()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>t :lua require("easy_search").term_list()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>s :lua require("easy_search").symbols()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>f :lua require("easy_search").func()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>v :lua require("easy_search").vim_menu()<cr>]]
 
 require'cossonleo.plugins'
 

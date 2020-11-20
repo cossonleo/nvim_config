@@ -29,11 +29,11 @@ function grep_item:new(file, line, col, content)
 	return item
 end
 
-function M.grep(word)
+local function grep(word)
 	if not word or #word == 0 then return end
 
 	local path = vim.fn.getcwd(-1, 0)
-	local files = require("easyfind/utils").scan_dir_rec(path)
+	local files = require("easy_search/utils").scan_dir_rec(path)
 
 	local len = 0
 	local items = {}
@@ -53,7 +53,7 @@ function M.grep(word)
 		len = len + 1
 		if len >= #files then
 			vim.schedule(function()
-				require("easyfind/ui").new(items)
+				require("easy_search/ui").new(items)
 			end)
 		end
 	end
@@ -90,6 +90,22 @@ function M.grep(word)
 	--for _, f in ipairs(files) do
 	--	work:queue(f)
 	--end
+end
+
+function M.search()
+	local default = vim.fn.expand('<cword>')
+	vim.api.nvim_command("echohl PromHl")
+	vim.fn.inputsave()
+	local input = vim.fn.input({prompt = 'rg> ', default = default, highlight = 'GrepHl'})
+	vim.fn.inputrestore()
+	vim.api.nvim_command("echohl None")
+
+	--if #input == 0 then input = default end
+	if #input == 0 then
+		vim.cmd[[echo "no input for grep"]]
+		return 
+	end
+	grep(input)
 end
 
 return M

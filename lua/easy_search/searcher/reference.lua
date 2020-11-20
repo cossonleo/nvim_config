@@ -27,7 +27,7 @@ function ref_item:new(item)
 	return item
 end
 
-function M.reference()
+function M.search()
 	local params = vim.lsp.util.make_position_params()
 	params.context = {
 		includeDeclaration = true;
@@ -43,7 +43,7 @@ function M.reference()
 			local item = ref_item:new(qi)
 			table.insert(items, item)
 		end
-		require("easyfind/ui").new(items)
+		require("easy_search/ui").new(items)
 	end)
 end
 

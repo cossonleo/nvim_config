@@ -23,7 +23,7 @@ function buf_item:new(buf, name)
 	return item
 end
 
-function M.buf_list()
+function M.search()
 	local list = vim.api.nvim_list_bufs()
 	if not list or #list == 0 then return end
 
@@ -56,7 +56,7 @@ function M.buf_list()
 	end
 
 	if #items == 0 then return end
-	require("easyfind/ui").new(items)
+	require("easy_search/ui").new(items)
 end
 
 return M

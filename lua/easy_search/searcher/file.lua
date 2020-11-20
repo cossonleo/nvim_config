@@ -22,16 +22,16 @@ function file_item:new(name, win)
 end
 
 return {
-	scan_dir = function() 
+	search = function() 
 		local win = vim.api.nvim_get_current_win()
 		local pwd = vim.fn.getcwd(-1, 0)
-		local vec = require("easyfind/utils").scan_dir_rec(pwd) 
+		local vec = require("easy_search/utils").scan_dir_rec(pwd) 
 		local items = {}
 		for _, p in ipairs(vec) do
 			local sub = p:sub(#pwd + 2)
 			local item = file_item:new(sub, win)
 			table.insert(items, item)
 		end
-		require("easyfind/ui").new(items)
+		require("easy_search/ui").new(items)
 	end
 }

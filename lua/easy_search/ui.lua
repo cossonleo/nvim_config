@@ -1,4 +1,4 @@
-local fuzzy = require("easyfind/fuzzy")
+local fuzzy = require("easy_search/fuzzy")
 local filter = fuzzy.match_and_pick_sort_str
 
 local data_vec = {}
@@ -18,9 +18,9 @@ local search_sign_id2 = 0
 local select_sign_id = 0
 
 
-vim.fn.sign_define("easyfind_sign_search", {text = ">>", texthl = "Error", linehl = "CursorLine"})
-vim.fn.sign_define("easyfind_sign_search2", {text = ">", texthl = "Error", linehl = "CursorLine"})
-vim.fn.sign_define("easyfind_sign_select", {text = "->", texthl = "Function", linehl = "CursorLine"})
+vim.fn.sign_define("easy_search_sign_search", {text = ">>", texthl = "Error", linehl = "CursorLine"})
+vim.fn.sign_define("easy_search_sign_search2", {text = ">", texthl = "Error", linehl = "CursorLine"})
+vim.fn.sign_define("easy_search_sign_select", {text = "->", texthl = "Function", linehl = "CursorLine"})
 
 local function close_win()
 	if win_id == 0 then return end
@@ -33,19 +33,19 @@ local function refresh_sign()
 	if select_sign_id > 0 then 
 		vim.fn.sign_unplace("", {buffer = buf_id, id = select_sign_id})
 	end
-	select_sign_id = vim.fn.sign_place(0, "", "easyfind_sign_select", buf_id, {lnum = select_line + 1})
+	select_sign_id = vim.fn.sign_place(0, "", "easy_search_sign_select", buf_id, {lnum = select_line + 1})
 end
 
 local function search_sign()
 	if search_sign_id > 0 then 
 		vim.fn.sign_unplace("", {buffer = buf_id, id = search_sign_id})
 	end
-	search_sign_id = vim.fn.sign_place(0, "", "easyfind_sign_search", buf_id, {lnum = 1})
+	search_sign_id = vim.fn.sign_place(0, "", "easy_search_sign_search", buf_id, {lnum = 1})
 
 	if search_sign_id2 > 0 then 
 		vim.fn.sign_unplace("", {buffer = buf_id, id = search_sign_id2})
 	end
-	search_sign_id2 = vim.fn.sign_place(0, "", "easyfind_sign_search2", buf_id, {lnum = 1})
+	search_sign_id2 = vim.fn.sign_place(0, "", "easy_search_sign_search2", buf_id, {lnum = 1})
 end
 
 local function init_buf_once()
@@ -62,30 +62,30 @@ local function init_buf_once()
 	vim.api.nvim_buf_set_option(buf_id, "swapfile", false)
 
 	local opts = {noremap = true, silent = true}
-	local do_cmd = ":lua require'easyfind/ui'.do_item()<cr>"
-	local close = ":lua require'easyfind/ui'.close()<cr>"
+	local do_cmd = ":lua require'easy_search/ui'.do_item()<cr>"
+	local close = ":lua require'easy_search/ui'.close()<cr>"
 	vim.api.nvim_buf_set_keymap(buf_id, "i", "<cr>", "<c-[>" .. do_cmd, opts)
 	vim.api.nvim_buf_set_keymap(buf_id, "i", "<esc>", "<c-[>" .. close, opts)
 	vim.api.nvim_buf_set_keymap(buf_id, "n", "<esc>", close, opts)
 
 	--opts.expr = true
-	--local next_cmd = [[luaeval("require'easyfind/ui'.move_next()")]]
+	--local next_cmd = [[luaeval("require'easy_search/ui'.move_next()")]]
 	--vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-j>", next_cmd, opts)
-	--local pre_cmd = [[luaeval("require'easyfind/ui'.move_pre()")]]
+	--local pre_cmd = [[luaeval("require'easy_search/ui'.move_pre()")]]
 	--vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-k>", pre_cmd, opts)
-	local next_cmd = "<c-o>:lua require'easyfind/ui'.move_next()<cr>"
-	local pre_cmd = "<c-o>:lua require'easyfind/ui'.move_pre()<cr>"
+	local next_cmd = "<c-o>:lua require'easy_search/ui'.move_next()<cr>"
+	local pre_cmd = "<c-o>:lua require'easy_search/ui'.move_pre()<cr>"
 	vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-j>", next_cmd, opts)
 	vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-k>", pre_cmd, opts)
 	search_sign()
 
 	vim.cmd("au TextChangedI <buffer="
-		.. buf_id .. "> lua require'easyfind/ui'.match()")
+		.. buf_id .. "> lua require'easy_search/ui'.match()")
 
 	--vim.api.nvim_buf_attach(buf_id, false, {
 	--	on_lines = function(...)
 	--		vim.schedule(function()
-	--			require("easyfind/ui").match()
+	--			require("easy_search/ui").match()
 	--			--set_show_vec(true)
 	--			--set_buf(true)
 	--			--print("+++++++++++++++++++++")
