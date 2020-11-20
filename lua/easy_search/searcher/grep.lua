@@ -13,7 +13,7 @@ function grep_item:tips()
 	return "[" .. self.file .. ":" .. self.line .. "]"
 end
 
-function grep_item:data_for_match()
+function grep_item:searched_str()
 	return self.content
 end
 

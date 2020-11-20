@@ -9,12 +9,12 @@ function buf_item:tips()
 	return self.buf_id .. ": "
 end
 
-function buf_item:data_for_match()
+function buf_item:searched_str()
 	return self.buf_name
 end
 
 function buf_item:do_item()
-	vim.api.nvim_win_set_buf(0, self.buf_id)
+	vim.api.nvim_set_current_buf(self.buf_id)
 end
 
 function buf_item:new(buf, name)

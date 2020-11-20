@@ -1,12 +1,3 @@
-local actions = require('telescope.actions')
-local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
-local previewers = require('telescope.previewers')
-local pickers = require('telescope.pickers')
-local sorters = require('telescope.sorters')
-local utils = require('telescope.utils')
-
-local conf = require('telescope.config').values
 
 local filter = vim.tbl_filter
 local flatten = vim.tbl_flatten

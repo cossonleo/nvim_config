@@ -7,12 +7,24 @@ function file_item:tips()
 	return ""
 end
 
-function file_item:data_for_match()
+function file_item:searched_str()
 	return self.name
 end
 
 function file_item:do_item()
-	vim.cmd(":edit " .. self.name)
+	local buf = vim.fn.bufnr(self.name)
+	if buf == -1 then
+		vim.cmd("edit " .. self.name)
+		return
+	end
+
+	local wid = vim.fn.bufwinid(buf)
+	if wid > 0 then
+		vim.api.nvim_set_current_win(wid)
+		return
+	end
+
+	vim.api.nvim_set_current_buf(buf)
 end
 
 function file_item:new(name, win)

@@ -133,7 +133,7 @@ end
 local function set_show_vec()
 	show_vec = {}
 	for i, item in ipairs(data_vec) do
-		if last_match_pattern == "" or filter(item:data_for_match(), last_match_pattern) then
+		if last_match_pattern == "" or filter(item:searched_str(), last_match_pattern) then
 			table.insert(show_vec, i)
 		end
 	end
@@ -149,7 +149,7 @@ local function set_buf()
 		if index > #show_vec then break end
 		local data_index = show_vec[index]
 		local item = data_vec[data_index]
-		table.insert(lines, item:tips() .. item:data_for_match())
+		table.insert(lines, item:tips() .. item:searched_str())
 	end
 
 	vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)

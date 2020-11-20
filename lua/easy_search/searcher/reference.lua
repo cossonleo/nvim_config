@@ -11,7 +11,7 @@ function ref_item:tips()
 	return self.filename .. ":" .. self.lnum .. " "
 end
 
-function ref_item:data_for_match()
+function ref_item:searched_str()
 	return self.text
 end
 
