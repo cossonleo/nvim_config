@@ -1,5 +1,4 @@
-local fuzzy = require("easy_search/fuzzy")
-local filter = fuzzy.match_and_pick_sort_str
+local filter = require("share_sugar").fuzzy_match
 
 local data_vec = {}
 local show_vec = {}
@@ -133,9 +132,29 @@ end
 local function set_show_vec()
 	show_vec = {}
 	for i, item in ipairs(data_vec) do
-		if last_match_pattern == "" or filter(item:searched_str(), last_match_pattern) then
-			table.insert(show_vec, i)
+		if last_match_pattern == "" then
+			table.insert(show_vec, {i = i})
+			goto continue
 		end
+		local match_info = filter(item:searched_str(), last_match_pattern)
+		if not match_info  then
+			goto continue
+		end
+
+		table.insert(show_vec, {i = i, match_info = match_info})
+		::continue::
+	end
+	if last_match_pattern ~= "" then
+		table.sort(show_vec, function(s1, s2) 
+			local len = #s1.match_info
+			for i = 1, len do
+				local ss1, ss2 = s1.match_info[i], s2.match_info[i]
+				if ss1 < ss2 then return true end
+				if ss1 > ss2 then return false end
+			end
+			--if s1.i < s2.i then return true end
+			return false
+	end)
 	end
 	first_index = 1
 	select_line = 1
@@ -147,7 +166,7 @@ local function set_buf()
 	for i = 0, count - 1 do
 		local index = i + first_index
 		if index > #show_vec then break end
-		local data_index = show_vec[index]
+		local data_index = show_vec[index].i
 		local item = data_vec[data_index]
 		table.insert(lines, item:tips() .. item:searched_str())
 	end
@@ -207,10 +226,14 @@ end
 
 local function do_item()
 	local i = first_index + select_line - 1
-	local index = show_vec[i]
+	local index = show_vec[i].i
 	close_win()
 	local item = data_vec[index]
 	item:do_item()
+end
+
+local function re_open()
+	open_win()
 end
 
 init_buf_once()
@@ -220,6 +243,7 @@ return {
 	move_pre = function() return move_pre() end,
 	do_item = function() do_item() end,
 	close = function() close_win() end,
+	re_open = re_open,
 	match = function() 
 		local pattern = vim.fn.getline(1)
 		if pattern == last_match_pattern then return end

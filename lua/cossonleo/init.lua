@@ -53,6 +53,7 @@ vim.cmd[[nnoremap <silent> <leader>t :lua require("easy_search").term_list()<cr>
 vim.cmd[[nnoremap <silent> <leader>s :lua require("easy_search").symbols()<cr>]]
 vim.cmd[[nnoremap <silent> <leader>f :lua require("easy_search").func()<cr>]]
 vim.cmd[[nnoremap <silent> <leader>v :lua require("easy_search").vim_menu()<cr>]]
+vim.cmd[[nnoremap <silent> <leader>z :lua require("easy_search").re_open()<cr>]]
 
 require'cossonleo.plugins'
 

@@ -1,7 +1,5 @@
 local M = {}
 
-local  uv = vim.loop
-
 local grep_item = {
 	file = "",
 	line = "",
@@ -33,7 +31,7 @@ local function grep(word)
 	if not word or #word == 0 then return end
 
 	local path = vim.fn.getcwd(-1, 0)
-	local files = require("easy_search/utils").scan_dir_rec(path)
+	local files = require("share_sugar").scan_dir_rec(path)
 
 	local len = 0
 	local items = {}
@@ -59,6 +57,7 @@ local function grep(word)
 	end
 
 	local function read_file(file)
+		local uv = vim.loop
 		uv.fs_open(file, "r", 438, function(err, fd)
 			if err then grep_file(file, nil); return end
 			uv.fs_fstat(fd, function(err, stat)
@@ -72,24 +71,68 @@ local function grep(word)
 				end)
 			end)
 		end)
-		--local luv = require("luv")
-		--local fd = luv.fs_open(file, "r", 438)
-		--if not fd then return file, nil end
-		--local stat = luv.fs_fstat(fd)
-		--if not stat then luv.fs_close(fd); return file, nil end
-		--local data = luv.fs_read(fd, stat.size, 0)
-		--luv.fs_close(fd)
-		--return file, data
-		--return "", ""
 	end
 
 	for _, f in ipairs(files) do
 		read_file(f)
 	end
-	--local work = uv.new_work(read_file, grep_file)
-	--for _, f in ipairs(files) do
-	--	work:queue(f)
-	--end
+end
+
+local function grep_new(word)
+	if not word or #word == 0 then return end
+
+	local path = vim.fn.getcwd(-1, 0)
+	local files = require("share_sugar").scan_dir_rec(path)
+
+	local len = 0
+	local items = {}
+	local total_file = #files
+
+	local function  grep_file(file, one)
+
+		len = len + 1
+		if len >= total_file then
+			vim.schedule(function()
+				--require("easy_search/ui").new(items)
+				print("finish")
+			end)
+		end
+	end
+
+	local function read_file(file, pat)
+		local luv = require("luv")
+		local fd = luv.fs_open(file, "r", 438)
+		if not fd then return nil end
+		local stat = luv.fs_fstat(fd)
+		if not stat then luv.fs_close(fd); return nil end
+		local data = luv.fs_read(fd, stat.size, 0)
+		luv.fs_close(fd)
+
+		local one_items = {}
+		local start = 1
+		local row = 0
+		repeat
+			local e = data:find("\n", start)
+			local line = data:sub(start, e)
+			if e then
+				if #line > #pat then 
+					local ss = string.find(line, pat, 1, true)
+					if ss then
+						local item = row .. "|" .. (start - 1) .. "|" .. line
+						table.insert(one_items, item)
+					end
+				end
+			end
+			start = e and e + 1 or 0
+			row = row + 1
+		until(start == 0)
+		return file, table.concat(one_items)
+	end
+
+	local work = vim.loop.new_work(read_file, grep_file)
+	for _, f in ipairs(files) do
+		work:queue(f, word)
+	end
 end
 
 function M.search()
@@ -100,12 +143,12 @@ function M.search()
 	vim.fn.inputrestore()
 	vim.api.nvim_command("echohl None")
 
-	--if #input == 0 then input = default end
 	if #input == 0 then
 		vim.cmd[[echo "no input for grep"]]
 		return 
 	end
 	grep(input)
+	--grep_new(input)
 end
 
 return M

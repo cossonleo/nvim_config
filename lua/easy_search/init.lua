@@ -33,5 +33,9 @@ function M.vim_menu()
 	require("easy_search/searcher/vim_menu").search()
 end
 
+function M.re_open()
+	require("easy_search/ui").re_open()
+end
+
 return M
 
