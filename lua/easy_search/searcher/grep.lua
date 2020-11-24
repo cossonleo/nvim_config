@@ -29,52 +29,77 @@ end
 
 local function grep(word)
 	if not word or #word == 0 then return end
+	local uv = vim.loop
 
 	local path = vim.fn.getcwd(-1, 0)
 	local files = require("share_sugar").scan_dir_rec(path)
+	if #files == 0 then return end
 
-	local len = 0
-	local items = {}
-	local total_file = #files
-	local function  grep_file(file, content)
+	local grep_op = {
+		files = files,
+		finish = 0,
+		total = #files,
+		items = {}
+	}
+
+	function grep_op:search_line(file, content)
 		if content then
 			local lines = vim.split(content, "\n", false)
 			for i, line in ipairs(lines) do
 				local start = string.find(line, word, 1, true)
 				if start then 
 					local item = grep_item:new(file:sub(#path + 2), i - 1, start - 1, line)
-					table.insert(items, item)
+					table.insert(self.items, item)
 				end
 			end
 		end
 
-		len = len + 1
-		if len >= #files then
+		self.finish = self.finish + 1
+		if self.finish >= self.total then
 			vim.schedule(function()
-				require("easy_search/ui").new(items)
+				require("easy_search/ui").new(self.items)
 			end)
 		end
 	end
 
-	local function read_file(file)
-		local uv = vim.loop
+	function grep_op:read_file(file)
 		uv.fs_open(file, "r", 438, function(err, fd)
-			if err then grep_file(file, nil); return end
+			if err then 
+				self:search_line(file, nil); 
+				self:pop()
+				return 
+			end
+
 			uv.fs_fstat(fd, function(err, stat)
-				if err then grep_file(file, nil); return end
+				if err then 
+					uv.fs_close(fd, function(err) end)
+					self:search_line(file, nil); 
+					self:pop()
+					return 
+				end
+
 				uv.fs_read(fd, stat.size, 0, function(err, data)
-					if err then grep_file(file, nil); return end
+					if not err then
+						self:search_line(file, data)
+					end
 					uv.fs_close(fd, function(err)
-						if err then vim.cmd[[echoerr "file close err"]] end
-						grep_file(file, data)
+						self:pop()
 					end)
 				end)
 			end)
 		end)
 	end
 
-	for _, f in ipairs(files) do
-		read_file(f)
+	function grep_op:pop()
+		if #self.files == 0 then return end
+		local f = self.files[#self.files]
+		self:read_file(f)
+		table.remove(self.files)
+	end
+
+	local lcount = #grep_op.files < 1000 and #grep_op.files or 1000
+	for i = 1, lcount do
+		grep_op:pop()
 	end
 end
 
