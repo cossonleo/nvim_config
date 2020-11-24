@@ -103,7 +103,7 @@ local function open_win()
 		width = show_conf.width,
 		height = show_conf.height,
 	})
-	vim.api.nvim_win_set_cursor(win_id, {1, 0})
+	vim.api.nvim_win_set_cursor(win_id, {1, #last_match_pattern})
 	vim.api.nvim_win_set_option(win_id, "number", false)
 	vim.api.nvim_win_set_option(win_id, "relativenumber", false)
 	--vim.api.nvim_win_set_option(win_id, "signcolumn", "auto:9")
@@ -112,7 +112,7 @@ local function open_win()
 	vim.api.nvim_win_set_option(win_id, "wrap", false)
 	refresh_sign()
 
-	vim.api.nvim_feedkeys("i", "n", true)
+	vim.api.nvim_feedkeys("a", "n", true)
 end
 
 local function set_conf(conf)
