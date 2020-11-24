@@ -94,6 +94,7 @@ local function init_buf_once()
 end
 
 local function open_win()
+	if #data_vec == 0 then return end
 	close_win()
 	win_id = vim.api.nvim_open_win(buf_id, true, { 
 		relative = "editor",
