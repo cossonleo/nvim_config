@@ -16,7 +16,6 @@ local search_sign_id = 0
 local search_sign_id2 = 0
 local select_sign_id = 0
 
-
 vim.fn.sign_define("easy_search_sign_search", {text = ">>", texthl = "Error", linehl = "CursorLine"})
 vim.fn.sign_define("easy_search_sign_search2", {text = ">", texthl = "Error", linehl = "CursorLine"})
 vim.fn.sign_define("easy_search_sign_select", {text = "->", texthl = "Function", linehl = "CursorLine"})
@@ -47,51 +46,6 @@ local function search_sign()
 	search_sign_id2 = vim.fn.sign_place(0, "", "easy_search_sign_search2", buf_id, {lnum = 1})
 end
 
-local function init_buf_once()
-	if buf_id > 0 then return end
-
-	buf_id = vim.api.nvim_create_buf(false, true)
-	if buf_id == 0 then
-		vim.cmd[[echoerr "create buf false"]]
-		return
-	end
-
-	vim.api.nvim_buf_set_option(buf_id, "buftype", "nofile")
-	--vim.api.nvim_buf_set_option(buf_id, "bufhidden", "delete")
-	vim.api.nvim_buf_set_option(buf_id, "swapfile", false)
-
-	local opts = {noremap = true, silent = true}
-	local do_cmd = ":lua require'easy_search/ui'.do_item()<cr>"
-	local close = ":lua require'easy_search/ui'.close()<cr>"
-	vim.api.nvim_buf_set_keymap(buf_id, "i", "<cr>", "<c-[>" .. do_cmd, opts)
-	vim.api.nvim_buf_set_keymap(buf_id, "i", "<esc>", "<c-[>" .. close, opts)
-	vim.api.nvim_buf_set_keymap(buf_id, "n", "<esc>", close, opts)
-
-	--opts.expr = true
-	--local next_cmd = [[luaeval("require'easy_search/ui'.move_next()")]]
-	--vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-j>", next_cmd, opts)
-	--local pre_cmd = [[luaeval("require'easy_search/ui'.move_pre()")]]
-	--vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-k>", pre_cmd, opts)
-	local next_cmd = "<c-o>:lua require'easy_search/ui'.move_next()<cr>"
-	local pre_cmd = "<c-o>:lua require'easy_search/ui'.move_pre()<cr>"
-	vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-j>", next_cmd, opts)
-	vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-k>", pre_cmd, opts)
-	search_sign()
-
-	vim.cmd("au TextChangedI <buffer="
-		.. buf_id .. "> lua require'easy_search/ui'.match()")
-
-	--vim.api.nvim_buf_attach(buf_id, false, {
-	--	on_lines = function(...)
-	--		vim.schedule(function()
-	--			require("easy_search/ui").match()
-	--			--set_show_vec(true)
-	--			--set_buf(true)
-	--			--print("+++++++++++++++++++++")
-	--		end)
-	--	end
-	--})
-end
 
 local function open_win()
 	if #data_vec == 0 then return end
@@ -173,10 +127,6 @@ local function set_buf()
 	end
 
 	vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
-	--vim.schedule(function()
-	--	vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
-	--end)
-	-- set hi
 end
 
 local function new(data, conf)
@@ -199,30 +149,27 @@ local function move_next()
 	if select_line < height and select_line < rows then
 		select_line = select_line + 1
 		refresh_sign()
-		return ""
+		return
 	end
-	if rows < height then return "" end
+	if rows < height then return end
 
-	if #show_vec - first_index + 1 <= height then return "" end
+	if #show_vec - first_index + 1 <= height then return end
 	first_index = first_index + 1
 	set_buf()
-	return ""
 end
 
 local function move_pre()
 	if select_line > 1 then
 		select_line = select_line - 1
 		refresh_sign()
-		return ""
+		return
 	end
 
 	if first_index > 1 then
 		first_index = first_index - 1
 		set_buf()
-		return ""
+		return
 	end
-
-	return ""
 end
 
 local function do_item()
@@ -237,20 +184,69 @@ local function re_open()
 	open_win()
 end
 
+local function search_item()
+	local pattern = vim.fn.getline(1)
+	if pattern == last_match_pattern then return end
+	last_match_pattern = pattern
+	set_show_vec()
+	set_buf()
+	refresh_sign()
+end
+
+local function init_buf_once()
+	if buf_id > 0 then return end
+
+	buf_id = vim.api.nvim_create_buf(false, true)
+	if buf_id == 0 then
+		vim.cmd[[echoerr "create buf false"]]
+		return
+	end
+
+	vim.api.nvim_buf_set_option(buf_id, "buftype", "nofile")
+	--vim.api.nvim_buf_set_option(buf_id, "bufhidden", "delete")
+	vim.api.nvim_buf_set_option(buf_id, "swapfile", false)
+
+	local opts = {noremap = true, silent = true}
+	local do_cmd = ":lua require'easy_search/ui'.do_item()<cr>"
+	local close = ":lua require'easy_search/ui'.close()<cr>"
+	vim.api.nvim_buf_set_keymap(buf_id, "i", "<cr>", "<c-[>" .. do_cmd, opts)
+	vim.api.nvim_buf_set_keymap(buf_id, "i", "<esc>", "<c-[>" .. close, opts)
+	vim.api.nvim_buf_set_keymap(buf_id, "n", "<esc>", close, opts)
+
+	local next_cmd = [[<c-r>=luaeval("require'easy_search/ui'.move_next()")<CR>]]
+	local pre_cmd = [[<c-r>=luaeval("require'easy_search/ui'.move_pre()")<CR>]]
+	vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-j>", next_cmd, opts)
+	vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-k>", pre_cmd, opts)
+	search_sign()
+
+	--vim.cmd("au TextChangedI <buffer="
+	--	.. buf_id .. "> lua require'easy_search/ui'.match()")
+
+	vim.api.nvim_buf_attach(buf_id, false, {
+		on_lines = function(...)
+			local args = { ... }
+			if args[4] > 0 then return end
+			--print(vim.fn.string(args))
+			vim.schedule(function() search_item() end)
+		end
+	})
+end
+
 init_buf_once()
 return {
 	new = function(data, conf) new(data, conf) end,
-	move_next = function() return move_next() end,
-	move_pre = function() return move_pre() end,
+	move_next = function() 
+		vim.schedule(function() move_next() end)
+		return ""
+	end,
+
+	move_pre = function() 
+		vim.schedule(function() move_pre() end)
+		return ""
+	end,
+
 	do_item = function() do_item() end,
 	close = function() close_win() end,
-	re_open = re_open,
-	match = function() 
-		local pattern = vim.fn.getline(1)
-		if pattern == last_match_pattern then return end
-		last_match_pattern = pattern
-		set_show_vec()
-		set_buf()
-		refresh_sign()
-	end,
+	re_open = function() re_open() end,
+	match = function() search_item() end,
 }
