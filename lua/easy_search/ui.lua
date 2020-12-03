@@ -109,7 +109,7 @@ local function set_show_vec()
 			end
 			--if s1.i < s2.i then return true end
 			return false
-	end)
+		end)
 	end
 	first_index = 1
 	select_line = 1

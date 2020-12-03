@@ -5,14 +5,14 @@
 ;				(identifier) @complete_item)) @complete_def) @func)
 
 ((function_declaration
-		name: (identifier) @name.func) @func)
+		name: (identifier) @context_name))
 
 ((method_declaration
-        name: (field_identifier) @name.method) @method)
+        name: (field_identifier) @context_name))
 
 ((type_declaration 
   (type_spec
-    name: (type_identifier) @name.type)) @type)
+    name: (type_identifier) @context_name)))
 
 ;((function_declaration
 	
@@ -37,7 +37,7 @@
 ;(func_literal) @complete_scope
 ;(source_file) @complete_top
 ;(if_statement) @complete_scope
-(block) @scope
+;(block) @scope
 ;(for_statement) @complete_scope
 ;(method_declaration) @complete_context
 

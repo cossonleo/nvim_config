@@ -19,8 +19,8 @@
 
 ; Scopes
 [
- (block)
-; (function_item)
+; (block)
+ (function_item)
 ; (closure_expression)
 ; (while_expression)
 ; (for_expression)
@@ -30,7 +30,7 @@
 ; (match_expression)
 ; (match_arm)
 ;
-; (struct_item)
-; (enum_item)
-; (impl_item)
+ (struct_item)
+ (enum_item)
+ (impl_item)
 ] @scope
