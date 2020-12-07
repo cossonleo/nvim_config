@@ -17,8 +17,8 @@ endif
 let s:is_loaded = 1
 
 au FileType netrw,LuaTree setl stl=%*\ line:%l/%L
-au BufWritePost,BufReadPost * lua require('cossonleo').file_name_limit(50)
-au BufWritePost,BufReadPost * lua require('cossonleo').current_file_size(50)
+au BufWritePost,BufReadPost * lua stl_file_name(50)
+au BufWritePost,BufReadPost * lua stl_file_size(50)
 
 "StatusLine
 "StatusLineNC
@@ -28,7 +28,7 @@ set stl+=%#StatusLine#%{get(b:,'cur_fsize','')}\
 set stl+=%#StatusLine#%{get(b:,'fit_len_fname','')}\ 
 set stl+=%#StatusLine#%m%r%h%w%q
 set stl+=%#StatusLine#%= 		"左右分割
-set stl+=%#StatusLine#%{luaeval('require[[cossonleo]].lsp_info()')}\ 
+set stl+=%#StatusLine#%{v:lua.stl_lsp_info()}\ 
 set stl+=%#StatusLine#%{luaeval('require[[ts_ext]].statusline()')}\ 
 set stl+=%#StatusLine#%y\ 
 set stl+=%#StatusLine#(%l,%c)/%L\ 

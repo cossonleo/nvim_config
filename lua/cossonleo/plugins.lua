@@ -21,9 +21,9 @@ use { 'voldikss/vim-floaterm', config = config.vim_floaterm }
 --use { 'norcalli/nvim-colorizer.lua', config = config.nvim_colorizer }
 use { 'voldikss/vim-translator', config = config.vim_translator }
 use { 'nvim-treesitter/nvim-treesitter', config = config.nvim_treesitter }
-use 'p00f/nvim-ts-rainbow'
-use { 'neovim/nvim-lsp', config = config.nvim_lsp }
-use { 'nvim-lua/diagnostic-nvim', config = config.diagnostic_nvim }
+--use 'p00f/nvim-ts-rainbow'
+use { 'neovim/nvim-lspconfig', config = config.nvim_lsp }
+--use { 'nvim-lua/diagnostic-nvim', config = config.diagnostic_nvim }
 -- use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
 -- use { 'nvim-lua/telescope.nvim', config = config.telescope }
 --use { 'liuchengxu/vim-clap', config = config.vim_clap }

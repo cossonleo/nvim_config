@@ -41,7 +41,7 @@ local function get_root_node()
     local tstree = parser:parse()
 	if not tstree then return nil end
 
-	return tstree:root()
+	return tstree[1]:root()
 end
 
 function _get_smallest_decl_context()

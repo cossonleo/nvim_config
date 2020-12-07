@@ -11,7 +11,10 @@ end
 require'ts_ext.context'(M)
 
 function M.get_cur_sexpr()
-	local node = require'nvim-treesitter.ts_utils'.get_node_at_cursor(winnr)
+	local cursor = vim.api.nvim_win_get_cursor(winnr or 0)
+    local parser = vim.treesitter.get_parser(0, vim.bo.filetype)
+	local root = parser:parse():root()
+	local node = root:named_descendant_for_range(cursor[1]-1,cursor[2],cursor[1]-1,cursor[2])
 	print(node:sexpr())
 end
 

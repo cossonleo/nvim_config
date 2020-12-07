@@ -19,7 +19,6 @@ function M.current_file_size()
 	return ""
 end
 
-
 function M.grep_dir()
 	local default = vim.fn.expand('<cword>')
 	vim.api.nvim_command("echohl PromHl")
@@ -36,56 +35,6 @@ function M.grep_dir()
 	require("easyfind").grep(input)
 end
 
-local spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' }
-function M.lsp_info()
-	local stl = {}
-	if vim.tbl_isempty(vim.lsp.buf_get_clients(0)) then
-		return ""
-	end
-	local ec = vim.lsp.util.buf_diagnostics_count([[Error]])
-	if ec and ec > 0 then table.insert(stl, "E:" .. ec) end
-	local wc = vim.lsp.util.buf_diagnostics_count([[Warning]])
-	if wc and wc > 0 then table.insert(stl, "W:" .. wc) end
-
-	local buf_messages = require'cossonleo.lsp_status'.get_messages()
-	local msgs = {}
-	for _, msg in ipairs(buf_messages) do
-		local name = msg.name
-		local client_name = '[' .. name .. ']'
-		local contents = ''
-		if msg.progress then
-			contents = msg.title
-			if msg.message then
-				contents = contents .. ' ' .. msg.message
-			end
-
-			if msg.percentage then
-				contents = contents .. ' (' .. msg.percentage .. ')'
-			end
-
-			if msg.spinner then
-				contents = spinner_frames[(msg.spinner % #spinner_frames) + 1] .. ' ' .. contents
-			end
-		elseif msg.status then
-			contents = msg.content
-			if msg.uri then
-				local filename = vim.uri_to_fname(msg.uri)
-				filename = vim.fn.fnamemodify(filename, ':~:.')
-				local space = math.min(60, math.floor(0.6 * vim.fn.winwidth(0)))
-				if #filename > space then
-					filename = vim.fn.pathshorten(filename)
-				end
-
-				contents = '(' .. filename .. ') ' .. contents
-			end
-		else
-			contents = msg.content
-		end
-
-		table.insert(msgs, client_name .. ' ' .. contents)
-	end
-	return vim.trim(table.concat(msgs, ' ') .. ' ' .. table.concat(stl, " "))
-end
 
 function M.file_name_limit(len)
 	local path = vim.fn.expand('%:p')

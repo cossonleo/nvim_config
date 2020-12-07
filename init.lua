@@ -28,6 +28,9 @@ vim.wo.cursorcolumn = false
 
 vim.g.netrw_liststyle = 3
 
+vim.o.t_8f = "\\<Esc>[38;2;%lu;%lu;%lum"
+vim.o.t_8b = "\\<Esc>[48;2;%lu;%lu;%lum"
+
 vim.cmd[[tnoremap <esc> <c-\><c-N>]]
 vim.cmd[[tnoremap <c-w><c-w> <c-\><c-N><c-w><c-w>]]
 vim.cmd[[tnoremap <c-w>h <c-\><c-N><c-w>h]]
@@ -55,33 +58,36 @@ vim.cmd[[nnoremap <silent> <leader>f :lua require("easy_search").func()<cr>]]
 vim.cmd[[nnoremap <silent> <leader>v :lua require("easy_search").vim_menu()<cr>]]
 vim.cmd[[nnoremap <silent> <leader>z :lua require("easy_search").re_open()<cr>]]
 
+vim.cmd[[autocmd Filetype rust,go,c,cpp,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc]]
+vim.cmd[[au FileType * lua require('ts_ext').on_filetype()]]
+
+vim.api.nvim_exec([[
+augroup vimrc-incsearch-highlight
+  autocmd!
+  autocmd CmdlineEnter /,\? :set hlsearch
+  autocmd CmdlineLeave /,\? :set nohlsearch
+augroup END
+]], {})
+
+vim.cmd[[autocmd BufReadPost * lua goto_last_pos()]]
+function goto_last_pos()
+	local last_pos = vim.fn.line("'\"")
+	if last_pos > 0 and last_pos <= vim.fn.line("$") then
+		vim.api.nvim_win_set_cursor(0, {last_pos, 0})
+	end
+end
+
+--if has('win32') || has('win64')
+--	set guifont=:h20
+--endif
+
+--if &term =~# '^screen'
+--    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+--    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+--endif
+
 require'cossonleo.plugins'
-
-local M = {}
-
-local function get_util()
-	return require'cossonleo.util'
-end
-
-function M.ts_stl()
-	return get_util().ts_stl()
-end
-
-function M.current_file_size()
-	vim.b.cur_fsize = get_util().current_file_size()
-end
-
-function M.lsp_info()
-	return ""
-	--return get_util().lsp_info()
-end
-
-function M.file_name_limit(len)
-	local len = len or 50
-	vim.b.fit_len_fname = get_util().file_name_limit(len)
-end
-
-return M
+require'stl'
 
 
 --vim.api.nvim_set_keymap('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "<Tab>"]], {noremap = true, expr = true})

@@ -16,6 +16,8 @@ local function unregister_client(id)
 end
 
 local function progress_callback(_, _, msg, client_id)
+	if vim.fn.mode() ~= "n" then return end
+
 	ensure_init(messages, client_id, client_id)
 	local val = msg.value
 	if val.kind then
@@ -48,7 +50,7 @@ local function progress_callback(_, _, msg, client_id)
 		table.insert(messages[client_id], {content = val, show_once = true, shown = 0})
 	end
 
-	vim.api.nvim_command('doautocmd User LspMessageUpdate')
+	--vim.api.nvim_command('doautocmd User LspMessageUpdate')
 end
 
 -- Client registration for messages
@@ -59,6 +61,8 @@ end
 
 -- Process messages
 function M.get_messages()
+	if vim.fn.mode() ~= "n" then return {} end
+
 	local new_messages = {}
 	local msg_remove = {}
 	local progress_remove = {}
@@ -106,6 +110,7 @@ function M.get_messages()
 	return new_messages
 end
 
+
 function M.on_attach(client)
 	register_client(client.id, client.name)
 	--vim.g.has_lsp_status = true
@@ -118,7 +123,25 @@ function M.on_attach(client)
 	vim.cmd[[augroup END]]
 end
 
-vim.lsp.callbacks['$/progress'] = progress_callback 
+vim.lsp.handlers['$/progress'] = progress_callback
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+	vim.lsp.diagnostic.on_publish_diagnostics, {
+		-- Enable underline, use default values
+		underline = false,
+		-- Enable virtual text, override spacing to 4
+		virtual_text = {
+			spacing = 4,
+		},
+		-- Use a function to dynamically turn signs off
+		-- and on, using buffer local variables
+		--signs = function(bufnr, client_id)
+		--	return vim.bo[bufnr].show_signs == false
+		--end,
+		-- Disable a feature
+		update_in_insert = false,
+	}
+)
 
 M.clients = clients
 return M
