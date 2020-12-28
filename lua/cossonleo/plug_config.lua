@@ -62,16 +62,10 @@ end
 
 function M.nvim_lsp()
 	require('vim.lsp.log').set_level(4)
-	--local has, nvim_lsp = pcall(require, 'lspconfig')
-	--if not has then return end
 	local nvim_lsp = require'lspconfig'
 
-	local ext = require'lsp_ext'
 	local add = function(ls, opt)
-		local config = opt or {}
-		config.on_attach = config.on_attach or ext.default_config.on_attach
-		config.capabilities = config.capabilities or ext.default_config.capabilities
-		nvim_lsp[ls].setup(config)
+		nvim_lsp[ls].setup(opt or {})
 	end
 
 	add('gopls', {settings = { gopls = { usePlaceholders = true,	completeUnimported = true } }})
