@@ -38,7 +38,6 @@ local M = {}
 
 function M.search()
 	local items = {}
-	table.insert(items, term_item:new(0))
 
 	local list = vim.api.nvim_list_bufs()
 	for _, buf in ipairs(list) do
@@ -48,6 +47,7 @@ function M.search()
 			table.insert(items, term_item:new(buf))
 		end
 	end
+	table.insert(items, term_item:new(0))
 
 	require("easy_search/ui").new(items)
 end

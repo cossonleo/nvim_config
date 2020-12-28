@@ -39,7 +39,7 @@ return {
 	search = function() 
 		local win = vim.api.nvim_get_current_win()
 		local pwd = vim.fn.getcwd(-1, 0)
-		local vec = require("share_sugar").scan_dir_rec(pwd) 
+		local vec = require("share_sugar").scan_dir_rec(pwd, true) 
 		local items = {}
 		for _, p in ipairs(vec) do
 			local sub = p:sub(#pwd + 2)

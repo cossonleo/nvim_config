@@ -1,5 +1,6 @@
 
 local a = vim.api
+local path_ignore = require("path_ignore")
 
 local M = {}
 
@@ -31,7 +32,7 @@ function M.get_lines(buf, start, end_)
 end
 
 -- 递归扫描目录
-function M.scan_dir_rec(path)
+function M.scan_dir_rec(path, ignore)
 	local uv = vim.loop
 
 	if not path or #path == "" then
@@ -51,10 +52,12 @@ function M.scan_dir_rec(path)
 		end
 		for _, entry in ipairs(iter) do
 			local p = path .. "/" .. entry.name
-			if entry.type == "file" then
-				table.insert(vec, p)
-			elseif entry.type == "directory" then
-				table.insert(sub_dir, p)
+			if not ignore or not path_ignore.is_ignore(p) then
+				if entry.type == "file" then
+					table.insert(vec, p)
+				elseif entry.type == "directory" then
+					table.insert(sub_dir, p)
+				end
 			end
 		end
 		return false
@@ -65,7 +68,7 @@ function M.scan_dir_rec(path)
 	until tail
 
 	for _, sd in ipairs(sub_dir) do
-		local sub_f = M.scan_dir_rec(sd)
+		local sub_f = M.scan_dir_rec(sd, ignore)
 		vec = vim.list_extend(vec, sub_f)
 	end
 	return vec
