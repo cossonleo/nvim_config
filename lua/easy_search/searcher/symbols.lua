@@ -15,7 +15,9 @@ function sym_item:searched_str()
 end
 
 function sym_item:do_item()
-	vim.api.nvim_win_set_cursor(0, {self.line + 1, self.col})
+	return true, function()
+		vim.api.nvim_win_set_cursor(0, {self.line + 1, self.col})
+	end
 end
 
 function sym_item:new(line, col, text)

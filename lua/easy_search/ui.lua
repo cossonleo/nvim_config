@@ -64,7 +64,10 @@ local function open_win()
 	vim.api.nvim_win_set_option(win_id, "wrap", false)
 	refresh_sign()
 
-	vim.api.nvim_feedkeys("a", "n", true)
+--	vim.api.nvim_feedkeys("a", "n", true)
+--startinsert
+--stopinsert
+	vim.cmd[[startinsert!]]
 end
 
 local function set_conf(conf)
@@ -173,9 +176,9 @@ end
 local function do_item()
 	local i = first_index + select_line - 1
 	local index = show_vec[i].i
-	close_win()
-	local item = data_vec[index]
-	item:do_item()
+	local close, do_action = data_vec[index]:do_item()
+	if close then close_win() end
+	vim.schedule(do_action)
 end
 
 local function re_open()

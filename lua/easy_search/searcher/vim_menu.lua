@@ -43,19 +43,22 @@ function menu_item:trigger_key()
 end
 
 function menu_item:do_item()
-	if not self.do_action then 
-		--self:trigger_key()
-		return 
-	end
-	
-	local ty = type(self.do_action)
-	if ty == "function" then
-		vim.schedule(self.do_action)
-		return
-	end
-	if ty == "string" then
-		vim.cmd(self.do_action)
-		return
+	return true, function()
+		if not self.do_action then 
+			--self:trigger_key()
+			return 
+		end
+		
+		local ty = type(self.do_action)
+		if ty == "function" then
+			--vim.schedule(self.do_action)
+			self.do_action()
+			return
+		end
+		if ty == "string" then
+			vim.cmd(self.do_action)
+			return
+		end
 	end
 end
 

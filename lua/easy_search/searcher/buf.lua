@@ -14,7 +14,9 @@ function buf_item:searched_str()
 end
 
 function buf_item:do_item()
-	vim.api.nvim_set_current_buf(self.buf_id)
+	return true, function()
+		vim.api.nvim_set_current_buf(self.buf_id)
+	end
 end
 
 function buf_item:new(buf, name)

@@ -16,10 +16,12 @@ function ref_item:searched_str()
 end
 
 function ref_item:do_item()
-	-- todo 查找现有的buf,以及现有的win
-	vim.cmd(":edit " .. self.filename)
-	local win_id = vim.api.nvim_get_current_win()
-	vim.api.nvim_win_set_cursor(win_id, {self.lnum, self.col - 1})
+	return true, function()
+		-- todo 查找现有的buf,以及现有的win
+		vim.cmd(":edit " .. self.filename)
+		local win_id = vim.api.nvim_get_current_win()
+		vim.api.nvim_win_set_cursor(win_id, {self.lnum, self.col - 1})
+	end
 end
 
 function ref_item:new(item)
