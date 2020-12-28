@@ -12,19 +12,21 @@ function file_item:searched_str()
 end
 
 function file_item:do_item()
-	local buf = vim.fn.bufnr(self.name)
-	if buf == -1 then
-		vim.cmd("edit " .. self.name)
-		return
-	end
+	return true, function()
+		local buf = vim.fn.bufnr(self.name)
+		if buf == -1 then
+			vim.cmd("edit " .. self.name)
+			return
+		end
 
-	local wid = vim.fn.bufwinid(buf)
-	if wid > 0 then
-		vim.api.nvim_set_current_win(wid)
-		return
-	end
+		local wid = vim.fn.bufwinid(buf)
+		if wid > 0 then
+			vim.api.nvim_set_current_win(wid)
+			return
+		end
 
-	vim.api.nvim_set_current_buf(buf)
+		vim.api.nvim_set_current_buf(buf)
+	end
 end
 
 function file_item:new(name, win)

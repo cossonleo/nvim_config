@@ -13,13 +13,15 @@ function term_item:searched_str()
 end
 
 function term_item:do_item()
-	if self.desc == "new" and self.buf == 0 then
-		vim.cmd("FloatermNew")
-		return
-	end
+	return true, function()
+		if self.desc == "new" and self.buf == 0 then
+			vim.cmd("FloatermNew")
+			return
+		end
 
-    local cmd = "call floaterm#terminal#open_existing(" .. self.buf .. ")"
-	vim.cmd(cmd)
+		local cmd = "call floaterm#terminal#open_existing(" .. self.buf .. ")"
+		vim.cmd(cmd)
+	end
 end
 
 function term_item:new(buf)

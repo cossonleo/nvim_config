@@ -16,9 +16,11 @@ function grep_item:searched_str()
 end
 
 function grep_item:do_item()
-	vim.cmd(":edit " .. self.file)
-	local win_id = vim.api.nvim_get_current_win()
-	vim.api.nvim_win_set_cursor(win_id, {self.line + 1, self.col})
+	return true, function()
+		vim.cmd(":edit " .. self.file)
+		local win_id = vim.api.nvim_get_current_win()
+		vim.api.nvim_win_set_cursor(win_id, {self.line + 1, self.col})
+	end
 end
 
 function grep_item:new(file, line, col, content)
