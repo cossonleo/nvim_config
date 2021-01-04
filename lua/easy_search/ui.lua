@@ -16,9 +16,14 @@ local search_sign_id = 0
 local search_sign_id2 = 0
 local select_sign_id = 0
 
-vim.fn.sign_define("easy_search_sign_search", {text = ">>", texthl = "Error", linehl = "CursorLine"})
-vim.fn.sign_define("easy_search_sign_search2", {text = ">", texthl = "Error", linehl = "CursorLine"})
-vim.fn.sign_define("easy_search_sign_select", {text = "->", texthl = "Function", linehl = "CursorLine"})
+--vim.fn.sign_define("easy_search_sign_search", {text = ">>", texthl = "Error", linehl = "CursorLine"})
+--vim.fn.sign_define("easy_search_sign_search2", {text = ">", texthl = "Error", linehl = "CursorLine"})
+--vim.fn.sign_define("easy_search_sign_select", {text = "->", texthl = "Function", linehl = "CursorLine"})
+
+vim.fn.sign_define("easy_search_sign_search", {text = ">>", texthl = "LineNr", linehl = "LineNr"})
+vim.fn.sign_define("easy_search_sign_search2", {text = ">", texthl = "LineNr", linehl = "LineNr"})
+vim.fn.sign_define("easy_search_sign_select", {text = "->", texthl = "LineNr", linehl = "LineNr"})
+vim.fn.sign_define("easy_search_sign_select2", {text = " ", texthl = "LineNr", linehl = "LineNr"})
 
 local function close_win()
 	if win_id == 0 then return end
@@ -30,8 +35,10 @@ end
 local function refresh_sign()
 	if select_sign_id > 0 then 
 		vim.fn.sign_unplace("", {buffer = buf_id, id = select_sign_id})
+		vim.fn.sign_unplace("", {buffer = buf_id, id = select_sign_id2})
 	end
 	select_sign_id = vim.fn.sign_place(0, "", "easy_search_sign_select", buf_id, {lnum = select_line + 1})
+	select_sign_id2 = vim.fn.sign_place(0, "", "easy_search_sign_select2", buf_id, {lnum = select_line + 1})
 end
 
 local function search_sign()

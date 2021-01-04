@@ -13,15 +13,15 @@ if get(g:, "colors_name", "") == "onedark"
 endif
 	let g:abcdef = "aaa"
 
-hi NormalFloat guibg=#1A1A1A
-hi DeniteCL guibg=#3D3D3D
+"hi NormalFloat guibg=#1A1A1A
+"hi DeniteCL guibg=#3D3D3D
 
 "hi link LspError ALEErrorSign
 hi link LspError ErrorMsg
 hi link LspWarning WarningMsg
 
-hi StatusLine guifg=#8a8a8a  guibg=#1A1A1A  gui=bold
-hi StatusLineNC guifg=#8a8a8a  guibg=#1A1A1A  gui=bold
+"hi StatusLine guifg=#8a8a8a  guibg=#1A1A1A  gui=bold
+"hi StatusLineNC guifg=#8a8a8a  guibg=#1A1A1A  gui=bold
 
 function! GrepHl(prom)
 	let ret = []

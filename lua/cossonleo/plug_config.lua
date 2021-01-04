@@ -10,6 +10,11 @@ function M.onedark()
 	pcall(vim.cmd, [[ colorscheme onedark ]])
 end
 
+function M.solarized()
+	vim.o.background = 'light'
+	pcall(vim.cmd, [[ colorscheme NeoSolarized ]])
+end
+
 function M.vim_floaterm()
 	vim.g.floaterm_winblend = 10
 	vim.g.floaterm_width = 0.7

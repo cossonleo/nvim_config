@@ -4,6 +4,8 @@ vim.g.path_ignore = {
 	"/%.[%w_]*$",
 	{"%s/../go.mod", "/vendor$"},
 	{"%s/../Cargo.toml", "/target$", "/vendor$"},
+	{"%s/../init.lua", "/plugged$"},
+	{"%s/../init.lua", "/coc$"},
 }
 
 function M.is_ignore(path)
