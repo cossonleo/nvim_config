@@ -21,6 +21,8 @@ vim.o.maxmempattern = 10000
 vim.o.wildmenu = true
 vim.o.wildmode = 'longest,full'
 vim.o.fileencodings = 'utf-8,ucs-bom,gb2312,gbk,gb18030,latin1'
+vim.o.mouse = 'nvic'
+vim.o.mousemodel = 'popup'
 vim.wo.cursorline = true
 vim.wo.number = true
 vim.wo.relativenumber = true
@@ -59,6 +61,11 @@ vim.cmd[[nnoremap <silent> <leader>s :lua require("easy_search").symbols()<cr>]]
 vim.cmd[[nnoremap <silent> <leader>f :lua require("easy_search").func()<cr>]]
 vim.cmd[[nnoremap <silent> <leader>v :lua require("easy_search").vim_menu()<cr>]]
 vim.cmd[[nnoremap <silent> <leader>z :lua require("easy_search").re_open()<cr>]]
+
+vim.cmd[[nnoremap <silent> 3<Leftmouse> <3-Leftmouse>]]
+vim.cmd[[nnoremap <silent> 4<Leftmouse> <4-Leftmouse>]]
+vim.cmd[[vnoremap <silent> <RightMouse> y]]
+vim.cmd[[inoremap <silent> <RightMouse> <c-o>p]]
 
 vim.cmd[[autocmd Filetype rust,go,c,cpp,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc]]
 vim.cmd[[au FileType * lua require('ts_ext').on_filetype()]]
