@@ -1,10 +1,5 @@
 local M = {}
 
-function M.vim_easymotion()
-	vim.g.EasyMotion_do_mapping = 0
-	vim.cmd[[nnoremap <silent> / :call EasyMotion#S(-1, 0, 2)<cr>]]
-end
-
 function M.onedark()
 	vim.g.onedark_color_overrides = {black = {gui = "#000000", cterm = "235", cterm16 = 0}}
 	pcall(vim.cmd, [[ colorscheme onedark ]])
@@ -66,33 +61,7 @@ function M.nvim_treesitter()
 end
 
 function M.nvim_lsp()
-	require('vim.lsp.log').set_level(4)
-	local nvim_lsp = require'lspconfig'
-
-	local add = function(ls, opt)
-		nvim_lsp[ls].setup(opt or {})
-	end
-
-	add('gopls', {settings = { gopls = { usePlaceholders = true,	completeUnimported = true } }})
-	add('clangd')
-	add('pyls')
-	add('dockerls')
-	--add('vimls')
-	add('tsserver')
-	add('bashls')
-	add('rust_analyzer', {settiings = { ["rust-analyzer"] = {} }})
-	add('intelephense')
-	add('jsonls', {
-		settings = { json = { format = { enable = true } } }, 
-	})
-	--
-	--add('sumneko_lua')
-	--nvim_lsp.clangd.setup{callbacks = lsp_status.extensions.clangd.setup(),
-end
-
-function M.echodoc()
-	vim.g['echodoc#enable_at_startup'] = 1
-	vim.g['echodoc#type'] = "floating"
+	require("lsp_ext")
 end
 
 function M.diagnostic_nvim()
@@ -105,17 +74,6 @@ function M.diagnostic_nvim()
 	vim.cmd[[nnoremap <silent> ]e <cmd>NextDiagnosticCycle<cr>]]
 	vim.cmd[[nnoremap <silent> [e <cmd>PrevDiagnosticCycle<cr>]]
 	vim.cmd[[nnoremap <silent> <leader>d <cmd>OpenDiagnostic<cr>]]
-end
-
-function M.lsp_status()
-	local has, lsp_status = pcall(require, 'lsp-status')
-	if not has then return end
-	lsp_status.register_progress()
-	lsp_status.config{
-		indicator_errors = 'E',
-		indicator_warnings = 'W',
-		status_symbol = '',
-	}
 end
 
 return M

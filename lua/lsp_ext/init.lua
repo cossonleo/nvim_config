@@ -2,6 +2,22 @@ local util = require'vim.lsp.util'
 
 local M = {}
 
+require('vim.lsp.log').set_level(4)
+require('lsp_ext.server')
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+	vim.lsp.diagnostic.on_publish_diagnostics, {
+		update_in_insert = false,
+	}
+)
+
+local bultion_progress_cb = vim.lsp.handlers['$/progress']
+vim.lsp.handlers['$/progress'] = function(err, method, params, client_id, config)
+	if vim.fn.mode() == "n" then
+		bultion_progress_cb(_a1, _a2, params, client_id)
+	end
+end
+
 -- vim.api.nvim_command("doautocmd User LspProgressUpdate")
 
 local function diagnostic_info()
