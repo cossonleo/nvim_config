@@ -16,6 +16,7 @@ use 'whiteinge/diffconflicts'
 use 'cossonleo/dirdiff.nvim'
 --use { 'luochen1990/rainbow', config = config.rainbow }
 --use { 'joshdick/onedark.vim', config = config.onedark }
+use {'preservim/nerdtree', config = config.nerdtree}
 use {'overcache/NeoSolarized', config = config.solarized}
 use { 'voldikss/vim-floaterm', config = config.vim_floaterm }
 --use { 'norcalli/nvim-colorizer.lua', config = config.nvim_colorizer }

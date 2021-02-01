@@ -76,4 +76,28 @@ function M.diagnostic_nvim()
 	vim.cmd[[nnoremap <silent> <leader>d <cmd>OpenDiagnostic<cr>]]
 end
 
+function M.nerdtree()
+	vim.cmd[[nnoremap <leader>e :NERDTreeToggle<cr>]]
+	vim.cmd[[autocmd VimEnter * lua open_nerdtree_on_enter()]]
+
+	function open_nerdtree_on_enter()
+		local argc = vim.fn.argc()
+		if argc > 1 then
+			return
+		end
+
+		if argc == 0 then
+			vim.cmd[[NERDTreeToggle]]
+			return
+		end
+
+		local argv = vim.fn.argv()[1]
+		if vim.fn.isdirectory(argv) == 1 then
+			vim.cmd[[enew]]
+			vim.cmd("NERDTree " .. argv)
+			vim.cmd("cd " .. argv)
+		end
+	end
+end
+
 return M
