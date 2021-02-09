@@ -1,16 +1,47 @@
-local M = {}
+local vim_plug = require'cossonleo.vim_plug'
+local use = vim_plug.use
 
-function M.onedark()
+local config = {}
+
+local function plug_list()
+	use 'kshenoy/vim-signature'
+	use 'terryma/vim-multiple-cursors'
+	--use 'cossonleo/neo-comment.nvim'
+	use 'psliwka/vim-smoothie'
+	use 'tpope/vim-surround'
+	use 'jiangmiao/auto-pairs'
+	------ use 'chrisbra/csv.vim'
+	use 'kyazdani42/nvim-web-devicons'
+	--use 'nvim-lua/popup.nvim'
+	--use 'nvim-lua/plenary.nvim'
+	use 'whiteinge/diffconflicts'
+	use 'cossonleo/dirdiff.nvim'
+	--use { 'luochen1990/rainbow', config = config.rainbow }
+	--use { 'joshdick/onedark.vim', config = config.onedark }
+	--use {'preservim/nerdtree', config = config.nerdtree}
+	use {'overcache/NeoSolarized', config = config.solarized}
+	use { 'voldikss/vim-floaterm', config = config.vim_floaterm }
+	--use { 'norcalli/nvim-colorizer.lua', config = config.nvim_colorizer }
+	use { 'voldikss/vim-translator', config = config.vim_translator }
+	use { 'nvim-treesitter/nvim-treesitter', config = config.nvim_treesitter }
+	--use 'p00f/nvim-ts-rainbow'
+	use { 'neovim/nvim-lspconfig', config = config.nvim_lsp }
+	-- use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
+
+	use { 'phaazon/hop.nvim', config = config.hop }
+end
+
+function config.onedark()
 	vim.g.onedark_color_overrides = {black = {gui = "#000000", cterm = "235", cterm16 = 0}}
 	pcall(vim.cmd, [[ colorscheme onedark ]])
 end
 
-function M.solarized()
+function config.solarized()
 	vim.o.background = 'light'
 	pcall(vim.cmd, [[ colorscheme NeoSolarized ]])
 end
 
-function M.vim_floaterm()
+function config.vim_floaterm()
 	vim.g.floaterm_winblend = 10
 	vim.g.floaterm_width = 0.7
 	vim.g.floaterm_height = 0.8
@@ -21,18 +52,18 @@ function M.vim_floaterm()
 	vim.g.floaterm_border_color = "#FFFFFF"
 end
 
-function M.nvim_colorizer()
+function config.nvim_colorizer()
 	local has, c = pcall(require, 'colorizer')
 	if not has then return end
 	c.setup(nil, { css = true; })
 end
 
-function M.vim_translator()
+function config.vim_translator()
 	vim.g.EasyMotion_do_mapping = 0
 	vim.cmd[[nnoremap <silent> <leader>a :TranslateW<CR>]]
 end
 
-function M.nvim_treesitter()
+function config.nvim_treesitter()
 	local has, ts = pcall(require, 'nvim-treesitter.configs')
 	if not has then return end
 
@@ -60,11 +91,11 @@ function M.nvim_treesitter()
 	}
 end
 
-function M.nvim_lsp()
+function config.nvim_lsp()
 	require("lsp_ext")
 end
 
-function M.diagnostic_nvim()
+function config.diagnostic_nvim()
 	vim.g.diagnostic_insert_delay = 1
 	vim.g.diagnostic_enable_virtual_text = 1
 	vim.g.space_before_virtual_text = 5
@@ -76,28 +107,10 @@ function M.diagnostic_nvim()
 	vim.cmd[[nnoremap <silent> <leader>d <cmd>OpenDiagnostic<cr>]]
 end
 
-function M.nerdtree()
-	vim.cmd[[nnoremap <leader>e :NERDTreeToggle<cr>]]
-	vim.cmd[[autocmd VimEnter * lua open_nerdtree_on_enter()]]
-
-	function open_nerdtree_on_enter()
-		local argc = vim.fn.argc()
-		if argc > 1 then
-			return
-		end
-
-		if argc == 0 then
-			vim.cmd[[NERDTreeToggle]]
-			return
-		end
-
-		local argv = vim.fn.argv()[1]
-		if vim.fn.isdirectory(argv) == 1 then
-			vim.cmd[[enew]]
-			vim.cmd("NERDTree " .. argv)
-			vim.cmd("cd " .. argv)
-		end
-	end
+function config.hop()
+	vim.cmd[[nnoremap sw <cmd>lua require'hop'.jump_words()<cr>]]
 end
 
-return M
+plug_list()
+
+vim_plug.load()

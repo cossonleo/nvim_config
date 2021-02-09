@@ -13,19 +13,12 @@ local win_id = 0
 local show_conf = {}
 
 local search_sign_id = 0
-local search_sign_id2 = 0
 local select_sign_id = 0
 
---vim.fn.sign_define("easy_search_sign_search", {text = ">>", texthl = "Error", linehl = "CursorLine"})
---vim.fn.sign_define("easy_search_sign_search2", {text = ">", texthl = "Error", linehl = "CursorLine"})
---vim.fn.sign_define("easy_search_sign_select", {text = "->", texthl = "Function", linehl = "CursorLine"})
+vim.fn.sign_define("easy_search_sign_search", {text = "Ϙ ", texthl = "LineNr", linehl = "LineNr"})
+vim.fn.sign_define("easy_search_sign_select", {text = "☞ ", texthl = "LineNr", linehl = "LineNr"})
 
-vim.fn.sign_define("easy_search_sign_search", {text = ">>", texthl = "LineNr", linehl = "LineNr"})
-vim.fn.sign_define("easy_search_sign_search2", {text = ">", texthl = "LineNr", linehl = "LineNr"})
-vim.fn.sign_define("easy_search_sign_select", {text = "->", texthl = "LineNr", linehl = "LineNr"})
-vim.fn.sign_define("easy_search_sign_select2", {text = " ", texthl = "LineNr", linehl = "LineNr"})
-
-local function close_win()
+function easy_search_close()
 	if win_id == 0 then return end
 	if not vim.api.nvim_win_is_valid(win_id) then return end
 	vim.api.nvim_win_close(win_id, true)
@@ -35,10 +28,8 @@ end
 local function refresh_sign()
 	if select_sign_id > 0 then 
 		vim.fn.sign_unplace("", {buffer = buf_id, id = select_sign_id})
-		vim.fn.sign_unplace("", {buffer = buf_id, id = select_sign_id2})
 	end
 	select_sign_id = vim.fn.sign_place(0, "", "easy_search_sign_select", buf_id, {lnum = select_line + 1})
-	select_sign_id2 = vim.fn.sign_place(0, "", "easy_search_sign_select2", buf_id, {lnum = select_line + 1})
 end
 
 local function search_sign()
@@ -46,17 +37,12 @@ local function search_sign()
 		vim.fn.sign_unplace("", {buffer = buf_id, id = search_sign_id})
 	end
 	search_sign_id = vim.fn.sign_place(0, "", "easy_search_sign_search", buf_id, {lnum = 1})
-
-	if search_sign_id2 > 0 then 
-		vim.fn.sign_unplace("", {buffer = buf_id, id = search_sign_id2})
-	end
-	search_sign_id2 = vim.fn.sign_place(0, "", "easy_search_sign_search2", buf_id, {lnum = 1})
 end
 
 
 local function open_win()
 	if #data_vec == 0 then return end
-	close_win()
+	easy_search_close()
 	win_id = vim.api.nvim_open_win(buf_id, true, { 
 		relative = "editor",
 		row = show_conf.row,
@@ -180,11 +166,11 @@ local function move_pre()
 	end
 end
 
-local function do_item()
+function easy_search_do_item()
 	local i = first_index + select_line - 1
 	local index = show_vec[i].i
 	local close, do_action = data_vec[index]:do_item()
-	if close then close_win() end
+	if close then easy_search_close() end
 	vim.schedule(do_action)
 end
 
@@ -215,11 +201,24 @@ local function init_buf_once()
 	vim.api.nvim_buf_set_option(buf_id, "swapfile", false)
 
 	local opts = {noremap = true, silent = true}
-	local do_cmd = ":lua require'easy_search/ui'.do_item()<cr>"
-	local close = ":lua require'easy_search/ui'.close()<cr>"
-	vim.api.nvim_buf_set_keymap(buf_id, "i", "<cr>", "<c-[>" .. do_cmd, opts)
-	vim.api.nvim_buf_set_keymap(buf_id, "i", "<esc>", "<c-[>" .. close, opts)
-	vim.api.nvim_buf_set_keymap(buf_id, "n", "<esc>", close, opts)
+
+	vim.api.nvim_buf_set_keymap(
+		buf_id,
+		"i",
+		"<cr>",
+		"<c-[>:lua easy_search_do_item()<cr>",
+		opts
+	)
+
+	vim.api.nvim_buf_set_keymap(
+		buf_id,
+		"i",
+		"<esc>",
+		"<c-[>:lua easy_search_close()<cr>",
+		opts
+	)
+
+	vim.api.nvim_buf_set_keymap(buf_id, "n", "<esc>", "lua easy_search_close()<cr>", opts)
 
 	local next_cmd = [[<c-r>=luaeval("require'easy_search/ui'.move_next()")<CR>]]
 	local pre_cmd = [[<c-r>=luaeval("require'easy_search/ui'.move_pre()")<CR>]]
@@ -241,6 +240,7 @@ local function init_buf_once()
 end
 
 init_buf_once()
+
 return {
 	new = function(data, conf) new(data, conf) end,
 	move_next = function() 
@@ -253,7 +253,6 @@ return {
 		return ""
 	end,
 
-	do_item = function() do_item() end,
 	close = function() close_win() end,
 	re_open = function() re_open() end,
 	match = function() search_item() end,
