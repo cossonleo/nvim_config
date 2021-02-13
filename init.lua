@@ -108,4 +108,7 @@ end
 
 require'plugins'
 require'easy_search'
+require'quick_motion'
 require'stl'
+
+-- :au CursorHold <buffer=33>  echo 'hold'
