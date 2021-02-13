@@ -1,6 +1,8 @@
 
 local easy_motion_ns  = vim.api.nvim_create_namespace("easy_motion_ns")
 local easy_motion_buf = vim.api.nvim_create_buf(false, true)
+vim.api.nvim_buf_set_option(easy_motion_buf, "buftype", "nofile")
+vim.api.nvim_buf_set_option(easy_motion_buf, "swapfile", false)
 
 local function clear_hl()
 	vim.api.nvim_buf_clear_namespace(easy_motion_buf, easy_motion_ns, 0, -1)
@@ -95,7 +97,7 @@ local function jump_char(char)
 		replace_char(52 + i, ';' .. char)
 		replace_char(78 + i, ',' .. char)
 
-		local char = vim.fn.nr2char(65 + i)
+		local char = vim.fn.nr2char(64 + i)
 		replace_char(26 + i, char)
 		replace_char(104 + i, ';' .. char)
 		replace_char(130 + i, ',' .. char)
