@@ -3,6 +3,13 @@ local quick_motion_ns = vim.api.nvim_create_namespace("quick_motion_ns")
 local quick_row = -1
 local quick_col = -1
 
+local function clear_hl()
+	if quick_row == -1 then return end
+	vim.api.nvim_buf_clear_namespace(0, quick_motion_ns, quick_row, quick_row + 1)
+	quick_row = -1
+	quick_col = -1
+end
+
 local function get_next_chars_index()
 	local lines = vim.api.nvim_buf_get_lines(0, quick_row, quick_row + 1, false)
 	if #lines == 0 then return end
@@ -84,23 +91,19 @@ local function add_highlight_to_nexts(nexts)
 	end
 end
 
-local function clear_hl()
-	if quick_row == -1 then return end
-	vim.api.nvim_buf_clear_namespace(0, quick_motion_ns, quick_row, quick_row + 1)
-	quick_row = -1
-	quick_col = -1
-end
+local function exe_motion(motion, input)
+	if input == 27 then
+		 -- <esc>
+		return
+	end
 
-local function exe_motion(motion, keys)
 	vim.cmd("unmap " .. motion)
-
-	vim.api.nvim_feedkeys(motion .. keys, 'n', true)
+	vim.api.nvim_feedkeys(motion .. vim.fn.nr2char(input), 'n', true)
 
 	local cmd = string.format(
 		":lua require'quick_motion.quick_scope'.quick_scope('%s')<cr>",
 		motion
 	)
-
 	vim.api.nvim_set_keymap(
 		"n",
 		motion,
@@ -128,7 +131,6 @@ local function quick_scope(motion)
 
 	vim.schedule(function()
 		local input = vim.fn.getchar()
-		input = vim.fn.nr2char(input)
 		exe_motion(motion, input)
 		clear_hl()
 	end)

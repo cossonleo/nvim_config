@@ -12,3 +12,10 @@ for _, key in ipairs({'f', 'F', 't', 'T'}) do
 		{silent = true}
 	)
 end
+
+vim.api.nvim_set_keymap(
+	"n",
+	" ",
+	":lua require'quick_motion.easy_motion'.easy_motion()<cr>",
+	{silent = true}
+)
