@@ -28,7 +28,7 @@ local function plug_list()
 	use { 'neovim/nvim-lspconfig', config = config.nvim_lsp }
 	-- use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
 
-	use { 'phaazon/hop.nvim', config = config.hop }
+	-- use { 'phaazon/hop.nvim', config = config.hop }
 end
 
 function config.onedark()
@@ -105,10 +105,6 @@ function config.diagnostic_nvim()
 	vim.cmd[[nnoremap <silent> ]e <cmd>NextDiagnosticCycle<cr>]]
 	vim.cmd[[nnoremap <silent> [e <cmd>PrevDiagnosticCycle<cr>]]
 	vim.cmd[[nnoremap <silent> <leader>d <cmd>OpenDiagnostic<cr>]]
-end
-
-function config.hop()
-	vim.cmd[[nnoremap sw <cmd>lua require'hop'.jump_words()<cr>]]
 end
 
 plug_list()

@@ -15,7 +15,7 @@ end
 
 vim.api.nvim_set_keymap(
 	"n",
-	" ",
+	"s",
 	":lua require'quick_motion.easy_motion'.easy_motion()<cr>",
 	{silent = true}
 )
