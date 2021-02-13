@@ -70,7 +70,7 @@ local function jump_char(char)
 		end
 	end
 
-	local replace_char = function(pos_i, char)
+	local apply_char = function(pos_i, char)
 		local pos = pos_info[pos_i]
 		if not pos then return end
 
@@ -86,21 +86,16 @@ local function jump_char(char)
 		if #pos_info < i then
 			return false
 		end
+		
 		local char = vim.fn.nr2char(96 + i)
-
-		replace_char(i, char)
-
-		if #pos_info <= 26 then
-			return true
-		end
-
-		replace_char(52 + i, ';' .. char)
-		replace_char(78 + i, ',' .. char)
+		apply_char(i, char)
+		apply_char(52 + i, ';' .. char)
+		apply_char(78 + i, ',' .. char)
 
 		local char = vim.fn.nr2char(64 + i)
-		replace_char(26 + i, char)
-		replace_char(104 + i, ';' .. char)
-		replace_char(130 + i, ',' .. char)
+		apply_char(26 + i, char)
+		apply_char(104 + i, ';' .. char)
+		apply_char(130 + i, ',' .. char)
 		return true
 	end
 	
