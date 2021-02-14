@@ -45,7 +45,7 @@ function M.search()
 			local item = ref_item:new(qi)
 			table.insert(items, item)
 		end
-		require("easy_search/ui").new(items)
+		require("easy_search.ui").new(items)
 	end)
 end
 

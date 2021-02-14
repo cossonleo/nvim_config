@@ -38,3 +38,4 @@ hi default link ClapDisplay StatusLine
 "hi StatusGreen guifg=#98C379
 "hi StatusRed guifg=#BE5046
 
+hi link SnippetHl Comment

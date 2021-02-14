@@ -220,8 +220,8 @@ local function init_buf_once()
 
 	vim.api.nvim_buf_set_keymap(buf_id, "n", "<esc>", "lua easy_search_close()<cr>", opts)
 
-	local next_cmd = [[<c-r>=luaeval("require'easy_search/ui'.move_next()")<CR>]]
-	local pre_cmd = [[<c-r>=luaeval("require'easy_search/ui'.move_pre()")<CR>]]
+	local next_cmd = [[<c-r>=luaeval("require'easy_search.ui'.move_next()")<CR>]]
+	local pre_cmd = [[<c-r>=luaeval("require'easy_search.ui'.move_pre()")<CR>]]
 	vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-j>", next_cmd, opts)
 	vim.api.nvim_buf_set_keymap(buf_id, "i", "<c-k>", pre_cmd, opts)
 	search_sign()

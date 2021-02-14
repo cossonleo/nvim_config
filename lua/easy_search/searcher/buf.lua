@@ -58,7 +58,7 @@ function M.search()
 	end
 
 	if #items == 0 then return end
-	require("easy_search/ui").new(items)
+	require("easy_search.ui").new(items)
 end
 
 return M

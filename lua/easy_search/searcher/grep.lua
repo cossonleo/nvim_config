@@ -59,7 +59,7 @@ local function grep(word)
 		self.finish = self.finish + 1
 		if self.finish >= self.total then
 			vim.schedule(function()
-				require("easy_search/ui").new(self.items)
+				require("easy_search.ui").new(self.items)
 			end)
 		end
 	end

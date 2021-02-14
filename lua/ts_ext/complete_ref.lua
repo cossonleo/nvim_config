@@ -2,9 +2,9 @@ local ts_locals = require'nvim-treesitter.locals'
 local parsers = require'nvim-treesitter.parsers'
 local ts_utils = require'nvim-treesitter.ts_utils'
 
-local log = require('nvim-completor/log')
-local manager = require("nvim-completor/src-manager")
-local completor = require("nvim-completor/completor")
+local log = require('completor/log')
+local manager = require("completor/src-manager")
+local completor = require("completor/completor")
 local api = vim.api
 
 local M = {}

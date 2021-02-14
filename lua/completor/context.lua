@@ -7,8 +7,8 @@
 --       Desc: 
 --------------------------------------------------
 
-local snippet = require("nvim-completor/snippet")
-local api = require("nvim-completor/api")
+local text_edit = require("completor.text_edit")
+local api = require("completor.api")
 
 local _min_fire_len = 2
 
@@ -24,7 +24,7 @@ local _semantics_fire_pattern = {
 }
 
 -- position_param = {}
-local context = {
+local Context = {
 	changedtick = 0,
 	buf = 0,
 	pos = {},
@@ -35,17 +35,18 @@ local context = {
 -- self > ctx
 -- self 相对 ctx的偏移输入
 -- 若不是偏移输入则返回nil
-function context:offset_typed(ctx)
+function Context:offset_typed(ctx)
 	if not self or not ctx then return nil end
 	if self.buf == 0  or self.buf ~= ctx.buf then
 		return nil
 	end
 	if self.pos[1] ~= ctx.pos[1] then return nil end
-	if ctx.pos[2] >= self.pos[2] then return nil end
+	if ctx.pos[2] > self.pos[2] then return nil end
 	local front_typed = ctx:typed_to_cursor()
 	if not vim.startswith(self.typed, front_typed) then
 		return nil
 	end
+	if ctx.pos[2] == self.pos[2] then return "" end
 	local offset_typed = self.typed:sub(ctx.pos[2] + 1, self.pos[2])
 	local check = offset_typed:match('[%w_]+')
 	if check and offset_typed == check then
@@ -54,11 +55,11 @@ function context:offset_typed(ctx)
 	return nil
 end
 
-function context:typed_to_cursor()
+function Context:typed_to_cursor()
 	return self.typed:sub(1, self.pos[2])
 end
 
-function context:can_fire_complete()
+function Context:can_fire_complete()
 	local ft = vim.bo.filetype
 	if ft == "" then
 		return false
@@ -84,19 +85,30 @@ function context:can_fire_complete()
 	return false
 end
 
-function context:restore_ctx()
-	snippet.restore_ctx(self)
-end
-
-function _new()
-	local ctx = {}
-	ctx.changedtick = vim.b.changedtick
-	ctx.buf = api.cur_buf()
-	ctx.typed = api.cur_line()
-	ctx.pos = api.cur_pos()
-	ctx.marks = snippet.get_curline_marks(ctx.pos[1])
-	setmetatable(ctx, {__index = context})
-	return ctx
+function _new(ctx)
+	local new_ctx = {}
+	if ctx then
+		new_ctx.changedtick = ctx.changedtick
+		new_ctx.buf = ctx.buf
+		new_ctx.typed = ctx.typed
+		new_ctx.pos = {ctx.pos[1], ctx.pos[2]}
+		new_ctx.marks = {}
+		for _, m in ipairs(ctx.marks) do
+			table.insert(new_ctx.marks, {
+				mark = m.mark,
+				head = {m.head[1], m.head[2]},
+				tail = {m.tail[1], m.tail[2]},
+			})
+		end
+	else
+		new_ctx.changedtick = vim.b.changedtick
+		new_ctx.buf = api.cur_buf()
+		new_ctx.typed = api.cur_line()
+		new_ctx.pos = api.cur_pos()
+		new_ctx.marks = text_edit.get_line_marks(new_ctx.pos[1])
+	end
+	setmetatable(new_ctx, {__index = Context})
+	return new_ctx
 end
 
 return {new = _new}

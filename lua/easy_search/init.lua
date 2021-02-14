@@ -9,7 +9,7 @@ local init = call_once(function ()
 	searcher.term = require("easy_search.searcher.term")
 	searcher.symbols = require("easy_search.searcher.symbols")
 	searcher.vim_menu = require("easy_search.searcher.vim_menu")
-	searcher.resume = { search = function() require("easy_search/ui").re_open() end }
+	searcher.resume = { search = function() require("easy_search.ui").re_open() end }
 end)
 
 function easy_search_launch(src)

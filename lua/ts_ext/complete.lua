@@ -1,6 +1,6 @@
-local log = require('nvim-completor/log')
-local manager = require("nvim-completor/src-manager")
-local completor = require("nvim-completor/completor")
+local log = require('completor/log')
+local manager = require("completor/src-manager")
+local completor = require("completor/completor")
 
 local queries = require'nvim-treesitter.query'
 local ts_locals = require'nvim-treesitter.locals'

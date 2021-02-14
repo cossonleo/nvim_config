@@ -1,0 +1,120 @@
+From 385502b10372c18698453db4e89e98ef65317731 Mon Sep 17 00:00:00 2001
+From: chentau <tchen1998@gmail.com>
+Date: Fri, 5 Feb 2021 18:28:31 -0800
+Subject: [PATCH 12/12] more tests
+
+---
+ src/nvim/api/vim.c                       | 15 +++++--
+ src/nvim/edit.c                          |  2 +-
+ test/functional/viml/completion_spec.lua | 50 ++++++++++++++++++++++++
+ 3 files changed, 63 insertions(+), 4 deletions(-)
+
+diff --git a/src/nvim/api/vim.c b/src/nvim/api/vim.c
+index c80ad93d0..ed7c2b12b 100644
+--- a/src/nvim/api/vim.c
++++ b/src/nvim/api/vim.c
+@@ -2863,9 +2863,9 @@ error:
+ /// @param opts: Dictionary. Possible keys:
+ ///                 filterfunc: function used for filtering the
+ ///                     matches. See |nvim_register_filterfunc|.
+-//
+-// todo: what to do if filterfunc != NULL AND completion entry
+-// has icase/equal set.
++///                 exact: boolean value. If true, disables fuzzy
++///                     finding and reverts to default exact prefix
++///                     matching for this completion.
+ String nvim_complete(Integer startcol,
+                      ArrayOf(String) matches,
+                      DictionaryOf(LuaRef) opts,
+@@ -2902,6 +2902,15 @@ String nvim_complete(Integer startcol,
+       }
+       active_filterfunc = user_filterfunc = v->data.luaref;
+       v->data.luaref = LUA_NOREF;
++    } else if (strequal(k.data, "exact")) {
++      if (v->type != kObjectTypeBoolean) {
++        api_set_error(err, kErrorTypeValidation,
++                      "expected boolean");
++        goto error;
++      }
++      if (v->data.boolean) {
++        active_filterfunc = LUA_NOREF;
++      }
+     } else {
+       api_set_error(err, kErrorTypeValidation,
+                     "unexpected key");
+diff --git a/src/nvim/edit.c b/src/nvim/edit.c
+index 202d1adb4..ed0b9c9a1 100644
+--- a/src/nvim/edit.c
++++ b/src/nvim/edit.c
+@@ -3896,8 +3896,8 @@ static bool ins_compl_prep(int c)
+       if (user_filterfunc != LUA_NOREF) {
+         api_free_luaref(user_filterfunc);
+         user_filterfunc = LUA_NOREF;
+-        active_filterfunc = global_filterfunc;
+       }
++      active_filterfunc = global_filterfunc;
+ 
+       if (!shortmess(SHM_COMPLETIONMENU)) {
+         msg_clr_cmdline();                // necessary for "noshowmode"
+diff --git a/test/functional/viml/completion_spec.lua b/test/functional/viml/completion_spec.lua
+index ef54d5961..5ad05c424 100644
+--- a/test/functional/viml/completion_spec.lua
++++ b/test/functional/viml/completion_spec.lua
+@@ -1353,4 +1353,54 @@ describe("fuzzy completion", function()
+   {3:-- INSERT --}                                                |
+     ]])
+   end)
++
++  it("allows overriding the global filterfunc with a local one", function()
++
++    -- global filterfunc doesn't match anything, but local
++    -- filterfunc matches everything. Local filterfunc
++    -- should override the global one
++    feed_command("lua vim.api.nvim_register_filterfunc(function(a, b) return 0 end)")
++
++    feed([[i=luaeval('vim.api.nvim_complete(1, {"hello", "world"}, {filterfunc = function(a, b) return 1 end})')<cr>]])
++
++    screen:expect([[
++  ^                                                            |
++  {1:hello          }{0:                                             }|
++  {1:world          }{0:                                             }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {3:-- INSERT --}                                                |
++    ]])
++  end)
++
++  it("can revert back to exact prefix matching", function()
++    feed_command("lua vim.api.nvim_regsiter_filterfunc(function(a, b) return 1 end)")
++    feed([[i=luaeval('vim.api.nvim_complete(1, {"hello", "world"}, {exact=true})')<cr>]])
++
++    screen:expect([[
++  ^                                                            |
++  {1:hello          }{0:                                             }|
++  {1:world          }{0:                                             }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {3:-- INSERT --}                                                |
++    ]])
++
++    feed("w")
++
++    screen:expect([[
++  w^                                                           |
++  {1:world          }{0:                                             }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {3:-- INSERT --}                                                |
++    ]])
++  end)
+ end)
+-- 
+2.30.1
+

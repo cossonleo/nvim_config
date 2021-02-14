@@ -82,7 +82,7 @@ function M.search()
 --	vim.g.floaterm_keymap_toggle = '<F4>'
 --	vim.g.floaterm_keymap_new    = '<leader><F4>'
 --	vim.g.floaterm_keymap_next   = '<F16>'
-	require("easy_search/ui").new(items)
+	require("easy_search.ui").new(items)
 end
 
 return M

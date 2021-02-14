@@ -11,9 +11,7 @@ function stl_file_size()
 end
 
 function stl_lsp_info()
-	return require("lsp_ext").lsp_info()
-	--vim.b.lsp_info = get_util().lsp_info()
-	--return ""
+	return require("lsp_ext").statusline()
 end
 
 function stl_file_name(len)

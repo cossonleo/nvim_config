@@ -1,0 +1,193 @@
+From 43a5d50256d17314ee9f26df6a8d3f0acf862c09 Mon Sep 17 00:00:00 2001
+From: chentau <tchen1998@gmail.com>
+Date: Sun, 31 Jan 2021 00:42:03 -0800
+Subject: [PATCH 05/12] adress review comments and fix more tests
+
+---
+ src/nvim/api/vim.c | 30 ++++++++----------------------
+ src/nvim/edit.c    | 29 ++++++++++++++++-------------
+ src/nvim/edit.h    | 10 ++++++++++
+ 3 files changed, 34 insertions(+), 35 deletions(-)
+
+diff --git a/src/nvim/api/vim.c b/src/nvim/api/vim.c
+index 7fd493ac9..65a99868f 100644
+--- a/src/nvim/api/vim.c
++++ b/src/nvim/api/vim.c
+@@ -2875,9 +2875,6 @@ String nvim_complete(Integer startcol,
+   FUNC_API_SINCE(7)
+ {
+   typval_T tv;
+-  extern LuaRef *user_filterfunc;
+-  extern LuaRef *active_filterfunc;
+-  LuaRef filterfunc;
+ 
+   if (matches.type != kObjectTypeArray) {
+     api_set_error(err, kErrorTypeValidation,
+@@ -2885,7 +2882,7 @@ String nvim_complete(Integer startcol,
+   }
+ 
+   if ((State & INSERT) == 0) {
+-    api_set_error(err, kErrorTypeValidation,
++    api_set_error(err, kErrorTypeException,
+             "complete() can only be used in Insert mode");
+     goto error;
+   }
+@@ -2909,10 +2906,8 @@ String nvim_complete(Integer startcol,
+                 "expected lua function");
+         goto error;
+       }
+-      filterfunc = api_new_luaref(v->data.luaref);
+-      user_filterfunc = xmalloc(sizeof(LuaRef));
+-      memcpy(user_filterfunc, &filterfunc, sizeof(LuaRef));
+-      active_filterfunc = user_filterfunc;
++      active_filterfunc = user_filterfunc = v->data.luaref;
++      v->data.luaref = LUA_NOREF;
+     } else {
+       api_set_error(err, kErrorTypeValidation,
+               "undexpected key");
+@@ -2948,21 +2943,12 @@ error:
+ void nvim_register_filterfunc(LuaRef func, Error *err)
+ FUNC_API_SINCE(7)
+ {
+-  extern LuaRef *global_filterfunc;
+-  extern LuaRef *active_filterfunc;
+-  LuaRef filterfunc;
+-
+-  if (global_filterfunc != NULL) {
+-    XFREE_CLEAR(global_filterfunc);
+-    active_filterfunc = NULL;
+-  }
+-
+-  if (func == -1) { // Nil
++  if (func == -1) { // nil value for func
++    api_free_luaref(global_filterfunc);
++    active_filterfunc = global_filterfunc = LUA_NOREF;
+     return;
+   }
+ 
+-  filterfunc = api_new_luaref(func);
+-  global_filterfunc = xmalloc(sizeof(LuaRef));
+-  memcpy(global_filterfunc, &filterfunc, sizeof(LuaRef));
+-  active_filterfunc = global_filterfunc;
++  active_filterfunc = global_filterfunc = api_new_luaref(func);
++  return;
+ }
+diff --git a/src/nvim/edit.c b/src/nvim/edit.c
+index 36e5ff854..eea2365c4 100644
+--- a/src/nvim/edit.c
++++ b/src/nvim/edit.c
+@@ -162,13 +162,6 @@ struct compl_score_S {
+   double score;
+ };
+ 
+-// lua functions used to filter completion matches
+-// global_filterfunc is used for all completion sources,
+-// while user_filterfunc is only used to filter matches
+-// from vim.api.nvim_complete().
+-LuaRef *global_filterfunc = NULL;
+-LuaRef *user_filterfunc = NULL;
+-LuaRef *active_filterfunc = NULL;
+ 
+ /*
+  * All the current matches are stored in a list.
+@@ -182,6 +175,14 @@ static compl_T    *compl_curr_match = NULL;
+ static compl_T    *compl_shown_match = NULL;
+ static compl_T    *compl_old_match = NULL;
+ 
++// lua functions used to filter completion matches
++// global_filterfunc is used for all completion sources,
++// while user_filterfunc is only used to filter matches
++// from vim.api.nvim_complete().
++LuaRef global_filterfunc = LUA_NOREF;
++LuaRef user_filterfunc = LUA_NOREF;
++LuaRef active_filterfunc = LUA_NOREF;
++
+ /* After using a cursor key <Enter> selects a match in the popup menu,
+  * otherwise it inserts a line break. */
+ static int compl_enter_selects = FALSE;
+@@ -2468,16 +2469,17 @@ static double ins_compl_match(compl_T *match, char_u *str, size_t len)
+     return true;
+   }
+ 
+-  if (active_filterfunc != NULL) {
++  if (active_filterfunc != LUA_NOREF) {
+     ADD(args, STRING_OBJ(cstr_to_string((char *)str)));
+     ADD(args, STRING_OBJ(cstr_to_string((char *)match->cp_str)));
+ 
+-    retval = nlua_call_ref(*active_filterfunc, NULL, args, true, &err);
++    retval = nlua_call_ref(active_filterfunc, NULL, args, true, &err);
+ 
+     api_free_array(args);
+ 
+     if (ERROR_SET(&err)) {
+       EMSG(_(err.msg));
++      api_clear_error(&err);
+       return 0;
+     } else {
+       if (retval.type == kObjectTypeFloat) {
+@@ -2859,7 +2861,7 @@ int set_compl_match_array(void)
+ 
+   // If we are doing filtering via a lua function, sort the completion
+   // items according to the scores
+-  if (active_filterfunc != NULL && compl_leader != NULL) {
++  if (active_filterfunc != LUA_NOREF && compl_leader != NULL) {
+     sort_completions(compl_matches + 1, scores);
+   }
+ 
+@@ -3463,7 +3465,7 @@ static int ins_compl_bs(void)
+   // Respect the 'backspace' option.
+   if ((int)(p - line) - (int)compl_col < 0
+       || ((int)(p - line) - (int)compl_col == 0
+-          && (ctrl_x_mode != CTRL_X_OMNI && ctrl_x_mode != CTRL_X_EVAL))
++          && ctrl_x_mode != CTRL_X_OMNI)
+       || (!can_bs(BS_START) && (int)(p - line) - (int)compl_col
+           - compl_length < 0)) {
+     return K_BS;
+@@ -3882,8 +3884,9 @@ static bool ins_compl_prep(int c)
+ 
+       // When we are done completing from vim.api.nvim_complete(),
+       // reset the user filterfunc, if one was provided
+-      if (user_filterfunc != NULL) {
+-        XFREE_CLEAR(user_filterfunc);
++      if (user_filterfunc != LUA_NOREF) {
++        api_free_luaref(user_filterfunc);
++        user_filterfunc = LUA_NOREF;
+         active_filterfunc = global_filterfunc;
+       }
+ 
+diff --git a/src/nvim/edit.h b/src/nvim/edit.h
+index 09f401ee8..2aeadb732 100644
+--- a/src/nvim/edit.h
++++ b/src/nvim/edit.h
+@@ -2,6 +2,7 @@
+ #define NVIM_EDIT_H
+ 
+ #include "nvim/vim.h"
++#include "nvim/api/private/defs.h"
+ 
+ /*
+  * Array indexes used for cptext argument of ins_compl_add().
+@@ -12,6 +13,14 @@
+ #define CPT_INFO        3   // "info"
+ #define CPT_COUNT       4   // Number of entries
+ 
++// lua functions used to filter completion matches
++// global_filterfunc is used for all completion sources,
++// while user_filterfunc is only used to filter matches
++// from vim.api.nvim_complete().
++EXTERN LuaRef global_filterfunc INIT(= LUA_NOREF);
++EXTERN LuaRef user_filterfunc INIT(= LUA_NOREF);
++EXTERN LuaRef active_filterfunc INIT(= LUA_NOREF);
++
+ // values for cp_flags
+ typedef enum {
+   CP_ORIGINAL_TEXT = 1,  // the original text when the expansion begun
+@@ -48,4 +57,5 @@ typedef int (*IndentGetter)(void);
+ #ifdef INCLUDE_GENERATED_DECLARATIONS
+ # include "edit.h.generated.h"
+ #endif
++
+ #endif  // NVIM_EDIT_H
+-- 
+2.30.1
+

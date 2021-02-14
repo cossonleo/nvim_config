@@ -49,7 +49,7 @@ function M.search()
 	end
 	table.insert(items, term_item:new(0))
 
-	require("easy_search/ui").new(items)
+	require("easy_search.ui").new(items)
 end
 
 return M

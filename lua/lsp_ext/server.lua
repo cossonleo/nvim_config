@@ -1,20 +1,13 @@
-local settings = {}
 
-local add = function(...)
-	servers = { ... }
-	for _, serv in ipairs(servers) do
-		require('lspconfig')[serv].setup(settings)
-	end
-end
-
-settings = {
+require'lspconfig'.gopls.setup{
 	gopls = { usePlaceholders = true, completeUnimported = true },
+}
+
+require'lspconfig'.rust_analyzer.setup{
 	["rust-analyzer"] = {},
 }
 
-add(
-	'gopls', 
-	'clangd',
-	'pyls',
-	'rust_analyzer'
-)
+require'lspconfig'.pyls.setup{}
+
+require'lspconfig'.clangd.setup{}
+

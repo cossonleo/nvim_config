@@ -46,6 +46,6 @@ return {
 			local item = file_item:new(sub, win)
 			table.insert(items, item)
 		end
-		require("easy_search/ui").new(items)
+		require("easy_search.ui").new(items)
 	end
 }
