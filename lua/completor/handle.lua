@@ -82,10 +82,9 @@ end
 
 local function apply_completed_item(on_select)
 	local complete_item = api.nvim_get_vvar('completed_item')
-	if type(complete_item) ~= "table" or not complete_item.user_data then
-		return
+	if type(complete_item) == "table" and complete_item.user_data then
+		text_edit.apply_complete_user_data(complete_item.user_data, on_select)
 	end
-	text_edit.apply_complete_user_data(complete_item.user_data, on_select)
 	last_changedtick = vim.b.changedtick
 end
 
