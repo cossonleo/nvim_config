@@ -2,7 +2,7 @@
 
 ## 安装
 
-`cd ~/.config && git clone https://github.com/cossonleo/nvim_config.git && nvim -c "PlugInstall"`
+`cd ~/.config && git clone https://github.com/cossonleo/nvim_config.git nvim && nvim -c "PlugInstall"`
 
 ## 特性
 + lsp 补全 后续会提供 treesitter 补全
