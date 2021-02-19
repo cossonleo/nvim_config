@@ -67,7 +67,7 @@ function config.nvim_treesitter()
 	local has, ts = pcall(require, 'nvim-treesitter.configs')
 	if not has then return end
 
-	require'ts_ext'.open_complete()
+	--require'ts_ext'.open_complete()
 	ts.setup {
 		ensure_installed = 'all', -- one of 'all', 'language', or a list of languages
 		highlight = { 

@@ -1,0 +1,431 @@
+From 71a7505c97abbf4b4fb21942b6725c347f1e5189 Mon Sep 17 00:00:00 2001
+From: chentau <tchen1998@gmail.com>
+Date: Tue, 2 Feb 2021 20:30:08 -0800
+Subject: [PATCH 08/12] lints, tests, and allowing for filtering before the
+ user has typed anything.
+
+---
+ src/nvim/api/vim.c                       |  25 ++--
+ src/nvim/edit.c                          |  58 ++++----
+ test/functional/viml/completion_spec.lua | 161 +++++++++++++++++++++++
+ 3 files changed, 208 insertions(+), 36 deletions(-)
+
+diff --git a/src/nvim/api/vim.c b/src/nvim/api/vim.c
+index 3282a1a9e..c80ad93d0 100644
+--- a/src/nvim/api/vim.c
++++ b/src/nvim/api/vim.c
+@@ -2864,28 +2864,27 @@ error:
+ ///                 filterfunc: function used for filtering the
+ ///                     matches. See |nvim_register_filterfunc|.
+ //
+-// todo: completefunc with refresh: always
+-// todo: figure out what to do with ctrl_e and ctrl_l
+ // todo: what to do if filterfunc != NULL AND completion entry
+ // has icase/equal set.
+ String nvim_complete(Integer startcol,
+-                   ArrayOf(String) matches,
+-                   DictionaryOf(LuaRef) opts,
+-                   Error *err)
++                     ArrayOf(String) matches,
++                     DictionaryOf(LuaRef) opts,
++                     Error *err)
+   FUNC_API_SINCE(7)
+ {
+   typval_T tv;
+ 
+   if ((State & INSERT) == 0) {
+     api_set_error(err, kErrorTypeException,
+-            "complete() can only be used in Insert mode");
++                  "complete() can only be used in Insert mode");
+     goto error;
+   }
+ 
+   // Check for undo allowed here, because if something was already inserted
+   // the line was already saved for undo and this check isn't done.
+-  if (!undo_allowed())
++  if (!undo_allowed()) {
+       goto error;
++  }
+ 
+   if (startcol <= 0) {
+       goto error;
+@@ -2895,23 +2894,23 @@ String nvim_complete(Integer startcol,
+     String k = opts.items[i].key;
+     Object *v = &opts.items[i].value;
+ 
+-    if (strequal(k.data, "filterfunc")){
++    if (strequal(k.data, "filterfunc")) {
+       if (v->type != kObjectTypeLuaRef) {
+         api_set_error(err, kErrorTypeValidation,
+-                "expected lua function");
++                      "expected lua function");
+         goto error;
+       }
+       active_filterfunc = user_filterfunc = v->data.luaref;
+       v->data.luaref = LUA_NOREF;
+     } else {
+       api_set_error(err, kErrorTypeValidation,
+-              "undexpected key");
++                    "unexpected key");
+       goto error;
+     }
+   }
+ 
+   object_to_vim(ARRAY_OBJ(matches), &tv, err);
+-  if ERROR_SET(err){
++  if ERROR_SET(err) {
+       goto error;
+   }
+ 
+@@ -2936,9 +2935,9 @@ error:
+ /// @param func: function to register for filtering.
+ ///
+ void nvim_register_filterfunc(LuaRef func, Error *err)
+-FUNC_API_SINCE(7)
++  FUNC_API_SINCE(7)
+ {
+-  if (func == -1) { // nil value for func
++  if (func == -1) {  // nil value for func
+     api_free_luaref(global_filterfunc);
+     active_filterfunc = global_filterfunc = LUA_NOREF;
+     return;
+diff --git a/src/nvim/edit.c b/src/nvim/edit.c
+index 40975a8f0..ddebc0e21 100644
+--- a/src/nvim/edit.c
++++ b/src/nvim/edit.c
+@@ -187,8 +187,8 @@ LuaRef active_filterfunc = LUA_NOREF;
+  * otherwise it inserts a line break. */
+ static int compl_enter_selects = FALSE;
+ 
+-/* When "compl_leader" is not NULL only matches that start with this string
+- * are used. */
++// text typed after completion is started. Is used to narrow down
++// the list of completions.
+ static char_u     *compl_leader = NULL;
+ 
+ static int compl_get_longest = FALSE;           /* put longest common string
+@@ -2639,6 +2639,7 @@ void set_completion(colnr_T startcol, list_T *list)
+   // compl_pattern doesn't need to be set
+   compl_orig_text = vim_strnsave(get_cursor_line_ptr() + compl_col,
+                                  compl_length);
++  compl_leader = (char_u *)xstrdup("");
+   if (p_ic) {
+     flags |= CP_ICASE;
+   }
+@@ -2753,7 +2754,8 @@ static void trigger_complete_changed_event(int cur)
+ }
+ 
+ // comparator function for use in qsort.
+-static int compare_scores(const void* a, const void *b) {
++static int compare_scores(const void *a, const void *b)
++{
+   double val = ((compl_score_T *)b)->score - ((compl_score_T *)a)->score;
+   if (val < 0) {
+     return -1;
+@@ -2780,7 +2782,7 @@ static void sort_completions(int num_items, compl_score_T *scores)
+   // TODO(chentau): We don't need to sort the entire linked
+   // list; we just need to sort the first compl_match_arraysize entries,
+   // since only those will be shown in the pum.
+-  for (i = 1; i < num_items; ++i) {
++  for (i = 1; i < num_items; i++) {
+     prev = scores[i - 1].compl;
+     cur = scores[i].compl;
+     prev->cp_next = cur;
+@@ -2796,8 +2798,9 @@ static void sort_completions(int num_items, compl_score_T *scores)
+ }
+ 
+ ///
+-/// Sets compl_match_array by filtering the currently available completion items.
+-/// Also adjusts "compl_shown_match" to an entry that is actually displayed.
++/// Sets compl_match_array by filtering the currently available completion
++/// items. Also adjusts "compl_shown_match" to an entry that is actually
++/// displayed.
+ /// Returns the index of the currently shown completion item in the array,
+ /// or -1 if no completion entry is selected.
+ ///
+@@ -2815,10 +2818,10 @@ int set_compl_match_array(void)
+ 
+   compl_match_arraysize = 0;
+   compl = compl_first_match;
+-  //
++
+   // If it's user complete function and refresh_always,
+-  // do not use "compl_leader" as prefix filter.
+-  //
++  // do not use "compl_leader" as prefix filter, and delegate
++  // all sorting to completefunc.
+   if (ins_compl_need_restart()) {
+     XFREE_CLEAR(compl_leader);
+   }
+@@ -2879,7 +2882,7 @@ int set_compl_match_array(void)
+   compl = compl_first_match;
+   do {
+     if ((compl->cp_flags & CP_ORIGINAL_TEXT) == 0
+-        && (compl_leader == NULL || scores[j].score)) {
++        && scores[j].score) {
+       if (!shown_match_ok) {
+         if (compl == compl_shown_match || did_find_shown_match) {
+           // This item is the shown match or this is the
+@@ -2932,7 +2935,7 @@ int set_compl_match_array(void)
+     j++;
+     compl = compl->cp_next;
+   } while (compl != NULL && compl != compl_first_match);
+-  if (!shown_match_ok) { // no displayed match at all
++  if (!shown_match_ok) {  // no displayed match at all
+     cur = -1;
+   }
+ 
+@@ -3260,7 +3263,8 @@ static void ins_compl_free(void)
+   compl_old_match = NULL;
+ }
+ 
+-static void ins_compl_free_item(compl_T *compl) {
++static void ins_compl_free_item(compl_T *compl)
++{
+   if (compl->cp_flags & CP_FREE_FNAME) {
+     xfree(compl->cp_fname);
+   }
+@@ -3639,7 +3643,7 @@ static void ins_compl_addfrommatch(void)
+            && cp != compl_first_match; cp = cp->cp_next) {
+         if (compl_leader == NULL
+             || ins_compl_match(cp, compl_leader,
+-                (int)STRLEN(compl_leader))) {
++                               (int)STRLEN(compl_leader))) {
+           p = cp->cp_str;
+           break;
+         }
+@@ -3863,7 +3867,7 @@ static bool ins_compl_prep(int c)
+       // but only do this, if the Popup is still visible
+       if (c == Ctrl_E) {
+         ins_compl_delete();
+-        if (compl_leader != NULL) {
++        if (compl_leader != NULL && STRNCMP(compl_leader, "", 1) != 0) {
+           ins_bytes(compl_leader + ins_compl_len());
+         } else if (compl_first_match != NULL) {
+           ins_bytes(compl_orig_text + ins_compl_len());
+@@ -4738,14 +4742,15 @@ ins_compl_next (
+      * backward, find the last match. */
+     if (compl_shows_dir == BACKWARD
+         && !ins_compl_match(compl_shown_match,
+-            compl_leader, (int)STRLEN(compl_leader))
++                            compl_leader, (int)STRLEN(compl_leader))
+         && (compl_shown_match->cp_next == NULL
+             || compl_shown_match->cp_next == compl_first_match)) {
+       while (!ins_compl_match(compl_shown_match,
+-                 compl_leader, (int)STRLEN(compl_leader))
++                              compl_leader, (int)STRLEN(compl_leader))
+              && compl_shown_match->cp_prev != NULL
+-             && compl_shown_match->cp_prev != compl_first_match)
++             && compl_shown_match->cp_prev != compl_first_match) {
+         compl_shown_match = compl_shown_match->cp_prev;
++      }
+     }
+   }
+ 
+@@ -5375,6 +5380,12 @@ static int ins_complete(int c, bool enable_pum)
+       compl_startpos.col = compl_col;
+     }
+ 
++    // set compl_leader to be an empty string to enable completion sorting,
++    // except for when called from completefunc
++    if (ctrl_x_mode != CTRL_X_FUNCTION && compl_leader == NULL) {
++      compl_leader = (char_u *)xstrdup("");
++    }
++
+     if (compl_cont_status & CONT_LOCAL)
+       edit_submode = (char_u *)_(ctrl_x_msgs[CTRL_X_LOCAL_MSG]);
+     else
+@@ -5483,14 +5494,15 @@ static int ins_complete(int c, bool enable_pum)
+          * Translations may need more than twice that. */
+         static char_u match_ref[81];
+ 
+-        if (compl_matches >= 0)
++        if (compl_matches >= 0) {
+           vim_snprintf((char *)match_ref, sizeof(match_ref),
+-              _("match %d of %d"),
+-              compl_curr_match->cp_number, compl_matches);
+-        else
++                       _("match %d of %d"),
++                       compl_curr_match->cp_number, compl_matches);
++        } else {
+           vim_snprintf((char *)match_ref, sizeof(match_ref),
+-              _("match %d"),
+-              compl_curr_match->cp_number);
++                       _("match %d"),
++                       compl_curr_match->cp_number);
++        }
+         edit_submode_extra = match_ref;
+         edit_submode_highl = HLF_R;
+         if (dollar_vcol >= 0) {
+diff --git a/test/functional/viml/completion_spec.lua b/test/functional/viml/completion_spec.lua
+index a4241fe5a..ef54d5961 100644
+--- a/test/functional/viml/completion_spec.lua
++++ b/test/functional/viml/completion_spec.lua
+@@ -1193,3 +1193,164 @@ describe('completion', function()
+     feed('<esc>')
+   end)
+ end)
++
++describe("fuzzy completion", function()
++  local screen
++
++  before_each(function()
++    clear()
++    screen = Screen.new(60, 8)
++    screen:attach()
++    screen:set_default_attr_ids({
++      [0] = {bold=true, foreground=Screen.colors.Blue},
++      [1] = {background = Screen.colors.LightMagenta},
++      [2] = {background = Screen.colors.Grey},
++      [3] = {bold = true},
++      [4] = {bold = true, foreground = Screen.colors.SeaGreen},
++      [5] = {foreground = Screen.colors.Red},
++      [6] = {background = Screen.colors.Black},
++      [7] = {foreground = Screen.colors.White, background = Screen.colors.Red},
++      [8] = {reverse = true},
++      [9] = {bold = true, reverse = true},
++      [10] = {foreground = Screen.colors.Grey0, background = Screen.colors.Yellow},
++    })
++
++    source([[
++      func ListMonths()
++        call complete(col("."), ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
++        return ""
++      endfunc
++
++      func HelloWorld()
++        call complete(col("."), ["hello", "world"])
++        return ""
++      endfunc
++			set completeopt+=noselect
++    ]])
++  end)
++
++  it("filters out all candidates if filterfunc returns 0", function()
++    feed_command("lua vim.api.nvim_register_filterfunc(function(a, b) return 0 end)")
++    feed("i=ListMonths()<cr>")
++	screen:expect([[
++  ^                                                            |
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {3:-- INSERT --}                                                |
++    ]])
++
++	feed("f")
++	screen:expect([[
++  f^                                                           |
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {3:-- INSERT --}                                                |
++    ]])
++  end)
++
++  it("doesn't filter anything if filterfunc returns 1", function()
++    feed_command("lua vim.api.nvim_register_filterfunc(function(a, b) return 1 end)")
++    feed("i=ListMonths()<cr>")
++    screen:expect([[
++  ^                                                            |
++  {1:January        }{6: }{0:                                            }|
++  {1:February       }{6: }{0:                                            }|
++  {1:March          }{6: }{0:                                            }|
++  {1:April          }{2: }{0:                                            }|
++  {1:May            }{2: }{0:                                            }|
++  {1:June           }{2: }{0:                                            }|
++  {3:-- INSERT --}                                                |
++    ]])
++
++	  feed("f")
++    screen:expect([[
++  f^                                                           |
++  {1:January        }{6: }{0:                                            }|
++  {1:February       }{6: }{0:                                            }|
++  {1:March          }{6: }{0:                                            }|
++  {1:April          }{2: }{0:                                            }|
++  {1:May            }{2: }{0:                                            }|
++  {1:June           }{2: }{0:                                            }|
++  {3:-- INSERT --}                                                |
++   ]])
++  end)
++
++  it("sorts completions by score", function()
++    -- sort in reverse alphabetical order
++    feed_command("lua vim.api.nvim_register_filterfunc(function(a, b) return string.byte(b:sub(1, 1)) end)")
++    feed("i=ListMonths()<cr>")
++    screen:expect([[
++  ^                                                            |
++  {1:September      }{6: }{0:                                            }|
++  {1:October        }{6: }{0:                                            }|
++  {1:November       }{6: }{0:                                            }|
++  {1:March          }{2: }{0:                                            }|
++  {1:May            }{2: }{0:                                            }|
++  {1:January        }{2: }{0:                                            }|
++  {3:-- INSERT --}                                                |
++   ]])
++  end)
++
++  it("works with scrolling", function()
++    feed_command("lua vim.api.nvim_register_filterfunc(function(a, b) return string.byte(b:sub(1, 1)) end)")
++    feed("i=HelloWorld()<cr>")
++
++	screen:expect([[
++  ^                                                            |
++  {1:world          }{0:                                             }|
++  {1:hello          }{0:                                             }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {3:-- INSERT --}                                                |
++     ]])
++
++    feed("")
++
++	screen:expect([[
++  world^                                                       |
++  {2:world          }{0:                                             }|
++  {1:hello          }{0:                                             }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {3:-- INSERT --}                                                |
++    ]])
++
++    feed("<Down>")
++	screen:expect([[
++  world^                                                       |
++  {1:world          }{0:                                             }|
++  {2:hello          }{0:                                             }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {3:-- INSERT --}                                                |
++    ]])
++
++    -- should cycle back
++    feed("")
++
++    screen:expect([[
++  ^                                                            |
++  {1:world          }{0:                                             }|
++  {1:hello          }{0:                                             }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {0:~                                                           }|
++  {3:-- INSERT --}                                                |
++    ]])
++  end)
++end)
+-- 
+2.30.1
+

@@ -1,0 +1,27 @@
+From f873454359389fbec3693fec854bf6d1c564f8ef Mon Sep 17 00:00:00 2001
+From: chentau <tchen1998@gmail.com>
+Date: Tue, 2 Feb 2021 22:24:29 -0800
+Subject: [PATCH 10/12] fix mac/windows tests
+
+---
+ src/nvim/edit.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/nvim/edit.c b/src/nvim/edit.c
+index 89f74ef7f..eca282ef0 100644
+--- a/src/nvim/edit.c
++++ b/src/nvim/edit.c
+@@ -2761,7 +2761,9 @@ static int compare_scores(const void *a, const void *b)
+   } else if (val > 0) {
+       return 1;
+   } else {
+-    return 0;
++    // qsort is not stable: we don't want to flip two items that have
++    // the same score.
++    return (compl_score_T *)a - (compl_score_T *)b;
+   }
+ }
+ 
+-- 
+2.30.1
+

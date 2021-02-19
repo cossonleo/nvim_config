@@ -3,9 +3,7 @@
 local M = {}
 
 local vapi = vim.api
-local log = require'nvim-completor/log'
-
-local mark_ns = vapi.nvim_create_namespace('nvim_completor')
+local log = require'completor.log'
 
 M.cur_mode = function()
 	return vapi.nvim_get_mode().mode
@@ -45,34 +43,6 @@ M.set_cursor = function(pos)
 	vapi.nvim_win_set_cursor(0, {pos[1] + 1, pos[2]})
 end
 
-M.set_extmark = function(mark_id, head, tail)
-	local opt = {}
-	if mark_id > 0 then
-		opt.id = mark_id
-	end
-	if tail and #tail == 2 then
-		opt.end_line = tail[1]
-		opt.end_col = tail[2]
-		opt.hl_group = "SnippetHl"
-	end
-	local mid = vapi.nvim_buf_set_extmark( 0, mark_ns, head[1], head[2], opt)
-	return mid
-end
-
-M.get_extmark = function(mark)
-	local details = vapi.nvim_buf_get_extmark_by_id(0, mark_ns, mark, { details = true })
-	if #details == 0 then
-		return {}
-	end
-
-	local head = {details[1], details[2]}
-	local d3 = details[3]
-	if d3.end_col <= head[2] then
-		return {head}
-	end
-	return {head, {d3.end_row, d3.end_col}}
-end
-
 -- -1 前面
 -- 0 相等
 -- 1 后面
@@ -82,12 +52,6 @@ M.pos_relation = function(A, B)
 	if A[2] < B[2] then return -1 end
 	if A[2] > B[2] then return 1 end
 	return 0
-end
-
-M.del_extmark = function(mark)
-	if mark == 0 then return end
-	local buf_id = M.cur_buf()
-	vapi.nvim_buf_del_extmark(buf_id, mark_ns, mark)
 end
 
 M.complete = function(pos, items)

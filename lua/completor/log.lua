@@ -24,7 +24,7 @@ log.levels = {
 }
 
 -- Default log level is warn.
-local current_log_level = log.levels.WARN
+local current_log_level = log.levels.ERROR
 local log_date_format = "%FT%H:%M:%SZ%z"
 
 do
@@ -32,7 +32,7 @@ do
   local function path_join(...)
     return table.concat(vim.tbl_flatten{...}, path_sep)
   end
-  local logfilename = path_join(vim.fn.stdpath('data'), 'nvim-completor.log')
+  local logfilename = path_join(vim.fn.stdpath('data'), 'completor.log')
 
   --- Return the log filename.
   function log.get_filename()

@@ -1,0 +1,106 @@
+From 660cfe5c5682843098387daa68fa10c0143911ca Mon Sep 17 00:00:00 2001
+From: chentau <tchen1998@gmail.com>
+Date: Mon, 1 Feb 2021 20:37:22 -0800
+Subject: [PATCH 07/12] more review comments
+
+---
+ src/nvim/api/vim.c              |  9 ++-------
+ src/nvim/edit.c                 | 17 +++++++++--------
+ src/nvim/testdir/test_popup.vim | 12 ++++++++++++
+ 3 files changed, 23 insertions(+), 15 deletions(-)
+
+diff --git a/src/nvim/api/vim.c b/src/nvim/api/vim.c
+index 65a99868f..3282a1a9e 100644
+--- a/src/nvim/api/vim.c
++++ b/src/nvim/api/vim.c
+@@ -2869,18 +2869,13 @@ error:
+ // todo: what to do if filterfunc != NULL AND completion entry
+ // has icase/equal set.
+ String nvim_complete(Integer startcol,
+-                   Object matches,
++                   ArrayOf(String) matches,
+                    DictionaryOf(LuaRef) opts,
+                    Error *err)
+   FUNC_API_SINCE(7)
+ {
+   typval_T tv;
+ 
+-  if (matches.type != kObjectTypeArray) {
+-    api_set_error(err, kErrorTypeValidation,
+-              "wrong type");
+-  }
+-
+   if ((State & INSERT) == 0) {
+     api_set_error(err, kErrorTypeException,
+             "complete() can only be used in Insert mode");
+@@ -2915,7 +2910,7 @@ String nvim_complete(Integer startcol,
+     }
+   }
+ 
+-  object_to_vim(matches, &tv, err);
++  object_to_vim(ARRAY_OBJ(matches), &tv, err);
+   if ERROR_SET(err){
+       goto error;
+   }
+diff --git a/src/nvim/edit.c b/src/nvim/edit.c
+index eea2365c4..40975a8f0 100644
+--- a/src/nvim/edit.c
++++ b/src/nvim/edit.c
+@@ -2481,15 +2481,15 @@ static double ins_compl_match(compl_T *match, char_u *str, size_t len)
+       EMSG(_(err.msg));
+       api_clear_error(&err);
+       return 0;
++    }
++
++    if (retval.type == kObjectTypeFloat) {
++      return retval.data.floating;
++    } else if (retval.type == kObjectTypeInteger) {
++      return retval.data.integer;
+     } else {
+-      if (retval.type == kObjectTypeFloat) {
+-        return retval.data.floating;
+-      } else if (retval.type == kObjectTypeInteger) {
+-        return retval.data.integer;
+-      } else {
+-        EMSG(_("invalid return type from function"));
+-        return 0;
+-      }
++      EMSG(_("invalid return type from function"));
++      return 0;
+     }
+   }
+ 
+@@ -3466,6 +3466,7 @@ static int ins_compl_bs(void)
+   if ((int)(p - line) - (int)compl_col < 0
+       || ((int)(p - line) - (int)compl_col == 0
+           && ctrl_x_mode != CTRL_X_OMNI)
++      || ctrl_x_mode == CTRL_X_EVAL
+       || (!can_bs(BS_START) && (int)(p - line) - (int)compl_col
+           - compl_length < 0)) {
+     return K_BS;
+diff --git a/src/nvim/testdir/test_popup.vim b/src/nvim/testdir/test_popup.vim
+index 8dc51d8e9..4ee16558a 100644
+--- a/src/nvim/testdir/test_popup.vim
++++ b/src/nvim/testdir/test_popup.vim
+@@ -51,6 +51,18 @@ func Test_popup_complete()
+   call assert_equal(["August"], getline(1,2))
+   %d
+ 
++  " <BS> - Delete one character from the inserted text (state: 1)
++  " TODO: This should not end the completion, but it does.
++  " This should according to the documentation:
++  " January
++  " but instead, this does
++  " Januar
++  " (idea is, C-L inserts the match from the popup menu
++  " but if the menu is closed, it will insert the character <c-l>
++  call feedkeys("aJ\<f5>\<bs>\<c-l>\<esc>", 'tx')
++  call assert_equal(["Januar"], getline(1,2))
++  %d
++
+   " any-non special character: Stop completion without changing the match
+   " and insert the typed character
+   call feedkeys("a\<f5>20", 'tx')
+-- 
+2.30.1
+

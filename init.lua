@@ -106,9 +106,34 @@ function open_netrw_on_enter()
 	end
 end
 
-require'plugins'
-require'easy_search'
-require'quick_motion'
-require'stl'
+require 'plugins'
+require 'easy_search'
+require 'quick_motion'
+require 'stl'
+require 'completor'
 
+--vim.api.nvim_register_filterfunc(function(prefix, match)
+--	print("prefix nil", prefix == nil)
+--	--print("prefix", prefix)
+--	if prefix == "" then
+--		return 1
+--	end
+--	if match == "bcd" then
+--		return 1
+--	end
+--	return 0
+--end)
+--
+--function test_complete()
+--	--vim.api.nvim_complete(1, {"abc", "bcd"}, {})
+--	local c1 = vim.b.changedtick
+--	vim.api.nvim_buf_set_lines(0, 0, 0, false, {"hhhhhhhhhhhhhhhhhhhhhhh"})
+--	local c2 = vim.b.changedtick
+--	vim.api.nvim_buf_set_text(0, 0, 0, 1, 1, {"ccccccccc"})
+--	local c3 = vim.b.changedtick
+--	print(c1, c2, c3)
+--	return ""
+--end
+--
+--vim.cmd[[inoremap <F5> <c-r>=v:lua.test_complete()<cr>]]
 -- :au CursorHold <buffer=33>  echo 'hold'

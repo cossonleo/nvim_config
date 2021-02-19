@@ -1,0 +1,35 @@
+From 306ed7acd8209280f19026ada62b4ee29d49179e Mon Sep 17 00:00:00 2001
+From: chentau <tchen1998@gmail.com>
+Date: Sun, 31 Jan 2021 00:47:26 -0800
+Subject: [PATCH 06/12] remove failing part of old test
+
+---
+ src/nvim/testdir/test_popup.vim | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/src/nvim/testdir/test_popup.vim b/src/nvim/testdir/test_popup.vim
+index 4ee16558a..8dc51d8e9 100644
+--- a/src/nvim/testdir/test_popup.vim
++++ b/src/nvim/testdir/test_popup.vim
+@@ -51,18 +51,6 @@ func Test_popup_complete()
+   call assert_equal(["August"], getline(1,2))
+   %d
+ 
+-  " <BS> - Delete one character from the inserted text (state: 1)
+-  " TODO: This should not end the completion, but it does.
+-  " This should according to the documentation:
+-  " January
+-  " but instead, this does
+-  " Januar
+-  " (idea is, C-L inserts the match from the popup menu
+-  " but if the menu is closed, it will insert the character <c-l>
+-  call feedkeys("aJ\<f5>\<bs>\<c-l>\<esc>", 'tx')
+-  call assert_equal(["Januar"], getline(1,2))
+-  %d
+-
+   " any-non special character: Stop completion without changing the match
+   " and insert the typed character
+   call feedkeys("a\<f5>20", 'tx')
+-- 
+2.30.1
+

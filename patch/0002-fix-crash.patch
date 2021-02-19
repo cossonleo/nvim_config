@@ -1,0 +1,24 @@
+From a6d9833c6820b1f3c55bc8ff45304480b205d277 Mon Sep 17 00:00:00 2001
+From: chentau <tchen1998@gmail.com>
+Date: Sat, 30 Jan 2021 20:05:04 -0800
+Subject: [PATCH 02/12] fix crash
+
+---
+ src/nvim/api/vim.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/nvim/api/vim.c b/src/nvim/api/vim.c
+index 1a060b18a..d3b4aa5b0 100644
+--- a/src/nvim/api/vim.c
++++ b/src/nvim/api/vim.c
+@@ -2952,6 +2952,7 @@ FUNC_API_SINCE(7)
+ 
+   if (global_filterfunc != NULL) {
+     XFREE_CLEAR(global_filterfunc);
++    active_filterfunc = NULL;
+   }
+ 
+   if (func == -1) { // Nil
+-- 
+2.30.1
+

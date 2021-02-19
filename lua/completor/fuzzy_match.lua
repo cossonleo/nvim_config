@@ -9,40 +9,16 @@
 
 local module = {}
 
---local log = require("nvim-completor/log")
+--local log = require("completor.log")
 ------------------------------------------fuzzy match-------------------------------------
 -- The fuzzy match fork from github.com/prabirshrestha/asyncomplete.vim
-
-module.filter_completion_items = function (prefix, matches)
-    local result = {}
-
-	if not matches or #matches == 0 then
-		return result
-	end
-    local unsorted_matches = {}
-    for i = 1, #matches do
-        local match = matches[i]
-        if match ~= nil then
-            local word = match['word']
-            local matched, score, _ = module.fuzzy_match(prefix, word)
-            if matched == true then
-                table.insert(unsorted_matches, { score = score, match = match })
-            end
-        end
-    end
-    for _,v in module.spairs(unsorted_matches, function(t,a,b) return t[b].score < t[a].score end) do
-        table.insert(result, v.match)
-    end
-
-    return result
-end
 
 -- Returns [bool, score, matchedIndices]
 -- bool: true if each character in pattern is found sequentially within str
 -- score: integer; higher is better match. Value has no intrinsic meaning. Range localies with pattern.
 --        Can only compare scores with same search pattern.
 -- matchedIndices: the indices of characters that were matched in str
-module.fuzzy_match = function(pattern, str)
+local function fuzzy_match_algo(pattern, str)
 	-- Score consts
 	local adjacency_bonus = 5                -- bonus for adjacent matches
 	local separator_bonus = 10               -- bonus if match occurs after a separator
@@ -157,6 +133,18 @@ module.fuzzy_match = function(pattern, str)
 
 	local matched = patternIdx - 1 == patternLength
 	return matched, score, matchedIndices
+end
+
+function module.fuzzy_match(pattern, str)
+	if #pattern > #str then return 0 end
+	if pattern == "" then return 1 end
+	if pattern:sub(1, 1) ~= str:sub(1, 1) then
+		return 0
+	end
+
+	local match, score, _ = fuzzy_match_algo(pattern, str)
+	if not match then score = 0 end
+	return score
 end
 
 module.spairs = function(t, order)

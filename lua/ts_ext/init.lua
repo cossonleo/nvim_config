@@ -5,7 +5,7 @@ function M.list_scope_item()
 end
 
 function M.open_complete()
-	require'ts_ext.complete_ref'
+	--require'ts_ext.complete_ref'
 end
 
 require'ts_ext.context'(M)
