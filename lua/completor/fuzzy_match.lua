@@ -226,7 +226,7 @@ module.head_fuzzy_match = function(items, pattern)
 	local sortArray = {}
 	for i, v in ipairs(items) do
 		-- local word = v['word']
-		local word = v['abbr']
+		local word = (v.user_data and v.user_data.filter_text) or v['abbr']
 		local sort_str = module.match_and_pick_sort_str(word, lp)
 		if sort_str then 
 			table.insert(sortArray, {strs = sort_str, i = i})

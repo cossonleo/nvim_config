@@ -12,70 +12,68 @@ local vimfn = vim.fn
 local log = require('completor.log')
 local context = require('completor.context')
 local text_edit = require("completor.text_edit")
-
+local complete_api = require("completor.complete_api")
+local drivers = require('completor.drivers')
 
 local last_ctx = nil
 local last_changedtick = 0
-local last_selected = -1
+local last_selected = false
 local incomplete = false
 
 local function reset()
 	last_ctx = nil
-	last_selected = -1
+	last_selected = false
 	last_changedtick = 0
 	incomplete = false
 end
 
--- 由于self.ctx 与 ctx的col可能不一样
--- 则需要将新增item转换成当前ctx, 以达到显示正确
-local function add_items_offset(items, offset)
-	log.trace("convert items to self ctx")
-	for _, item in pairs(items) do
-		item.word = offset .. item.word
-	end
-end
-
 local function text_changed()
-	local cur_ctx = context.new()
-	if last_changedtick == cur_ctx.changedtick then
+	local cur_ct = vim.b.changedtick
+	if last_changedtick == cur_ct then
 	 	log.trace("repeat trigger text changed")
 	 	return
 	end
+	last_changedtick = cur_ct
 
-	last_changedtick = cur_ctx.changedtick
-	last_selected = -1
-
+	local cur_ctx = context.new()
 	if not cur_ctx:can_fire_complete() then
-		log.trace("ctx can not fire complete, typed: ", cur_ctx.typed)
 		return
 	end
 
-	local offset = cur_ctx:offset_typed(last_ctx)
-	if not offset then
-		last_ctx = cur_ctx
-		incomplete = false
-	end
-	if not incomplete and offset then return end
+	local trigger_complete = function()
+		local offset = cur_ctx:offset_typed(last_ctx)
+		if not offset then return true end
 
-	log.trace("new ctx to trigger complete")
+		if complete_api.filter_items(cur_ctx) > 0 then
+			return false
+		end
+
+		return incomplete
+	end
+
+	if not trigger_complete() then
+		return
+	end
+	last_ctx = cur_ctx
+	incomplete = false
+	complete_api.nvim_complete(cur_ctx, {})
 
 	local ctx = context.new(cur_ctx)
-	require'completor.drivers'.complete(ctx, function(items, incomplete)
+	drivers.complete(ctx, function(items, is_incomplete)
 		log.trace("add complete items")
 		if not items or #items == 0 then
 			log.trace("no items to add")
 			return
 		end
 
-		local offset = ctx:offset_typed(last_ctx)
-		if not offset then return end
-
-		if #offset > 0 then
-			log.trace("offset ctx on add items")
-			add_items_offset(items, offset)
+		if is_incomplete then
+			incomplete = true
 		end
 
-		vim.api.nvim_complete(last_ctx.pos[2] + 1, items, {})
+		local offset = ctx:offset_typed(last_ctx)
+		if offset == "" then
+			complete_api.nvim_complete(ctx, items)
+		end
 		return
 	end)
 end
@@ -88,6 +86,11 @@ local function apply_completed_item(on_select)
 	last_changedtick = vim.b.changedtick
 end
 
+local function restore_ctx()
+	text_edit.restore_ctx(last_ctx)
+	last_changedtick = vim.b.changedtick
+end
+
 local spec_keys = {
 	["<cr>"] = vim.fn.nr2char(13),
 	["<c-y>"] = vim.fn.nr2char(25),
@@ -97,28 +100,31 @@ local handlers = {}
 
 handlers.TextChangedP = function()
 	log.trace("text changed p")
-	local complete_info = vimfn.complete_info({'pum_visible', 'selected'})
+	local complete_info = vimfn.complete_info({'pum_visible', 'selected', 'inserted'})
 	if not complete_info.pum_visible then
 		return
 	end
 
 	if complete_info.selected ~= -1 then
 		apply_completed_item(true)
-		last_selected = 1
+		last_selected = true
 		log.trace("on select item")
 		return
 	end
 
-	if last_selected ~= -1 then
-		last_selected = -1
-		text_edit.restore_ctx(last_ctx)
+	if last_selected then
+		last_selected = false
+		restore_ctx()
 		log.trace("on select item with not selected")
 		return
 	end
+
+	text_changed()
 end
 
 handlers.TextChangedI = function()
 	log.trace("text changed i")
+	last_selected = false
 	text_changed()
 end
 

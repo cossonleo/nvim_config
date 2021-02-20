@@ -13,19 +13,23 @@ vim.cmd[[inoremap <cr> <c-r>=v:lua.completor_handle_event('CompleteDone')<cr>]]
 vim.api.nvim_set_option('cot', "menuone,noselect,noinsert")
 
 vim.api.nvim_register_filterfunc(function(prefix, match)
-	if #prefix == 0 then
-		return 1
-	end
-	local filter = prefix:match("[%w_]+")
-	if not filter or #filter == 0 then return 1 end
+	print(prefix, vim.fn.string(match))
+	if prefix == '' then return 1 end
+	return require'completor.fuzzy_match'.fuzzy_match(prefix, match)
+	--print(prefix, vim.fn.string(match))
+	--if #prefix == 0 then
+	--	return 1
+	--end
+	--local filter = prefix:match("[%w_]+")
+	--if not filter or #filter == 0 then return 1 end
 
-	local str = ""
-	local t = type(match)
-	if t == "string" then
-		str = match 
-	elseif t == "table" then
-		str = match.abbr
-	end
+	--local str = ""
+	--local t = type(match)
+	--if t == "string" then
+	--	str = match 
+	--elseif t == "table" then
+	--	str = match.abbr
+	--end
 	
-	return require'completor.fuzzy_match'.fuzzy_match(filter, str)
+	--return require'completor.fuzzy_match'.fuzzy_match(filter, str)
 end)
