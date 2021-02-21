@@ -1,20 +1,23 @@
 
 local lspconfig = require'lspconfig'
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-lspconfig.gopls.setup{
-	cmd = {"gopls", "serve"},
+local config = {
+	capabilities = capabilities,
 	settings = {
 		gopls = { 
 			usePlaceholders = true
-		} 
+		},
+		["rust-analyzer"] = {},
 	}
 }
 
-lspconfig.rust_analyzer.setup{
-	["rust-analyzer"] = {},
-}
+lspconfig.gopls.setup(config)
 
-lspconfig.pyls.setup{}
+lspconfig.rust_analyzer.setup(config)
 
-lspconfig.clangd.setup{}
+lspconfig.pyls.setup(config)
+
+lspconfig.clangd.setup(config)
 

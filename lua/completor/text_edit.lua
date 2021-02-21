@@ -21,23 +21,44 @@ local function set_extmark(mark_id, head, tail)
 	return mid
 end
 
-local function get_extmark(mark)
-	local details = vim.api.nvim_buf_get_extmark_by_id(0, mark_ns, mark, { details = true })
-	if #details == 0 then
-		return nil 
-	end
+local function get_next_extmark()
+	local marks = vim.api.nvim_buf_get_extmarks(
+		0,
+		mark_ns,
+		api.cur_pos(),
+		{-1, -1},
+		{details = true, limit = 1}
+	)
 
-	local head = {details[1], details[2]}
-	local d3 = details[3]
-	if d3.end_col <= head[2] then
-		return {head}
+	if not marks or #marks == 0 then return nil end
+	local mark = marks[1]
+	local info = {id = mark[1], range = {{mark[2], mark[3]}}}
+	local d3 = mark[4]
+	if d3 and d3.end_col and d3.end_col > info.range[1][2] then
+		table.insert(info.range, {d3.end_row, d3.end_col})
 	end
-	return {head, {d3.end_row, d3.end_col}}
+	return info
 end
 
-local function set_cursor_by_extmark(mark)
-	local range = get_extmark(mark)
-	if not range then return end
+local function get_extmark(id)
+	local mark = vim.api.nvim_buf_get_extmark_by_id(
+		0,
+		mark_ns,
+		id,
+		{ details = true }
+	)
+
+	if not mark or #mark == 0 then return nil end
+	local info = {id = id, range = {{mark[1], mark[2]}}}
+	local d3 = mark[3]
+	if d3 and d3.end_col and d3.end_col > info.range[1][2] then
+		table.insert(info.range, {d3.end_row, d3.end_col})
+	end
+	return info
+end
+
+local function set_cursor_by_extmark(info)
+	local range = info.range
 	api.set_cursor(range[1])
 	if #range == 2 and api.pos_relation(range[1], range[2]) == -1 then
 		vim.api.nvim_buf_set_text(
@@ -49,7 +70,7 @@ local function set_cursor_by_extmark(mark)
 			{}
 		)
 	end
-	vim.api.nvim_buf_del_extmark(0, mark_ns, mark)
+	vim.api.nvim_buf_del_extmark(0, mark_ns, info.id)
 end
 
 local function sort_by_key(fn)
@@ -97,17 +118,17 @@ local function apply_edit(ctx, edit, create_mark)
 		edit.new_text
 	)
 
-	local will_cursor = 0
+	local cursor_mark = nil
 	local last_pos = nil
 	for _, ph in ipairs(new_marks) do
 		local mid = set_extmark(0, ph, {ph[1], ph[2] + ph[3]})
 		if not last_pos or api.pos_relation(last_pos, ph) == 1 then
 			last_pos = {ph[1], ph[2]}
-			will_curosr = mid
+			cursor_mark = mid
 		end
 	end
 
-	return will_cursor
+	return cursor_mark
 end
 
 local function apply_complete_edits(user_data, on_select)
@@ -120,7 +141,6 @@ local function apply_complete_edits(user_data, on_select)
 	local ctx_typed = ctx.typed
 	local ctx_marks = ctx.marks
 
-	log.trace('apply_complete_edits', ctx, text_edits)
 	if not next(text_edits) then return end
 
 	local get_edit = function(e)
@@ -165,11 +185,11 @@ local function apply_complete_edits(user_data, on_select)
 
 	table.sort(cleaned, edit_sort_key)
 
-	local will_cursor = nil
+	local cursor_mark = nil
 	for i = #cleaned, 1, -1 do
-		will_curosr = apply_edit(ctx, cleaned[i], not on_select)
+		cursor_mark = apply_edit(ctx, cleaned[i], not on_select) or cursor_mark
 	end
-	return will_cursor
+	return cursor_mark
 end
 
 function M.restore_ctx(ctx)
@@ -194,25 +214,19 @@ function M.apply_complete_user_data(data, on_select)
 	
 	M.restore_ctx(data.ctx)
 
-	local will_cursor = apply_complete_edits(data, on_select) or cursor_extmark
-	if will_cursor == 0 then return end
-	set_cursor_by_extmark(will_cursor)
-	if will_cursor ~= cursor_extmark then
+	local cursor_mark = apply_complete_edits(data, on_select) or cursor_extmark
+	if cursor_mark == 0 then return end
+	local info = get_extmark(cursor_mark)
+	if info then set_cursor_by_extmark(info) end
+	if cursor_mark ~= cursor_extmark then
 		vim.api.nvim_buf_del_extmark(0, mark_ns, cursor_extmark)
 	end
 end
 
 function M.jump_to_next_pos()
-	local ext_marks = vim.api.nvim_buf_get_extmarks(
-		0,
-		mark_ns,
-		api.cur_pos()[1],
-		{-1, -1},
-		{details = true, limit = 1}
-	)
-
-	if not ext_marks or #ext_marks == 0 then return end
-	set_cursor_by_extmark(ext_marks[1])
+	local info = get_next_extmark()
+	if info == nil then return end
+	set_cursor_by_extmark(info)
 end
 
 
