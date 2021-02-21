@@ -5,6 +5,7 @@ v:complete_item 每次pum select 都会赋选中的值
 TextChangedP 每次调用complete时，都会触发， popup在弹出状态时，每次文本变动会被触发，当输入触发popup关闭时，会触发
 TextChangedI 当输入触发popup关闭时，会触发, popup不存在时， 输入会触发， 触发complete时待定
 CompleteDone 补全完成便会触发 之后会出发text changed i
+complete() 函数会触发TextChangedP
 CompleteDonePre
 
 positon: {"textDocument": {"uri": "file://"}, "position": {"character": 0, "line": 1}}

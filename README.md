@@ -5,14 +5,13 @@
 `cd ~/.config && git clone https://github.com/cossonleo/nvim_config.git nvim && nvim -c "PlugInstall"`
 
 ## 特性
-+ lsp 补全： 需要[pr: https://github.com/neovim/neovim/pull/13854](https://github.com/neovim/neovim/pull/13854)
++ lsp 补全
 + lsp 提供的代码导航
 + easy motion 和 quick scope
 + 文件 buffer symbols reference grep 等等导航
 + statusline： lsp诊断信息 lsp progress信息 当前函数或结构体符号信息 文件大小等等信息
 
 ## 等待开发的特性
-+ 补全功能增加 incomplete 支持
 + 增加treesitter补全支持
 + marks导航
 + easy motion使用新机制， 等待[pr: https://github.com/neovim/neovim/pull/13952](https://github.com/neovim/neovim/pull/13952)合并
