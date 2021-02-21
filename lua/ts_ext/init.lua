@@ -1,5 +1,9 @@
 local M = {}
 
+vim.cmd"nnoremap <silent> [m :lua  require'ts_ext'.goto_context_start()<cr>"
+vim.cmd"nnoremap <silent> ]m :lua  require'ts_ext'.goto_context_end()<cr>"
+vim.cmd[[au FileType * lua require('ts_ext').on_filetype()]]
+
 function M.list_scope_item()
 	require'ts_ext.scope_items'.list_scope_item()
 end

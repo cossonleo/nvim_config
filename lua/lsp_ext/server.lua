@@ -1,13 +1,20 @@
 
-require'lspconfig'.gopls.setup{
-	gopls = { usePlaceholders = true, completeUnimported = true },
+local lspconfig = require'lspconfig'
+
+lspconfig.gopls.setup{
+	cmd = {"gopls", "serve"},
+	settings = {
+		gopls = { 
+			usePlaceholders = true
+		} 
+	}
 }
 
-require'lspconfig'.rust_analyzer.setup{
+lspconfig.rust_analyzer.setup{
 	["rust-analyzer"] = {},
 }
 
-require'lspconfig'.pyls.setup{}
+lspconfig.pyls.setup{}
 
-require'lspconfig'.clangd.setup{}
+lspconfig.clangd.setup{}
 

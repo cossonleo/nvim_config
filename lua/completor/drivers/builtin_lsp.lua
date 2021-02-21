@@ -140,14 +140,10 @@ local function request(ctx, complete_cb)
 
 			local items = result.items or result
 			local incomplete = result.incomplete
-			if incomplete then
-				incomplete = "builtin_lsp"
-			end
 			items = complete_items_lsp2vim(ctx, items)
-			if not items or #items == 0 then
-				return
+			if items or #items > 0 then
+				complete_cb(items, incomplete)
 			end
-			complete_cb(items, incomplete)
         end
     )
 end
