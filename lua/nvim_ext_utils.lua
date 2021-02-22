@@ -22,4 +22,8 @@ function M.call_once(f)
 	end
 end
 
+function M.echo(...)
+	vim.api.nvim_echo({ ... }, false, {})
+end
+
 return M

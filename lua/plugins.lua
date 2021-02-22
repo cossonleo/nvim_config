@@ -27,8 +27,6 @@ local function plug_list()
 	--use 'p00f/nvim-ts-rainbow'
 	use { 'neovim/nvim-lspconfig', config = config.nvim_lsp }
 	-- use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
-
-	-- use { 'phaazon/hop.nvim', config = config.hop }
 end
 
 function config.onedark()
@@ -67,26 +65,19 @@ function config.nvim_treesitter()
 	local has, ts = pcall(require, 'nvim-treesitter.configs')
 	if not has then return end
 
-	--require'ts_ext'.open_complete()
 	ts.setup {
 		ensure_installed = 'all', -- one of 'all', 'language', or a list of languages
 		highlight = { 
 			enable = true, 
-			--disable = {'python', 'rust'} 
+		},
+		ident = {
+			enable = true
 		},
 		incremental_selection = {
-			enable = true,
-			disable = {},
-			keymaps = {                       -- mappings for incremental selection (visual mappings)
-			  init_selection = 'gn',         -- maps in normal mode to init the node/scope selection
-			  node_incremental = "gn",       -- increment to the upper named parent
-			  scope_incremental = "grc",      -- increment to the upper scope (as defined in locals.scm)
-			  node_decremental = "grm",      -- decrement to the previous node
-			}
+			enable = false,
 		},
 		--rainbow	= {
 		--	enable	= true,
-		--	disable	= {'lua'},	--please	disable	lua	for	now
 		--},
 	}
 end

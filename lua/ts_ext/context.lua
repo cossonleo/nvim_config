@@ -83,13 +83,13 @@ function _get_all_context()
 	local pos = sugar.get_cur_pos()
 
 	local bt = buffer_ts[buf]
-	if not bt then return "" end
+	if not bt then return nil end
 
 	local cap_map = ft_ts[bt.ft]
-	if not cap_map then return "" end
+	if not cap_map then return nil end
 
 	local root = get_root_node()
-	if not root then return "" end
+	if not root then return nil end
 
 	local root_start, _, root_end, _ = root:range()
 
