@@ -96,6 +96,7 @@ require 'quick_motion'
 require 'stl'
 require 'completor'
 require 'ts_ext'
+require 'dirdiff'
 
 --vim.api.nvim_register_filterfunc(function(prefix, match)
 --	print("prefix nil", prefix == nil)

@@ -15,7 +15,7 @@ local function plug_list()
 	--use 'nvim-lua/popup.nvim'
 	--use 'nvim-lua/plenary.nvim'
 	use 'whiteinge/diffconflicts'
-	use 'cossonleo/dirdiff.nvim'
+	--use 'cossonleo/dirdiff.nvim'
 	--use { 'luochen1990/rainbow', config = config.rainbow }
 	--use { 'joshdick/onedark.vim', config = config.onedark }
 	--use {'preservim/nerdtree', config = config.nerdtree}
