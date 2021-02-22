@@ -71,6 +71,7 @@ function _get_smallest_decl_context()
 		local start, _ = inode:start()
 		for id, inode in bt.query:iter_captures(inode, 0, start, pos[1] + 1) do
 			if id == cap_map.name then
+
 				return get_node_text(buf, inode)
 			end
 		end
@@ -118,12 +119,12 @@ end
 --end
 
 
-return function(M)
-	M.on_filetype = on_filetype
-	M.statusline = _get_smallest_decl_context
-	M.get_all_context = _get_all_context
+return {
+	on_filetype = on_filetype,
+	statusline = _get_smallest_decl_context,
+	get_all_context = _get_all_context,
 	--M.goto_context_start = function() _goto_smallest_decl_context(true) end
 	--M.goto_context_end = function() _goto_smallest_decl_context(false) end
 	--goto_pre_context = _goto_smallest_decl_context,
 	--goto_next_context = _goto_smallest_decl_context,
-end
+}
