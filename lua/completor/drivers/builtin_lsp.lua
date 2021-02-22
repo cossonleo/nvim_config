@@ -116,9 +116,7 @@ end
 
 
 local function request(ctx, complete_cb)
-	if not ctx then
-		return
-	end
+	if not ctx then return end
 	local bufno = vim.api.nvim_get_current_buf()
 	log.trace("builtin_lsp complete request")
 	params = {
@@ -128,23 +126,34 @@ local function request(ctx, complete_cb)
 			character = vim.str_utfindex(ctx.typed, ctx.pos[2]); 
 		}
 	}
+
+	function respone(err, _, result)
+		if err or not result then
+			log.warn("lsp complete err ", err)
+			return
+		end
+
+		local items = result.items or result
+		local incomplete = result.incomplete or false
+		log.trace("incomplete", incomplete)
+		items = complete_items_lsp2vim(ctx, items)
+		if items and #items > 0 and complete_cb(items, incomplete) then
+			log.trace("incomplete trigger")
+			params.context = {triggerKind = 3}
+			vim.lsp.buf_request(
+				bufno,
+				'textDocument/completion',
+				params,
+				respone
+			)
+		end
+	end
+
 	vim.lsp.buf_request(
         bufno,
         'textDocument/completion',
         params,
-        function(err, _, result)
-			if err or not result then
-				log.warn("lsp complete err ", err)
-				return
-			end
-
-			local items = result.items or result
-			local incomplete = result.incomplete
-			items = complete_items_lsp2vim(ctx, items)
-			if items or #items > 0 then
-				complete_cb(items, incomplete)
-			end
-        end
+		respone
     )
 end
 

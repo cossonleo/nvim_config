@@ -12,7 +12,6 @@ function M.filter_items(ctx)
 	if #items > 0 then
 		vim.fn.complete(last_ctx.pos[2] + 1, items)
 	end
-	return #items
 end
 
 function M.nvim_complete(ctx, items)

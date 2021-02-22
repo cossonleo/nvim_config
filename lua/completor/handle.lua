@@ -7,8 +7,6 @@
 --       Desc: 
 --------------------------------------------------
 
-local api = vim.api
-local vimfn = vim.fn
 local log = require('completor.log')
 local context = require('completor.context')
 local text_edit = require("completor.text_edit")
@@ -18,13 +16,11 @@ local drivers = require('completor.drivers')
 local last_ctx = nil
 local last_changedtick = 0
 local last_selected = false
-local incomplete = false
 
 local function reset()
 	last_ctx = nil
 	last_selected = false
 	last_changedtick = 0
-	incomplete = false
 end
 
 local function text_changed()
@@ -40,46 +36,28 @@ local function text_changed()
 		return
 	end
 
-	local trigger_complete = function()
-		local offset = cur_ctx:offset_typed(last_ctx)
-		if not offset then return true end
-
-		if complete_api.filter_items(cur_ctx) > 0 then
-			return false
-		end
-
-		return incomplete
-	end
-
-	if not trigger_complete() then
+	if cur_ctx:offset_typed(last_ctx) then
+		complete_api.filter_items(cur_ctx)
 		return
 	end
+
 	last_ctx = cur_ctx
-	incomplete = false
 	complete_api.nvim_complete(cur_ctx, {})
 
 	local ctx = context.new(cur_ctx)
 	drivers.complete(ctx, function(items, is_incomplete)
 		log.trace("add complete items")
-		if not items or #items == 0 then
-			log.trace("no items to add")
-			return
-		end
-
-		if is_incomplete then
-			incomplete = true
-		end
-
-		local offset = ctx:offset_typed(last_ctx)
-		if offset == "" then
+		local incomplete = false
+		if items and #items > 0 and last_ctx:offset_typed(ctx) == "" then
 			complete_api.nvim_complete(ctx, items)
+			incomplete =  is_incomplete
 		end
-		return
+		return incomplete
 	end)
 end
 
 local function apply_completed_item(on_select)
-	local complete_item = api.nvim_get_vvar('completed_item')
+	local complete_item = vim.api.nvim_get_vvar('completed_item')
 	if type(complete_item) == "table" and complete_item.user_data then
 		text_edit.apply_complete_user_data(complete_item.user_data, on_select)
 	end
@@ -100,7 +78,7 @@ local handlers = {}
 
 handlers.TextChangedP = function()
 	log.trace("text changed p")
-	local complete_info = vimfn.complete_info({'pum_visible', 'selected', 'inserted'})
+	local complete_info = vim.fn.complete_info({'pum_visible', 'selected', 'inserted'})
 	if not complete_info.pum_visible then
 		return
 	end
@@ -130,13 +108,8 @@ end
 
 handlers.InsertEnter = function()
 	log.trace("on insert")
-	local ft = api.nvim_buf_get_option(0, 'filetype')
-	text_changed()
-end
-
-handlers.InsertLeave = function()
-	log.trace("on insert leave")
 	reset()
+	text_changed()
 end
 
 handlers.JumpNextSnippet = function()
