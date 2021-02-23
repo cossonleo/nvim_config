@@ -162,13 +162,25 @@ local function grep_new(word)
 	end
 end
 
+function easy_search_grep_hl(cmd)
+	return {{0, #cmd, 'Function'}}
+end
+
 function M.search()
 	local default = vim.fn.expand('<cword>')
-	vim.api.nvim_command("echohl PromHl")
+	function easy_search_grep_completion(A, L, P)
+		return {default}
+	end
+
+	vim.cmd "echohl Error"
 	vim.fn.inputsave()
-	local input = vim.fn.input({prompt = 'rg> ', default = default, highlight = 'GrepHl'})
+	local input = vim.fn.input({
+		prompt = 'rg> ',
+		highlight = easy_search_grep_hl,
+		completion="customlist,v:lua.easy_search_grep_completion"
+	})
 	vim.fn.inputrestore()
-	vim.api.nvim_command("echohl None")
+	vim.cmd "echohl None"
 
 	if #input == 0 then
 		vim.cmd[[echo "no input for grep"]]
