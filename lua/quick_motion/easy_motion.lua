@@ -1,12 +1,5 @@
 
 local easy_motion_ns  = vim.api.nvim_create_namespace("easy_motion_ns")
-local easy_motion_buf = vim.api.nvim_create_buf(false, true)
-vim.api.nvim_buf_set_option(easy_motion_buf, "buftype", "nofile")
-vim.api.nvim_buf_set_option(easy_motion_buf, "swapfile", false)
-
-local function clear_hl()
-	vim.api.nvim_buf_clear_namespace(easy_motion_buf, easy_motion_ns, 0, -1)
-end
 
 local function get_char()
 	local input = vim.fn.getchar()
@@ -29,16 +22,13 @@ local function jump_char(char)
 	local lines = vim.api.nvim_buf_get_lines(0, top - 1, bottom, false)
 
 	local pos_info = {}
-	local nav_hl = {}
-	local map_info = {}
+	local char_marks = {}
 
 	local restore_buf = function()
-		clear_hl()
-		vim.api.nvim_set_current_buf(cur_buf)
-		vim.fn.winrestview(buf_view)
+		vim.api.nvim_buf_clear_namespace(0, easy_motion_ns, 0, -1)
 	end
 
-	local find_char = function(l)
+	local search_char = function(l)
 		local line = lines[l]
 		local last = -1
 		for i = 1, #line do
@@ -50,7 +40,7 @@ local function jump_char(char)
 		end
 	end
 
-	local find_pos = function()
+	local collect_pos = function()
 		local cur_index = cur_line - top + 1
 		local line_count = bottom - top + 1
 
@@ -61,101 +51,78 @@ local function jump_char(char)
 
 		for i = 1, loop_count do
 			if i < cur_index then
-				find_char(cur_index - i)
+				search_char(cur_index - i)
 			end
 
 			if i + cur_index <= line_count then
-				find_char(cur_index + i)
+				search_char(cur_index + i)
 			end
 		end
 	end
 
-	local apply_char = function(pos_i, char)
+	local create_extmark = function(pos_i, char)
 		local pos = pos_info[pos_i]
 		if not pos then return end
-
 		local l, c = unpack(pos)
-		local line = lines[l]
-		line = line:sub(1, c - 1) .. char .. line:sub(c + #char)
-		lines[l] = line
-		table.insert(nav_hl, {l - 1, c - 1, c + #char - 1})
-		map_info[char] = pos
+		char_marks[char] = vim.api.nvim_buf_set_extmark(
+			0,
+			easy_motion_ns,
+			top + l - 2,
+			c - 1,
+			{virt_text = {{char, 'Error'}}, virt_text_pos = 'overlay'}
+		)
 	end
 
-	local replace_pos = function(i)
+	local set_buf_extmarks = function(i)
 		if #pos_info < i then
 			return false
 		end
 		
 		local char = vim.fn.nr2char(96 + i)
-		apply_char(i, char)
-		apply_char(52 + i, ';' .. char)
-		apply_char(78 + i, ',' .. char)
+		create_extmark(i, char)
+		create_extmark(52 + i, ';' .. char)
+		create_extmark(78 + i, ',' .. char)
 
 		local char = vim.fn.nr2char(64 + i)
-		apply_char(26 + i, char)
-		apply_char(104 + i, ';' .. char)
-		apply_char(130 + i, ',' .. char)
+		create_extmark(26 + i, char)
+		create_extmark(104 + i, ';' .. char)
+		create_extmark(130 + i, ',' .. char)
 		return true
 	end
 	
-	local set_easy_motion_buf = function()
-		vim.api.nvim_set_current_buf(easy_motion_buf)
-		vim.api.nvim_buf_set_lines(easy_motion_buf, 0, -1, false, lines)
-		vim.api.nvim_win_set_cursor(0, {cur_line - top + 1, cur_col})
-
-		for _, hi in ipairs(nav_hl) do
-			vim.api.nvim_buf_add_highlight(
-				easy_motion_buf,
-				easy_motion_ns,
-				"Error",
-				hi[1],
-				hi[2],
-				hi[3]
-			)
-		end
-	end
-
-	find_pos()
-	if #pos_info == 0 then
-		return
-	end
+	collect_pos()
+	if #pos_info == 0 then return end
+	vim.api.nvim_buf_set_extmark(0, easy_motion_ns, top - 1, 0, {
+		hl_group = "Comment",
+		end_line = bottom,
+		end_col = 0,
+	})
 
 	for i = 1, 26 do
-		if not replace_pos(i) then
-			break
-		end
+		local continue = set_buf_extmarks(i)
+		if not continue then break end
 	end
 
 	if #pos_info > 156 then
 		vim.cmd[[echoerr "find pos large than 156"]]
 	end
 
-	set_easy_motion_buf()
+	local set_cursor = function(mark)
+		if not mark or mark == 0 then return end
+		local pos = vim.api.nvim_buf_get_extmark_by_id(0, easy_motion_ns, mark, {})
+		if #pos == 0 then return end
+		vim.api.nvim_win_set_cursor(0, {pos[1] + 1, pos[2]})
+	end
 
 	vim.schedule(function()
-		local input = get_char()
-		if not input then
-			restore_buf()
-			return
-		end
-
-		if input == ',' or input == ";" then
-			local second = get_char()
-			if not input then
-				restore_buf()
-				return
-			end
-
-			input = input .. second
-		end
-		
-		local pos = map_info[input]
+		local input = ''
+		repeat
+			local c = get_char()
+			if not c then restore_buf(); return end
+			input = input .. c
+		until(#input > 1 or (c ~= "," and c ~= ";"))
+		set_cursor(char_marks[input])
 		restore_buf()
-		if not pos then return end
-
-		local real_pos = {pos[1] + top - 1, pos[2] - 1}
-		vim.api.nvim_win_set_cursor(0, real_pos)
 	end)
 end
 
