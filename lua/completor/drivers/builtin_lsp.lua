@@ -44,6 +44,7 @@ end
 local function complete_items_lsp2vim(ctx, data)
 	-- lsp range pos: zero-base
 	local prefix = ctx:typed_to_cursor():match('[%w_]+$')
+	local ft = vim.bo.ft
 	local convert_item = function(complete_item)
 		-- 组装user_data
 		local user_data = {
@@ -57,6 +58,8 @@ local function complete_items_lsp2vim(ctx, data)
 				vim.list_extend(raw_edits, complete_item.additionalTextEdits)
 			end
 			user_data.text_edits = fix_edits_col(ctx, raw_edits)
+			user_data.insertTextMode = complete_item.insertTextMode or 1
+			if ft == "rust" then user_data.insertTextMode = 2 end
 		end
 
 		local word = complete_item.insertText or complete_item.label

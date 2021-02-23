@@ -7,6 +7,23 @@ local M = {}
 local mark_ns = vim.api.nvim_create_namespace('completor_ns')
 local cursor_extmark = 0
 
+-- line: 0-based
+local function get_indent(line)
+	local num = vim.fn.indent(line + 1)
+	local c = ' '
+	if vim.bo.expandtab then
+		local sw = vim.fn.shiftwidth()
+		num = num / sw 
+		c = '\t'
+	end
+
+	local indent = ''
+	for i = 1, num do
+		indent = c .. indent
+	end
+	return indent
+end
+
 local function set_extmark(mark_id, head, tail)
 	local opt = {}
 	if mark_id > 0 then
@@ -17,8 +34,7 @@ local function set_extmark(mark_id, head, tail)
 		opt.end_col = tail[2]
 		opt.hl_group = "SnippetHl"
 	end
-	local mid = vim.api.nvim_buf_set_extmark( 0, mark_ns, head[1], head[2], opt)
-	return mid
+	return vim.api.nvim_buf_set_extmark( 0, mark_ns, head[1], head[2], opt)
 end
 
 local function get_next_extmark()
@@ -143,16 +159,10 @@ local function apply_complete_edits(user_data, on_select)
 
 	if not next(text_edits) then return end
 
-	local get_edit = function(e)
+	local edit_on_select = function(e)
 		head = {e.range.start.line; e.range.start.character};
 		tail = {e.range["end"].line; e.range["end"].character};
 		local new_text = e.newText
-
-		if not on_select then return {
-			head = head;
-			tail = tail;
-			new_text = vim.split(new_text, '\n', true);
-		} end
 
 		if head[1] ~= ctx_line and tail[1] ~= ctx_line then return nil end
 		if head[1] < ctx_line then
@@ -174,9 +184,34 @@ local function apply_complete_edits(user_data, on_select)
 		}
 	end
 
+	local edit_on_done = function(e)
+		head = {e.range.start.line; e.range.start.character};
+		tail = {e.range["end"].line; e.range["end"].character};
+		local new_text =  vim.split(e.newText, '\n', true);
+		if #new_text > 1 and user_data.insertTextMode == 2 then
+			local indent = get_indent(head[1])
+			for i = 2, #new_text do
+				new_text[i] = indent .. new_text[i]
+			end
+		end
+
+		return {
+			head = head,
+			tail = tail,
+			new_text = new_text
+		}
+	end
+
 	local cleaned = {}
 	for i, e in ipairs(text_edits) do
-		local edit = get_edit(e)
+		-- local edit = get_edit(e)
+		local edit = nil
+		if on_select then
+			edit = edit_on_select(e)
+		else
+			edit = edit_on_done(e)
+		end
+
 		if edit then
 			edit.i = i
 			table.insert(cleaned, edit)
