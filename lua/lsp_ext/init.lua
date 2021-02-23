@@ -14,6 +14,9 @@ vim.cmd[[nnoremap <silent> [e :lua vim.lsp.diagnostic.goto_prev()<cr>]]
 
 vim.cmd[[autocmd Filetype rust,go,c,cpp,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc]]
 
+vim.cmd "hi link LspError ErrorMsg"
+vim.cmd "hi link LspWarning WarningMsg"
+
 function M.statusline()
 	if vim.fn.mode() == "n" then
 		return require('lsp_ext.statusline').lsp_info()

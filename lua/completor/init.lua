@@ -24,3 +24,5 @@ vim.cmd[[inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "<Tab>"]]
 vim.cmd[[inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"]]
 
 vim.api.nvim_set_option('cot', "menuone,noselect,noinsert")
+
+vim.cmd "hi link SnippetHl Comment"

@@ -37,6 +37,16 @@ local function set_extmark(mark_id, head, tail)
 	return vim.api.nvim_buf_set_extmark( 0, mark_ns, head[1], head[2], opt)
 end
 
+local function convert_mark_info(mark)
+	if not mark or #mark == 0 then return nil end
+	local info = {id = mark[1], range = {{mark[2], mark[3]}}}
+	local m4 = mark[4]
+	if m4 and m4.end_col and m4.end_col > info.range[1][2] then
+		table.insert(info.range, {m4.end_row, m4.end_col})
+	end
+	return info
+end
+
 local function get_next_extmark()
 	local marks = vim.api.nvim_buf_get_extmarks(
 		0,
@@ -47,13 +57,7 @@ local function get_next_extmark()
 	)
 
 	if not marks or #marks == 0 then return nil end
-	local mark = marks[1]
-	local info = {id = mark[1], range = {{mark[2], mark[3]}}}
-	local d3 = mark[4]
-	if d3 and d3.end_col and d3.end_col > info.range[1][2] then
-		table.insert(info.range, {d3.end_row, d3.end_col})
-	end
-	return info
+	return convert_mark_info(marks[1])
 end
 
 local function get_extmark(id)
@@ -65,12 +69,8 @@ local function get_extmark(id)
 	)
 
 	if not mark or #mark == 0 then return nil end
-	local info = {id = id, range = {{mark[1], mark[2]}}}
-	local d3 = mark[3]
-	if d3 and d3.end_col and d3.end_col > info.range[1][2] then
-		table.insert(info.range, {d3.end_row, d3.end_col})
-	end
-	return info
+	table.insert(mark, 1, id)
+	return convert_mark_info(mark)
 end
 
 local function set_cursor_by_extmark(info)
@@ -277,11 +277,8 @@ function M.get_line_marks(line)
 
 	local marks = {}
 	for _, m in ipairs(ext_marks) do
-		table.insert(marks, {
-			mark = m[1],
-			head = {m[2], m[3]},
-			tail = {m[4].end_row, m[4].end_col},
-		})
+		local info = convert_mark_info(marks[1])
+		if info then table.insert(marks, temp) end
 	end
 	return marks
 end
