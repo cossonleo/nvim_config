@@ -75,15 +75,11 @@ function open_netrw_on_enter()
 	local argc = vim.fn.argc()
 	if argc > 1 then return end
 
-	local cmds = {}
-	if argc == 0 then
-		cmds = {"20Lexplore", "wincmd p"}
-	else
-		local argv = vim.fn.argv()[1]
-		if vim.fn.isdirectory(argv) == 1 then
-			-- vim.cmd 
-			cmds = {"enew", "cd " .. argv, "20Lexplore"}
-		end
+	local cmds = {"20Lexplore", "wincmd p"}
+	local argv = vim.fn.argv()[1]
+	if argv then
+		if vim.fn.isdirectory(argv) == 0 then return end
+		cmds = {"enew", "cd " .. argv, "20Lexplore"}
 	end
 
 	for _, cmd in ipairs(cmds) do
