@@ -73,20 +73,21 @@ vim.cmd[[nnoremap <silent> <leader>e :20Lexplore<cr>]]
 vim.cmd[[autocmd VimEnter * lua open_netrw_on_enter()]]
 function open_netrw_on_enter()
 	local argc = vim.fn.argc()
-	if argc > 1 then
-		return
-	end
+	if argc > 1 then return end
 
+	local cmds = {}
 	if argc == 0 then
-		vim.cmd[[20Lexplore]]
-		return
+		cmds = {"20Lexplore", "wincmd p"}
+	else
+		local argv = vim.fn.argv()[1]
+		if vim.fn.isdirectory(argv) == 1 then
+			-- vim.cmd 
+			cmds = {"enew", "cd " .. argv, "20Lexplore"}
+		end
 	end
 
-	local argv = vim.fn.argv()[1]
-	if vim.fn.isdirectory(argv) == 1 then
-		vim.cmd[[enew]]
-		vim.cmd("20Lexplore " .. argv)
-		vim.cmd("cd " .. argv)
+	for _, cmd in ipairs(cmds) do
+		vim.cmd(cmd)
 	end
 end
 
