@@ -5,56 +5,42 @@
 
 local M = {}
 
-local convert_step = function(str)
-	local s = str:find("%$")
-	if not s or s == #str then return str end
-	local next_char = str:sub(s+1, s+1)
-	if next_char == "{" then
-		local front_str = str:sub(1, s-1)
-		local after_str = str:sub(s)
-
-		local ms = after_str:match("^%$%b{}")
-		if not ms or #ms == 0 then return front_str .. "${", after_str:sub(3) end
-
-		local next_str = after_str:sub(#ms + 1)
-		-- local ph = ms:sub(3, -2):match("^[0-9]+:(.+)")
-		local ph = ms:sub(3, -2):match("^[0-9]+:(.*)")
-		if not ph then return front_str .. ms, next_str end
-		return front_str .. ph, next_str, {col = #front_str, len = #ph}
-	end
-
-	if '0' <= next_char and next_char <= '9' then
-		local front_str = str:sub(1, s-1)
-		local after_str = str:sub(s)
-
-		local ms = after_str:match("^%$[0-9]+")
-		return front_str .. ms, after_str:sub(#ms + 1), {col = #front_str, len = #ms}
-	end
-
-	return str:sub(1, s), str:sub(s + 1)
-end
-
 local convert_iter = function(str)
-	local iter_str = str
+	local start = 1
 	return function()
-		if not iter_str or #iter_str == 0 then return end
-		local ret_str, istr, ph = convert_step(iter_str)
-		iter_str = istr
-		return ret_str, ph
+		local s = str:find("%$", start)
+		if not s or s == #str then return nil end
+
+		local head, tail = str:find("^%$[0-9]+", s)
+		if head then
+			start = tail + 1
+			return {s - 1, start - 1}
+		end
+
+		head, tail = str:find("^%$%b{}", s)
+		if not head then start = s + 1; return {} end
+
+		local sub = str:sub(head + 2, tail - 1)
+		local ph_str = sub:match("^[0-9]+:(.+)")
+		if not ph_str then start = s + 2; return {} end
+		start = s + #ph_str 
+		str = str:sub(1, head - 1) .. ph_str .. str:sub(tail + 1)
+		return {s - 1, start - 1}, str
 	end
 end
 
 local parse = function(str)
-	local phs = {}
-	local ret = ""
+	local placeholders = {}
+	local new_str = nil
 
-	for s, ph in convert_iter(str) do
-		if ph then ph.col = ph.col + #ret end
-		ret = ret .. s
-		table.insert(phs, ph)
+	for ph, nstr in convert_iter(str) do
+		if #ph > 0 then
+			table.insert(placeholders, ph)
+		end
+		if nstr then new_str = nstr end
 	end
 
-	return {str = ret, phs = phs}
+	return placeholders, new_str
 end
 
 return {

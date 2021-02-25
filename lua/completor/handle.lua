@@ -56,16 +56,16 @@ local function text_changed()
 	end)
 end
 
+local function restore_ctx()
+	text_edit.restore_ctx(last_ctx)
+	last_changedtick = vim.b.changedtick
+end
+
 local function apply_completed_item(on_select)
 	local complete_item = vim.api.nvim_get_vvar('completed_item')
 	if type(complete_item) == "table" and complete_item.user_data then
 		text_edit.apply_complete_user_data(complete_item.user_data, on_select)
 	end
-	last_changedtick = vim.b.changedtick
-end
-
-local function restore_ctx()
-	text_edit.restore_ctx(last_ctx)
 	last_changedtick = vim.b.changedtick
 end
 

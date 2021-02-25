@@ -93,13 +93,17 @@ function _new(ctx)
 		new_ctx.typed = ctx.typed
 		new_ctx.pos = {ctx.pos[1], ctx.pos[2]}
 		new_ctx.marks = {}
-		for _, m in ipairs(ctx.marks) do
-			table.insert(new_ctx.marks, {
-				mark = m.mark,
-				head = {m.head[1], m.head[2]},
-				tail = {m.tail[1], m.tail[2]},
-			})
-		end
+		-- 这里暂时赋值引用， 如果有bug, 则赋值拷贝
+		new_ctx.marks = ctx.marks
+		--for _, m in ipairs(ctx.marks) do
+		--	table.insert(new_ctx.marks, {
+		--		id = m.id,
+		--		range = {
+		--			{m.range[1][1], m.range[1][2]},
+		--			{m.range[2][1], m.range[2][2]},
+		--		}
+		--	})
+		--end
 	else
 		new_ctx.changedtick = vim.b.changedtick
 		new_ctx.buf = api.cur_buf()

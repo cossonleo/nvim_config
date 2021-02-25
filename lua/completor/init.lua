@@ -18,8 +18,8 @@ autocmd("TextChangedI")
 autocmd("InsertEnter")
 --autocmd("InsertLeave")
 
-vim.cmd[[inoremap <m-j> <c-o>:lua completor_handle_event('JumpNextSnippet')<cr>]]
-vim.cmd[[inoremap <cr> <c-r>=v:lua.completor_handle_event('CompleteDone')<cr>]]
+vim.cmd[[inoremap <silent> <m-j> <c-o>:lua completor_handle_event('JumpNextSnippet')<cr>]]
+vim.cmd[[inoremap <silent> <cr> <c-r>=v:lua.completor_handle_event('CompleteDone')<cr>]]
 vim.cmd[[inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "<Tab>"]]
 vim.cmd[[inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"]]
 

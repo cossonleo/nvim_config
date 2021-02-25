@@ -10,7 +10,14 @@ local config = {
 		gopls = { 
 			usePlaceholders = true
 		},
-		["rust-analyzer"] = {},
+		["rust-analyzer"] = {
+			cargo = {
+				loadOutDirsFromCheck = false,
+			},
+            procMacro = {
+                enable = true
+            },
+		},
 	}
 }
 

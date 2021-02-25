@@ -111,16 +111,16 @@ end)
 local function apply_edit(ctx, edit, create_mark)
 	local new_marks = {}
 	for i, text in ipairs(edit.new_text) do
-		local ret = snippet.parse(text)
-		edit.new_text[i] = ret.str
+		local placeholders, new_str = snippet.parse(text)
+		edit.new_text[i] = new_str or text
 		local offset = 0
 		if i == 1 then
 			offset = edit.head[2]
 		end
 		if create_mark then
 			local line = edit.head[1] + i - 1
-			for _, ph in ipairs(ret.phs) do
-				table.insert(new_marks, {line, offset + ph.col, ph.len})
+			for _, ph in ipairs(placeholders) do
+				table.insert(new_marks, {line, offset + ph[1], offset + ph[2]})
 			end
 		end
 	end
@@ -137,7 +137,7 @@ local function apply_edit(ctx, edit, create_mark)
 	local cursor_mark = nil
 	local last_pos = nil
 	for _, ph in ipairs(new_marks) do
-		local mid = set_extmark(0, ph, {ph[1], ph[2] + ph[3]})
+		local mid = set_extmark(0, ph, {ph[1], ph[3]})
 		if not last_pos or api.pos_relation(last_pos, ph) == 1 then
 			last_pos = {ph[1], ph[2]}
 			cursor_mark = mid
@@ -231,10 +231,10 @@ function M.restore_ctx(ctx)
 	local ctx_line = ctx.pos[1]
 	api.set_lines(ctx_line, ctx_line + 1, {ctx.typed})
 	for _, m in ipairs(ctx.marks) do
-		set_extmark(m.mark, m.head, m.tail)
+		set_extmark(m.id, m.range[1], m.range[2])
 	end
 
-	--  设置或回复cursor_extmark
+	--  设置或恢复cursor_extmark
 	cursor_extmark  = set_extmark(cursor_extmark, {ctx.pos[1], ctx.pos[2]})
 end
 
@@ -277,8 +277,8 @@ function M.get_line_marks(line)
 
 	local marks = {}
 	for _, m in ipairs(ext_marks) do
-		local info = convert_mark_info(marks[1])
-		if info then table.insert(marks, temp) end
+		local info = convert_mark_info(m)
+		if info then table.insert(marks, info) end
 	end
 	return marks
 end
