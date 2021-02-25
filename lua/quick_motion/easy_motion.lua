@@ -28,15 +28,20 @@ local function jump_char(char)
 		vim.api.nvim_buf_clear_namespace(0, easy_motion_ns, 0, -1)
 	end
 
+	local iter_find = function(str, c)
+		local start = 1
+		return function()
+			local i = str:find(c, start)
+			if not i then return nil end 
+			start = i + 2
+			return i
+		end
+	end
+
 	local search_char = function(l)
 		local line = lines[l]
-		local last = -1
-		for i = 1, #line do
-			if line:sub(i, i) == char then
-				if #pos_info <= 52 or i - last > 1 then
-					table.insert(pos_info, {l, i})
-				end
-			end
+		for i in iter_find(lines[l], char) do
+			table.insert(pos_info, {l, i})
 		end
 	end
 
