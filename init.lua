@@ -31,6 +31,8 @@ vim.wo.cursorcolumn = false
 vim.o.t_8f = "\\<Esc>[38;2;%lu;%lu;%lum"
 vim.o.t_8b = "\\<Esc>[48;2;%lu;%lu;%lum"
 
+vim.o.guifont="Source_Code_Pro:h20:w20"
+
 vim.cmd[[tnoremap <esc> <c-\><c-N>]]
 vim.cmd[[tnoremap <c-w><c-w> <c-\><c-N><c-w><c-w>]]
 vim.cmd[[tnoremap <c-w>h <c-\><c-N><c-w>h]]
