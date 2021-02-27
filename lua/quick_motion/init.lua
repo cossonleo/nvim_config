@@ -19,3 +19,6 @@ vim.api.nvim_set_keymap(
 	":lua require'quick_motion.easy_motion'.easy_motion()<cr>",
 	{silent = true}
 )
+
+vim.cmd "hi link EASYMOTION1 Error"
+vim.cmd "hi link EASYMOTION2 TODO"

@@ -23,6 +23,7 @@ local function jump_char(char)
 
 	local pos_info = {}
 	local char_marks = {}
+	local mark_map = {}
 
 	local restore_buf = function()
 		vim.api.nvim_buf_clear_namespace(0, easy_motion_ns, 0, -1)
@@ -65,51 +66,51 @@ local function jump_char(char)
 		end
 	end
 
-	local create_extmark = function(pos_i, char)
-		local pos = pos_info[pos_i]
-		if not pos then return end
-		local l, c = unpack(pos)
-		char_marks[char] = vim.api.nvim_buf_set_extmark(
-			0,
-			easy_motion_ns,
-			top + l - 2,
-			c - 1,
-			{virt_text = {{char, 'Error'}}, virt_text_pos = 'overlay'}
-		)
-	end
-
-	local set_buf_extmarks = function(i)
-		if #pos_info < i then
-			return false
-		end
-		
-		local char = vim.fn.nr2char(96 + i)
-		create_extmark(i, char)
-		create_extmark(52 + i, ';' .. char)
-		create_extmark(78 + i, ',' .. char)
-
-		local char = vim.fn.nr2char(64 + i)
-		create_extmark(26 + i, char)
-		create_extmark(104 + i, ';' .. char)
-		create_extmark(130 + i, ',' .. char)
-		return true
-	end
-	
 	collect_pos()
 	if #pos_info == 0 then return end
+	if #pos_info > 26 * 26 then
+		vim.cmd "echoerr target pos num too large"
+		return
+	end
+
 	vim.api.nvim_buf_set_extmark(0, easy_motion_ns, top - 1, 0, {
 		hl_group = "Comment",
 		end_line = bottom,
 		end_col = 0,
 	})
 
-	for i = 1, 26 do
-		local continue = set_buf_extmarks(i)
-		if not continue then break end
+	local start_c = math.floor(#pos_info / 26) + 97
+	local prefix = ''
+	if start_c == 123 then
+		prefix = 'a'
+		start_c = 'a'
 	end
 
-	if #pos_info > 156 then
-		vim.cmd[[echoerr "find pos large than 156"]]
+	local cur_c = start_c 
+	for i = 1, #pos_info do
+		mark_map[prefix .. string.char(cur_c)] = pos_info[i]
+		if cur_c == 122 then
+			cur_c = start_c
+			prefix = prefix == '' and 'a' or string.char(string.byte(prefix) + 1)
+		else
+			cur_c = cur_c + 1
+		end
+	end
+
+	for virt_c, pos in pairs(mark_map) do
+		local l, c = unpack(pos)
+		local hl = 'EASYMOTION1'
+		if #virt_c == 2 then
+			hl = "EASYMOTION2"
+		end
+
+		char_marks[virt_c] = vim.api.nvim_buf_set_extmark(
+			0,
+			easy_motion_ns,
+			top + l - 2,
+			c - 1,
+			{virt_text = {{virt_c, hl}}, virt_text_pos = 'overlay'}
+		)
 	end
 
 	local set_cursor = function(mark)
@@ -125,7 +126,7 @@ local function jump_char(char)
 			local c = get_char()
 			if not c then restore_buf(); return end
 			input = input .. c
-		until(#input > 1 or (c ~= "," and c ~= ";"))
+		until(#input > 1 or (c > prefix))
 		set_cursor(char_marks[input])
 		restore_buf()
 	end)
