@@ -79,13 +79,18 @@ local function jump_char(char)
 		end_col = 0,
 	})
 
-	local start_c = math.floor(#pos_info / 26) + 97
-	local prefix = ''
-	if start_c == 123 then
-		prefix = 'a'
-		start_c = 'a'
+	local get_start_char = function()
+		local num = math.floor(#pos_info / 26)
+		local remain = #pos_info - num * 26
+		local start_c = 26 - num < remain and num + 98 or num + 97
+		if start_c == 123 then
+			return 'a', 'a'
+		else
+			return start_c, ''
+		end
 	end
 
+	local start_c, prefix = get_start_char() 
 	local cur_c = start_c 
 	for i = 1, #pos_info do
 		mark_map[prefix .. string.char(cur_c)] = pos_info[i]
