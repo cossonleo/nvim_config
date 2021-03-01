@@ -89,6 +89,11 @@ function open_netrw_on_enter()
 	end
 end
 
+--vim.g.neosolarized_diffmode = "high"
+
+nvim_utils = {}
+require 'nvim_ext_utils'
+
 require 'plugins'
 require 'easy_search'
 require 'quick_motion'

@@ -1,9 +1,8 @@
-local call_once = require'nvim_ext_utils'.call_once
 
 vim.fn.sign_define("easy_search_sign_search", {text = "Ϙ ", texthl = "LineNr", linehl = "LineNr"})
 vim.fn.sign_define("easy_search_sign_select", {text = "☞ ", texthl = "LineNr", linehl = "LineNr"})
 
-local get_buf_id = call_once(function()
+local get_buf_id = nvim_utils.call_once(function()
 	local buf_id = vim.api.nvim_create_buf(false, true)
 	if buf_id == 0 then
 		vim.cmd[[echoerr "create buf false"]]
@@ -144,7 +143,6 @@ function buf_state:init()
 		on_lines = function(...)
 			local args = { ... }
 			if args[4] > 0 then return end
-			--print(vim.fn.string(args))
 			vim.schedule(easy_search_fuzzy_search)
 		end
 	})

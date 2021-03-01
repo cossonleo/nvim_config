@@ -79,6 +79,7 @@ def_common_cmd("DCloseAll", "close_all")
 def_common_cmd("DNext", "diff_next")
 def_common_cmd("DPre", "diff_pre")
 
+
 --hi DirDiffBack guifg=#61afef
 --hi DirDiffChange guifg=#E5C07B
 --hi DirDiffAdd guifg=#98C379

@@ -1,6 +1,4 @@
-local M = {}
-
-function M.call_once(f)
+nvim_utils.call_once = function(f)
 	local called = false
 	local ret = nil 
 	return function()
@@ -22,8 +20,17 @@ function M.call_once(f)
 	end
 end
 
-function M.echo(...)
-	vim.api.nvim_echo({ ... }, false, {})
+nvim_utils.echo = function(...)
+	local args = { ... }
+	local texts = {}
+	for _, arg in ipairs(args) do
+		local t = type(arg)
+		if t == "string" then
+			table.insert(texts, {t})
+		elseif t == "table" then
+			table.insert(texts, t)
+		end
+	end
+	vim.api.nvim_echo(texts, false, {})
 end
 
-return M

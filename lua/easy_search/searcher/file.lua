@@ -67,7 +67,9 @@ local function collect_by_builtin()
 	local paths = require("share_sugar").scan_dir_rec(pwd, true) 
 	local files = {}
 	for _, file in ipairs(paths) do
-		table.insert(files, file:sub(#pwd + 2))
+		if not require"path_ignore".is_ignore(file) then
+			table.insert(files, file:sub(#pwd + 2))
+		end
 	end
 			local sub = p:sub(#pwd + 2)
 	generate_items(files)
