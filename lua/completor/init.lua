@@ -16,7 +16,8 @@ end
 autocmd("TextChangedP")
 autocmd("TextChangedI")
 autocmd("InsertEnter")
---autocmd("InsertLeave")
+autocmd("InsertLeave")
+autocmd("BufLeave")
 
 vim.cmd[[inoremap <silent> <m-j> <c-o>:lua completor_handle_event('JumpNextSnippet')<cr>]]
 vim.cmd[[inoremap <silent> <cr> <c-r>=v:lua.completor_handle_event('CompleteDone')<cr>]]

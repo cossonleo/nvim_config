@@ -27,4 +27,9 @@ function M.nvim_complete(ctx, items)
 	M.filter_items()
 end
 
+function M.reset()
+	last_ctx = nil
+	complete_items = {}
+end
+
 return M

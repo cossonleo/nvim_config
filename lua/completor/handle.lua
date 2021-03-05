@@ -21,6 +21,7 @@ local function reset()
 	last_ctx = nil
 	last_selected = false
 	last_changedtick = 0
+	complete_api.reset()
 end
 
 local function text_changed()
@@ -108,8 +109,17 @@ end
 
 handlers.InsertEnter = function()
 	log.trace("on insert")
-	reset()
 	text_changed()
+end
+
+handlers.InsertLeave = function()
+	log.trace("on leave")
+	reset()
+end
+
+handlers.BufLeave = function()
+	log.trace("on leave")
+	reset()
 end
 
 handlers.JumpNextSnippet = function()

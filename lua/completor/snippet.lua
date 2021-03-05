@@ -21,7 +21,7 @@ local convert_iter = function(str)
 		if not head then start = s + 1; return {} end
 
 		local sub = str:sub(head + 2, tail - 1)
-		local ph_str = sub:match("^[0-9]+:(.+)")
+		local ph_str = sub:match("^[0-9]+:(.*)")
 		if not ph_str then start = s + 2; return {} end
 		start = s + #ph_str 
 		str = str:sub(1, head - 1) .. ph_str .. str:sub(tail + 1)

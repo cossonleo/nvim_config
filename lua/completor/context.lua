@@ -37,7 +37,7 @@ local Context = {
 -- 若不是偏移输入则返回nil
 function Context:offset_typed(ctx)
 	if not self or not ctx then return nil end
-	if self.buf == 0  or self.buf ~= ctx.buf then
+	if self.buf == 0 or self.buf ~= ctx.buf then
 		return nil
 	end
 	if self.pos[1] ~= ctx.pos[1] then return nil end
