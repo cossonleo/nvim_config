@@ -34,3 +34,7 @@ bind_key("t", "term")
 bind_key("s", "symbols")
 bind_key("v", "vim_menu")
 bind_key("z", "resume")
+
+vim.cmd "hi! link EasysearchSearch Function"
+vim.cmd "hi! link EasysearchSelect Error"
+vim.cmd "hi! link EasysearchNormal CursorLine"

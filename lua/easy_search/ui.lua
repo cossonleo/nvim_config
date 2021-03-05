@@ -15,8 +15,8 @@ local show_conf = {}
 local search_sign_id = 0
 local select_sign_id = 0
 
-vim.fn.sign_define("easy_search_sign_search", {text = "Ϙ ", texthl = "LineNr", linehl = "LineNr"})
-vim.fn.sign_define("easy_search_sign_select", {text = "☞ ", texthl = "LineNr", linehl = "LineNr"})
+vim.fn.sign_define("easy_search_sign_search", {text = "Ϙ ", texthl = "EasysearchSearch", linehl = "EasysearchSearch"})
+vim.fn.sign_define("easy_search_sign_select", {text = "☞ ", texthl = "EasysearchSelect", linehl = "EasysearchSelect"})
 
 function easy_search_close()
 	if win_id == 0 then return end
@@ -55,6 +55,8 @@ local function open_win()
 	vim.api.nvim_win_set_option(win_id, "relativenumber", false)
 	vim.api.nvim_win_set_option(win_id, "signcolumn", "auto:3")
 	vim.api.nvim_win_set_option(win_id, "wrap", false)
+	vim.api.nvim_win_set_option(win_id, "winhl", "Normal:EasysearchNormal")
+--Normal:MyHighlight, 
 	refresh_sign()
 
 --	vim.api.nvim_feedkeys("a", "n", true)

@@ -1,17 +1,18 @@
-local file_item = {
+
+local history_item = {
 	name = "",
 	win = 0,
 }
 
-function file_item:tips()
+function history_item:tips()
 	return ""
 end
 
-function file_item:searched_str()
+function history_item:searched_str()
 	return self.name
 end
 
-function file_item:do_item()
+function history_item:do_item()
 	return true, function()
 		local buf = vim.fn.bufnr(self.name)
 		if buf == -1 then
@@ -29,7 +30,7 @@ function file_item:do_item()
 	end
 end
 
-function file_item:new(name, win)
+function history_item:new(name, win)
 	local item = {name = name, win = win}
 	setmetatable(item, {__index = self})
 	return item
@@ -39,7 +40,7 @@ local function generate_items(files)
 	local win = vim.api.nvim_get_current_win()
 	local items = {}
 	for _, f in ipairs(files) do
-		local item = file_item:new(f, win)
+		local item = history_item:new(f, win)
 		table.insert(items, item)
 	end
 	require("easy_search.ui").new(items)
@@ -54,11 +55,9 @@ local function collect_by_rg()
 	local files = {}
 	local start = #pwd + 2
 	for p in vim.gsplit(str, "\n") do
-		if not require"path_ignore".is_ignore(p) then
-			local f = p:sub(start)
-			if #f > 0 then
-				table.insert(files, f)
-			end
+		local f = p:sub(start)
+		if #f > 0 then
+			table.insert(files, f)
 		end
 	end
 	generate_items(files)
@@ -73,6 +72,7 @@ local function collect_by_builtin()
 			table.insert(files, file:sub(#pwd + 2))
 		end
 	end
+			local sub = p:sub(#pwd + 2)
 	generate_items(files)
 end
 
@@ -83,5 +83,8 @@ return {
 		else
 			collect_by_builtin()
 		end
+	end
+
+	add_history = function(item)
 	end
 }
