@@ -9,12 +9,13 @@ local init = nvim_utils.call_once(function ()
 	searcher.symbols = require("easy_search.searcher.symbols")
 	searcher.vim_menu = require("easy_search.searcher.vim_menu")
 	searcher.marks = require("easy_search.searcher.marks")
+	searcher.history = require("easy_search.searcher.history")
 	searcher.resume = { search = function() require("easy_search.ui").re_open() end }
 end)
 
 function easy_search_launch(src)
 	init()
-	searcher[src].search()
+	searcher[src].search(searcher.history.add)
 end
 
 local function bind_key(key, searcher)
@@ -28,10 +29,11 @@ end
 
 bind_key("<leader>", "file")
 bind_key("b", "buf")
-bind_key("r", "reference")
+bind_key("h", "history")
 bind_key("g", "grep")
-bind_key("t", "term")
+bind_key("r", "reference")
 bind_key("s", "symbols")
+bind_key("t", "term")
 bind_key("v", "vim_menu")
 bind_key("z", "resume")
 

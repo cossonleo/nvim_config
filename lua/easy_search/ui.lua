@@ -56,7 +56,6 @@ local function open_win()
 	vim.api.nvim_win_set_option(win_id, "signcolumn", "auto:3")
 	vim.api.nvim_win_set_option(win_id, "wrap", false)
 	vim.api.nvim_win_set_option(win_id, "winhl", "Normal:EasysearchNormal")
---Normal:MyHighlight, 
 	refresh_sign()
 
 --	vim.api.nvim_feedkeys("a", "n", true)

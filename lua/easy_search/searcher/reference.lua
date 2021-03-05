@@ -29,12 +29,14 @@ function ref_item:new(item)
 	return item
 end
 
-function M.search()
+function M.search(on_success)
 	local params = vim.lsp.util.make_position_params()
 	params.context = {
 		includeDeclaration = true;
 	}
 	params[vim.type_idx] = vim.types.dictionary
+
+	local cur_word = vim.fn.expand('<cword>')
 
 	return vim.lsp.buf_request(0, 'textDocument/references', params, function(_, _, result)
 		if not result then return end
@@ -46,6 +48,9 @@ function M.search()
 			table.insert(items, item)
 		end
 		require("easy_search.ui").new(items)
+		if on_success and #items > 0 then
+			on_success('references: ' .. cur_word, items)
+		end
 	end)
 end
 

@@ -1,6 +1,5 @@
 local file_item = {
 	name = "",
-	win = 0,
 }
 
 function file_item:tips()
@@ -29,17 +28,16 @@ function file_item:do_item()
 	end
 end
 
-function file_item:new(name, win)
-	local item = {name = name, win = win}
+function file_item:new(name)
+	local item = {name = name}
 	setmetatable(item, {__index = self})
 	return item
 end
 
 local function generate_items(files)
-	local win = vim.api.nvim_get_current_win()
 	local items = {}
 	for _, f in ipairs(files) do
-		local item = file_item:new(f, win)
+		local item = file_item:new(f)
 		table.insert(items, item)
 	end
 	require("easy_search.ui").new(items)
