@@ -9,6 +9,7 @@ vim.cmd[[nnoremap <silent> gD :lua vim.lsp.buf.implementation()<CR>]]
 vim.cmd[[nnoremap <silent> gc :lua vim.lsp.buf.rename()<CR>]]
 vim.cmd[[nnoremap <silent> gk :lua vim.lsp.buf.hover()<CR>]]
 vim.cmd[[nnoremap <silent> gq :lua vim.lsp.buf.formatting()<cr>]]
+vim.cmd[[nnoremap <silent> gf :lua vim.lsp.buf.code_action()<cr>]]
 vim.cmd[[nnoremap <silent> ]e :lua vim.lsp.diagnostic.goto_next()<cr>]]
 vim.cmd[[nnoremap <silent> [e :lua vim.lsp.diagnostic.goto_prev()<cr>]]
 

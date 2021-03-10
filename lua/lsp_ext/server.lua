@@ -4,28 +4,39 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.contextSupport = true
 
-local config = {
-	capabilities = capabilities,
-	settings = {
-		gopls = { 
-			usePlaceholders = true
-		},
-		["rust-analyzer"] = {
-			cargo = {
-				loadOutDirsFromCheck = false,
-			},
-            procMacro = {
-                enable = true
-            },
-		},
+local function config(settings)
+	local config = {
+		capabilities = capabilities,
+		on_init = function(client)
+			if client.config.flags then
+				client.config.flags.allow_incremental_sync = true
+			else
+				client.config.flags = {}
+				client.config.flags.allow_incremental_sync = true
+			end
+		end,
 	}
-}
+	if settings then config.settings = settings end
+	return config
+end
 
-lspconfig.gopls.setup(config)
+lspconfig.pyls.setup(config())
 
-lspconfig.rust_analyzer.setup(config)
+lspconfig.clangd.setup(config())
 
-lspconfig.pyls.setup(config)
+lspconfig.gopls.setup(config{
+	gopls = { 
+		usePlaceholders = true
+	},
+})
 
-lspconfig.clangd.setup(config)
-
+lspconfig.rust_analyzer.setup(config{
+	["rust-analyzer"] = {
+		cargo = {
+			loadOutDirsFromCheck = false,
+		},
+		procMacro = {
+			enable = true
+		},
+	},
+})

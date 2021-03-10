@@ -126,9 +126,10 @@ local function quick_scope(motion)
 	if not nexts then
 		quick_row = -1
 		quick_col = -1
+		return
 	end
-	add_highlight_to_nexts(nexts)
 
+	add_highlight_to_nexts(nexts)
 	vim.schedule(function()
 		local input = vim.fn.getchar()
 		exe_motion(motion, input)

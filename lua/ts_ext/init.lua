@@ -20,6 +20,7 @@ function M.get_cur_sexpr()
 	local root = tstree[1]:root()
 	local node = root:named_descendant_for_range(cursor[1]-1,cursor[2],cursor[1]-1,cursor[2])
 	print(node:sexpr())
+	return node
 end
 
 return M
