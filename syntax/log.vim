@@ -11,8 +11,8 @@ syn match log_track '.*\<\(TRACK\|TRAC\|TRACING\).*'
 syn match log_info '.*\<INFO.*'
 syn match log_debug '.*\<\(DEBUG\|debug\).*'
 
-hi def link log_err NeomakeErrorSign
+hi def link log_err Error
 hi def link log_warn NeomakeWarningSign
-hi def link log_info NeomakeInfoSign
+hi def link log_info Function
 hi def link log_track Comment
-hi def link log_debug Debug
+hi def link log_debug Normal
