@@ -7,14 +7,14 @@ capabilities.textDocument.completion.contextSupport = true
 local function config(settings)
 	local config = {
 		capabilities = capabilities,
-		on_init = function(client)
-			if client.config.flags then
-				client.config.flags.allow_incremental_sync = true
-			else
-				client.config.flags = {}
-				client.config.flags.allow_incremental_sync = true
-			end
-		end,
+--		on_init = function(client)
+--			if client.config.flags then
+--				client.config.flags.allow_incremental_sync = true
+--			else
+--				client.config.flags = {}
+--				client.config.flags.allow_incremental_sync = true
+--			end
+--		end,
 	}
 	if settings then config.settings = settings end
 	return config
