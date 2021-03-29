@@ -15,6 +15,7 @@ local function plug_list()
 	--use 'nvim-lua/popup.nvim'
 	--use 'nvim-lua/plenary.nvim'
 	use 'whiteinge/diffconflicts'
+	use {'mfussenegger/nvim-dap', config = config.dap}
 	--use 'cossonleo/dirdiff.nvim'
 	--use { 'luochen1990/rainbow', config = config.rainbow }
 	--use { 'joshdick/onedark.vim', config = config.onedark }
@@ -96,6 +97,10 @@ function config.diagnostic_nvim()
 	vim.cmd[[nnoremap <silent> ]e <cmd>NextDiagnosticCycle<cr>]]
 	vim.cmd[[nnoremap <silent> [e <cmd>PrevDiagnosticCycle<cr>]]
 	vim.cmd[[nnoremap <silent> <leader>d <cmd>OpenDiagnostic<cr>]]
+end
+
+function config.dap()
+	require("dap_ext")
 end
 
 plug_list()

@@ -6,7 +6,7 @@ require('lsp_ext.server')
 
 vim.cmd[[nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>]]
 vim.cmd[[nnoremap <silent> gD :lua vim.lsp.buf.implementation()<CR>]]
-vim.cmd[[nnoremap <silent> gc :lua vim.lsp.buf.rename()<CR>]]
+vim.cmd[[nnoremap <silent> gr :lua vim.lsp.buf.rename()<CR>]]
 vim.cmd[[nnoremap <silent> gk :lua vim.lsp.buf.hover()<CR>]]
 vim.cmd[[nnoremap <silent> gq :lua vim.lsp.buf.formatting()<cr>]]
 vim.cmd[[nnoremap <silent> gf :lua vim.lsp.buf.code_action()<cr>]]
