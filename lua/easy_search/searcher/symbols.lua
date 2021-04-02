@@ -29,7 +29,7 @@ end
 function M.search()
 	local symbols = require'ts_ext'.get_all_context()
 	if not symbols then
-		nvim_utils.echo({"no symbols finded", "Error"})
+		nvim_eutil.echo({"no symbols finded", "Error"})
 		return
 	end
 

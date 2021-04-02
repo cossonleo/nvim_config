@@ -1,4 +1,4 @@
-local vim_plug = require'cossonleo.vim_plug'
+local vim_plug = require'nvim_eutil.vim_plug'
 local use = vim_plug.use
 
 local config = {}

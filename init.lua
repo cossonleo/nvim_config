@@ -9,6 +9,7 @@ vim.bo.expandtab = false
 vim.o.diffopt = "internal,filler,closeoff,vertical,algorithm:patience"
 vim.o.showcmd = true
 vim.o.cmdheight = 2
+vim.o.laststatus = 2
 vim.o.scrolloff = 0
 vim.o.clipboard = 'unnamedplus'
 vim.o.completeopt = 'menuone,noselect,noinsert'
@@ -91,8 +92,8 @@ end
 
 --vim.g.neosolarized_diffmode = "high"
 
-nvim_utils = {}
-require 'nvim_ext_utils'
+nvim_eutil = {}
+require 'nvim_eutil'
 
 require 'plugins'
 require 'easy_search'

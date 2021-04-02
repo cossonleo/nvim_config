@@ -2,7 +2,7 @@
 vim.fn.sign_define("easy_search_sign_search", {text = "Ϙ ", texthl = "LineNr", linehl = "LineNr"})
 vim.fn.sign_define("easy_search_sign_select", {text = "☞ ", texthl = "LineNr", linehl = "LineNr"})
 
-local get_buf_id = nvim_utils.call_once(function()
+local get_buf_id = nvim_eutil.call_once(function()
 	local buf_id = vim.api.nvim_create_buf(false, true)
 	if buf_id == 0 then
 		vim.cmd[[echoerr "create buf false"]]

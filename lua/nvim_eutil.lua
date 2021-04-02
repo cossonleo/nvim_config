@@ -1,4 +1,4 @@
-nvim_utils.call_once = function(f)
+nvim_eutil.call_once = function(f)
 	local called = false
 	local ret = nil 
 	return function()
@@ -20,7 +20,7 @@ nvim_utils.call_once = function(f)
 	end
 end
 
-nvim_utils.echo = function(...)
+nvim_eutil.echo = function(...)
 	local args = { ... }
 	local texts = {}
 	for _, arg in ipairs(args) do
@@ -34,3 +34,11 @@ nvim_utils.echo = function(...)
 	vim.api.nvim_echo(texts, false, {})
 end
 
+nvim_eutil.buf_path = function()
+	return require'nvim_eutil.file'.file_name()
+end
+
+nvim_eutil.cur_file_size = function()
+	local cur_path = vim.fn.expand('%')
+	return require'nvim_eutil.file'.file_size(cur_path)
+end

@@ -20,7 +20,7 @@ vim.cmd "hi link LspWarning WarningMsg"
 
 function M.statusline()
 	if vim.fn.mode() == "n" then
-		return require('lsp_ext.statusline').lsp_info()
+		return require('lsp_ext.statusline').lsp_info():sub(1,40)
 	end
 	return ""
 end

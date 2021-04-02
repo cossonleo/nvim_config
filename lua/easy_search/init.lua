@@ -1,6 +1,6 @@
 
 local searcher = {}
-local init = nvim_utils.call_once(function ()
+local init = nvim_eutil.call_once(function ()
 	searcher.file = require("easy_search.searcher.file")
 	searcher.grep = require("easy_search.searcher.grep")
 	searcher.buf = require("easy_search.searcher.buf")
