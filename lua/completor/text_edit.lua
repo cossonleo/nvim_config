@@ -236,6 +236,7 @@ function M.restore_ctx(ctx)
 
 	--  设置或恢复cursor_extmark
 	cursor_extmark  = set_extmark(cursor_extmark, {ctx.pos[1], ctx.pos[2]})
+	vim.api.nvim_win_set_cursor(0, {ctx.pos[1] + 1, ctx.pos[2]})
 end
 
 function M.apply_complete_user_data(data, on_select)

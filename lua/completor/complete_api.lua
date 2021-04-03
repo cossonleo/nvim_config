@@ -21,7 +21,7 @@ function M.nvim_complete(ctx, items)
 
 	if not last_ctx or last_ctx.changedtick < ctx.changedtick then
 		complete_items = {}
-		last_ctx = context.new(ctx)
+		last_ctx = context.copy(ctx)
 	end
 	complete_items = vim.list_extend(complete_items, items)
 	M.filter_items()
