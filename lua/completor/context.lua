@@ -35,7 +35,7 @@ local Context = {
 -- self > ctx
 -- self 相对 ctx的偏移输入
 -- 若不是偏移输入则返回nil
-function Context:_offset_typed(ctx)
+function Context:offset_typed(ctx)
 	if not self or not ctx then return nil end
 	if self.buf == 0 or self.buf ~= ctx.buf then
 		return nil
@@ -55,28 +55,23 @@ function Context:_offset_typed(ctx)
 	return nil
 end
 
-function Context:offset_typed(ctx)
-	local offset = self:_offset_typed(ctx)
-	if offset == "" then
-		return nil
-	end
-	return offset
-end
-
 function Context:typed_to_cursor()
 	return self.typed:sub(1, self.pos[2])
 end
 
 function Context:equal(ctx)
 	if self.changedtick ~= 0 and
-		self.changedtick == ctx.changedtick 
+		self.changedtick == ctx.changedtick and
+		self.buf == ctx.buf and
+		self.pos[1] == ctx.pos[1] and
+		self.pos[2] == ctx.pos[2]
 	then
 		return true
 	end
 
-	if self:_offset_typed(ctx) == "" then
-		return true 
-	end
+	--if self:offset_typed(ctx) == "" then
+	--	return true 
+	--end
 
 	return false
 end

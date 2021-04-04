@@ -34,8 +34,8 @@ local function text_changed()
 		return
 	end
 
-	if last_ctx:offset_typed(last_complete_ctx) then
-		complete_api.filter_items(last_ctx)
+	if last_complete_ctx and last_ctx:offset_typed(last_complete_ctx) then
+		complete_api.filter_items(last_ctx:typed_to_cursor())
 		return
 	end
 
@@ -46,7 +46,10 @@ local function text_changed()
 	drivers.complete(ctx, function(items, is_incomplete)
 		log.trace("add complete items")
 		local incomplete = false
-		if items and #items > 0 and last_complete_ctx:equal(ctx) then
+		if last_complete_ctx and
+			items and #items > 0 and 
+			last_complete_ctx:equal(ctx) 
+		then
 			complete_api.nvim_complete(ctx, items)
 			incomplete =  is_incomplete
 		end
