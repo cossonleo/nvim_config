@@ -21,7 +21,7 @@ local function plug_list()
 	--use { 'joshdick/onedark.vim', config = config.onedark }
 	--use {'preservim/nerdtree', config = config.nerdtree}
 	use {'overcache/NeoSolarized', config = config.solarized}
-	use { 'voldikss/vim-floaterm', config = config.vim_floaterm }
+	--use { 'voldikss/vim-floaterm', config = config.vim_floaterm }
 	--use { 'norcalli/nvim-colorizer.lua', config = config.nvim_colorizer }
 	use { 'voldikss/vim-translator', config = config.vim_translator }
 	use { 'nvim-treesitter/nvim-treesitter', config = config.nvim_treesitter }
