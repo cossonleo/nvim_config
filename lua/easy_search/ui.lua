@@ -49,6 +49,8 @@ local function open_win()
 		col = show_conf.col,
 		width = show_conf.width,
 		height = show_conf.height,
+		border = "single",
+		--border = "double",
 	})
 	vim.api.nvim_win_set_cursor(win_id, {1, #last_match_pattern})
 	vim.api.nvim_win_set_option(win_id, "number", false)
@@ -56,6 +58,7 @@ local function open_win()
 	vim.api.nvim_win_set_option(win_id, "signcolumn", "auto:3")
 	vim.api.nvim_win_set_option(win_id, "wrap", false)
 	vim.api.nvim_win_set_option(win_id, "winhl", "Normal:EasysearchNormal")
+	--vim.api.nvim_win_set_config(win_id, {border = {"-"}})
 	refresh_sign()
 
 --	vim.api.nvim_feedkeys("a", "n", true)

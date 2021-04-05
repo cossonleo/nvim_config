@@ -39,4 +39,4 @@ bind_key("z", "resume")
 
 vim.cmd "hi! link EasysearchSearch Function"
 vim.cmd "hi! link EasysearchSelect Error"
-vim.cmd "hi! link EasysearchNormal CursorLine"
+--vim.cmd "hi! link EasysearchNormal CursorLine"
