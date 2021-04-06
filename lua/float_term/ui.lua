@@ -1,10 +1,11 @@
 
 local function win_option()
-	local lines = vim.o.lines
 	local columns = vim.o.columns
+	local lines = vim.o.lines
+	if lines < 3 then lines = 3 end
 
-	local row = math.ceil(0.1 * lines / 2)
-	local col = math.ceil(0.2 * columns / 2)
+	local row = math.floor(0.1 * (lines - 3))
+	local col = math.ceil(0.3 * columns / 2)
 	local width = math.ceil(0.7 * columns)
 	local height = math.ceil(0.7 * lines)
 
