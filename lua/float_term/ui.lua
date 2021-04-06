@@ -34,22 +34,7 @@ local FloatTerm = {
 	win_id = 0,
 }
 
-function FloatTerm:toggle()
-	if self.win_id == 0 or 
-		not vim.api.nvim_win_is_valid(self.win_id) 
-	then
-		self.win_id = init_float_win(self.buf_id)
-		vim.cmd[[startinsert!]]
-		return
-	end
-
-	local cur_win = vim.api.nvim_get_current_win()
-	if cur_win ~= self.win_id then return end
-	vim.api.nvim_win_close(0, true)
-	self.win_id = 0
-end
-
-function new_float_term()
+local function new_float_term()
 	local buf_id = vim.api.nvim_create_buf(false, true)
 	local win_id = init_float_win(buf_id)
 
@@ -61,6 +46,34 @@ function new_float_term()
 	local o = {buf_id = buf_id, win_id = win_id}
 	setmetatable(o, {__index = FloatTerm})
 	return o
+end
+
+function FloatTerm:close_win()
+	local win_valid = self.win_id > 0 and vim.api.nvim_win_is_valid(self.win_id)
+	if win_valid then
+		vim.api.nvim_win_close(0, true)
+	end
+	self.win_id = 0
+	return win_valid
+end
+
+function FloatTerm:toggle()
+	local buf_valid = self.buf_id > 0 and vim.api.nvim_buf_is_valid(self.buf_id)
+	if not buf_valid then
+		if self:close_win() then return end
+		local n = new_float_term()
+		self.buf_id = n.buf_id
+		self.win_id = n.win_id
+		return
+	end
+
+	if self.win_id > 0 and vim.api.nvim_win_is_valid(self.win_id) then
+		self:close_win()
+		return
+	end
+
+	self.win_id = init_float_win(self.buf_id)
+	vim.cmd[[startinsert!]]
 end
 
 return {new = new_float_term}
