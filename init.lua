@@ -103,6 +103,7 @@ require 'completor'
 require 'ts_ext'
 require 'dirdiff'
 require 'float_term'
+require 'hi'
 
 --vim.api.nvim_register_filterfunc(function(prefix, match)
 --	print("prefix nil", prefix == nil)

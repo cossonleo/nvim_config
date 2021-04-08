@@ -25,6 +25,7 @@ local function plug_list()
 	--use { 'norcalli/nvim-colorizer.lua', config = config.nvim_colorizer }
 	use { 'voldikss/vim-translator', config = config.vim_translator }
 	use { 'nvim-treesitter/nvim-treesitter', config = config.nvim_treesitter }
+	--use 'romgrk/nvim-treesitter-context'
 	--use 'p00f/nvim-ts-rainbow'
 	use { 'neovim/nvim-lspconfig', config = config.nvim_lsp }
 	-- use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
