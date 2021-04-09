@@ -93,6 +93,16 @@ end
 --vim.g.neosolarized_diffmode = "high"
 
 nvim_eutil = {}
+nl_global = {
+	spec_key = {
+		esc = vim.fn.nr2char(27),
+		cr = vim.fn.nr2char(13),
+		c_j = vim.fn.nr2char(10),
+		c_k = vim.fn.nr2char(11),
+	},
+
+}
+
 require 'nvim_eutil'
 
 require 'plugins'

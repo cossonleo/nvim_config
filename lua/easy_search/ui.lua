@@ -15,8 +15,8 @@ local show_conf = {}
 local search_sign_id = 0
 local select_sign_id = 0
 
-vim.fn.sign_define("easy_search_sign_search", {text = "Ϙ ", texthl = "EasysearchSearch", linehl = "EasysearchSearch"})
-vim.fn.sign_define("easy_search_sign_select", {text = "☞ ", texthl = "EasysearchSelect", linehl = "EasysearchSelect"})
+vim.fn.sign_define("easy_search_sign_search", {text = "≡", texthl = "EasysearchSearch", linehl = "EasysearchSearch"})
+vim.fn.sign_define("easy_search_sign_select", {text = "→", texthl = "EasysearchSelect", linehl = "EasysearchSelect"})
 
 function easy_search_close()
 	if win_id == 0 then return end
