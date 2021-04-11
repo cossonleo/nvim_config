@@ -1,3 +1,4 @@
+local fuzzy_match  = require("share_sugar").fuzzy_match
 
 vim.fn.sign_define("list_sign_search", {text = "≡", texthl = "LineNr", linehl = "LineNr"})
 vim.fn.sign_define("list_sign_select", {text = "→", texthl = "LineNr", linehl = "LineNr"})
@@ -54,8 +55,18 @@ function view_data:scroll_up()
 	return false
 end
 
-local spec_key = {
-}
+function view_data:resize(view_size)
+	if view_size == self.view_size then return end
+	self.view_size = view_size
+	local data_len #self.data
+	if self.scroll_value + view_size > data_len then
+		self.scroll_value = view_size > data_len and 0 or data_len - view_size
+	end
+end
+
+function view_data:cur_data(cur_line)
+	return self.data[self.scroll_value + cur_line + 1]
+end
 
 local Widget = {
 	data = {},
@@ -64,6 +75,7 @@ local Widget = {
 	input = "",
 	key_map = {},
 	is_run = false,
+	cur_line = 0, -- 0-based
 }
 
 function Widget:new(data, ext_key)
@@ -73,6 +85,7 @@ function Widget:new(data, ext_key)
 		win = 0,
 		input = "",
 		key_map = {},
+		cur_line = 0,
 		is_run = false,
 	}
 	setmetatable(o, {__index = self})
@@ -83,42 +96,101 @@ end
 function Widget:reset(data, ext_key)
 	self.data = data
 	self.input = ""
+	self.cur_line = 0
 	self:init_key_map(ext_key)
+	self.view_data = view_data:new(data.items or data)
 	self:refresh_buf()
 end
 
 function Widget:init_key_map(ext_key)
 	local spec_key = nl_global.spec_key
-	local key_map = {
+	self.key_map = {
 		[spec_key.esc] = function() self:close_win(); return false end,
 		[spec_key.cr] = function() self:do_item(); return false end,
 		[spec_key.c_j] = function() self:move_next(); return true end,
 		[spec_key.c_k] = function() self:move_pre(); return true end,
 	}
-	if ext_key then vim.tbl_extend(key_map, ext_key, "force") end
-	self.key_map = key_map
+
+	if not ext_key then return end
+	for key, func in pairs(ext_key) do
+		self.key_map[key] = function()
+			return func(self:cur_data())
+		end
+	end
 end
 
 function Widget:refresh_buf()
+	local view_items = self.view_data.view()
+	local buf_lines = {self.input}
+	for _, item in ipairs(view_items) do
+		table.insert(buf_lines, item:tips() .. item:data_str())
+	end
 	
+	vim.api.nvim_buf_set_lines(self.buf, 0, -1, false, buf_lines)
+
+	-- TODO
+	-- 增加高亮
 end
 
 function Widget:search()
+	self.cur_line = 0
+	local show_vec = {}
+	for i, item in ipairs(self.data.item or self.data) do
+		if last_match_pattern == "" then
+			table.insert(show_vec, {i = i})
+			goto continue
+		end
+		local match_info = filter(item:searched_str(), last_match_pattern)
+		if not match_info  then
+			goto continue
+		end
 
+		table.insert(show_vec, {i = i, match_info = match_info})
+		::continue::
+	end
+	if last_match_pattern ~= "" then
+		table.sort(show_vec, function(s1, s2) 
+			local len = #s1.match_info
+			for i = 1, len do
+				local ss1, ss2 = s1.match_info[i], s2.match_info[i]
+				if ss1 < ss2 then return true end
+				if ss1 > ss2 then return false end
+			end
+			--if s1.i < s2.i then return true end
+			return false
+		end)
+	end
+	first_index = 1
+	select_line = 1
+
+	self.view_data = view_data:new(filter_data, self.lines)
+	self.refresh_buf()
 end
+
 
 function Widget:do_item()
 	self:close_win()
+	self:cur_data():do_item()
+end
 
-	-- TODO
+function Widget:cur_data()
+	return self.view_data:cur_data(self.cur_line)
 end
 
 function Widget:move_next()
-
+	local is_change = false
+	if self.cur_line + 1 >= self.lines then
+		is_change = self.view_data:croll_down()
+	end
+	self:refresh_buf()
 end
 
 function Widget:move_pre()
-
+	local is_change = false
+	if self.cur_line == 0 then
+		is_change = self.view_data:croll_up()
+	end
+	self:refresh_buf()
 end
 
 function Widget:close_win()
@@ -128,6 +200,7 @@ function Widget:close_win()
 
 	vim.api.nvim_win_close(self.win)
 	self.win = 0
+	self.lines = 0
 end
 
 function Widget:handle_input(c)
@@ -139,8 +212,9 @@ function Widget:handle_input(c)
 end
 
 function Widget:run()
+	if self.is_run then return end
 	if self.win == 0 or not vim.api.nvim_win_is_valid(self.win) then
-		self.win = create_float_win(self.buf)
+		self.win, self.lines = create_float_win(self.buf)
 	end
 
 	self.is_run = true
@@ -149,25 +223,24 @@ function Widget:run()
 		c = vim.fn.nr2char(c)
 		self.is_run = self:handle_input(c)
 	end
-end
 
-local M = {
-	widget = nil,
-}
-
--- create: 是否复用上一个的widget
-function M.new(data, key_map, create)
-	if create or M.wdiget == nil then
-		M.widget = widget:new(data, key_map)
-	else
-		M.widget:reset(data, key_map)
+	if self.win ~= 0 then
+		if vim.api.nvim_win_is_valid(sel.win) then
+			self:close_win()
+		else
+			self.win = 0
+		end
 	end
 
-	M.widget:run()
+	if self.data.on_end and type(self.data.on_end) == "function" then
+		self.data.on_end()
+	end
 end
 
-function M.re_run()
-	M.widget:run()
+local M = {}
+
+function M.new(data, key_map)
+	return widget:new(data, key_map)
 end
 
 return M
