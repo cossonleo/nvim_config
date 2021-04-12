@@ -106,7 +106,7 @@ function Widget:init_key_map(ext_key)
 	local spec_key = nl_global.spec_key
 	self.key_map = {
 		[spec_key.esc] = function() self:close_win(); return false end,
-		[spec_key.cr] = function() self:do_item(); return false end,
+		[spec_key.cr] = function() self:on_enter(); return false end,
 		[spec_key.c_j] = function() self:move_next(); return true end,
 		[spec_key.c_k] = function() self:move_pre(); return true end,
 	}
@@ -135,18 +135,17 @@ end
 function Widget:search()
 	self.cur_line = 0
 	local show_vec = {}
-	for i, item in ipairs(self.data.item or self.data) do
-		if last_match_pattern == "" then
+	for i, item in ipairs(self.data.item) do
+		if self.input == "" then
 			table.insert(show_vec, {i = i})
-			goto continue
-		end
-		local match_info = filter(item:searched_str(), last_match_pattern)
-		if not match_info  then
-			goto continue
-		end
+		else
+			local match_info = filter(item:searched_str(), self.input)
+			if not match_info  then
+				goto continue
+			end
 
-		table.insert(show_vec, {i = i, match_info = match_info})
-		::continue::
+			table.insert(show_vec, {i = i, match_info = match_info})
+		end
 	end
 	if last_match_pattern ~= "" then
 		table.sort(show_vec, function(s1, s2) 
@@ -168,9 +167,9 @@ function Widget:search()
 end
 
 
-function Widget:do_item()
+function Widget:on_enter()
 	self:close_win()
-	self:cur_data():do_item()
+	self:cur_data():on_enter()
 end
 
 function Widget:cur_data()
@@ -178,19 +177,16 @@ function Widget:cur_data()
 end
 
 function Widget:move_next()
-	local is_change = false
-	if self.cur_line + 1 >= self.lines then
-		is_change = self.view_data:croll_down()
+	local is_bottom = self.cur_line + 1 >= self.lines
+	if is_bottom and self.view_data:scroll_down() then
+		self:refresh_buf()
 	end
-	self:refresh_buf()
 end
 
 function Widget:move_pre()
-	local is_change = false
-	if self.cur_line == 0 then
-		is_change = self.view_data:croll_up()
+	if self.cur_line == 0 and self.view_data:scroll_up() then
+		self:refresh_buf()
 	end
-	self:refresh_buf()
 end
 
 function Widget:close_win()

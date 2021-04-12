@@ -1,5 +1,7 @@
 
 local lspconfig = require'lspconfig'
+local on_attach = require'lsp_ext.on_attach'.on_attach
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.contextSupport = true
@@ -7,6 +9,7 @@ capabilities.textDocument.completion.contextSupport = true
 local function config(settings)
 	local config = {
 		capabilities = capabilities,
+		on_attach = on_attach, 
 --		on_init = function(client)
 --			if client.config.flags then
 --				client.config.flags.allow_incremental_sync = true

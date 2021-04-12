@@ -93,6 +93,7 @@ end
 --vim.g.neosolarized_diffmode = "high"
 
 nvim_eutil = {}
+-- :he keycodes
 nl_global = {
 	spec_key = {
 		esc = vim.fn.nr2char(27),
