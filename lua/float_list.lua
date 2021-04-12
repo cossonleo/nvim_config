@@ -190,11 +190,12 @@ function Widget:move_pre()
 end
 
 function Widget:close_win()
-	if self.win == 0 or not vim.api.nvim_win_is_valid(self.win) then
+	if self.win == 0 then
 		return
+	elseif vim.api.nvim_win_is_valid(self.win) then
+		vim.api.nvim_win_close(self.win)
 	end
 
-	vim.api.nvim_win_close(self.win)
 	self.win = 0
 	self.lines = 0
 end
@@ -207,6 +208,20 @@ function Widget:handle_input(c)
 	return true
 end
 
+function Widget:_run_rec()
+	local c = vim.fn.getchar()
+	c = vim.fn.nr2char(c)
+	self.is_run = self:handle_input(c)
+	if self.is_run then
+		vim.defer_fn(self:_run_rec, 0)
+	else
+		self:close_win()
+		if self.data.on_end and type(self.data.on_end) == "function" then
+			self.data.on_end()
+		end
+	end
+end
+
 function Widget:run()
 	if self.is_run then return end
 	if self.win == 0 or not vim.api.nvim_win_is_valid(self.win) then
@@ -214,23 +229,7 @@ function Widget:run()
 	end
 
 	self.is_run = true
-	while(self.is_run) do
-		local c = vim.fn.getchar()
-		c = vim.fn.nr2char(c)
-		self.is_run = self:handle_input(c)
-	end
-
-	if self.win ~= 0 then
-		if vim.api.nvim_win_is_valid(sel.win) then
-			self:close_win()
-		else
-			self.win = 0
-		end
-	end
-
-	if self.data.on_end and type(self.data.on_end) == "function" then
-		self.data.on_end()
-	end
+	vim.defer_fn(self:_run_rec, 0)
 end
 
 local M = {}
