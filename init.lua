@@ -96,13 +96,30 @@ nvim_eutil = {}
 -- :he keycodes
 nl_global = {
 	spec_key = {
-		esc = vim.fn.nr2char(27),
-		cr = vim.fn.nr2char(13),
-		c_j = vim.fn.nr2char(10),
-		c_k = vim.fn.nr2char(11),
+		esc = vim.fn.nr2char("\\<Esc>"),
+		cr = vim.fn.nr2char("\\<CR>"),
+		c_j = vim.fn.nr2char("\\<C-j>"),
+		c_k = vim.fn.nr2char("\\<C-k"),
+		bs = vim.fn.nr2char("\\<BS>"),
+		del = vim.fn.nr2char("\\<Del>")
 	},
 
 }
+
+nvim = nvim or {}
+nvim.e = nvim.e or {}
+nvim.e.key = {
+	esc = vim.fn.nr2char("\\<Esc>"),
+	cr = vim.fn.nr2char("\\<CR>"),
+	bs = vim.fn.nr2char("\\<BS>"),
+	del = vim.fn.nr2char("\\<Del>"),
+	["c-j"] = vim.fn.nr2char("\\<C-j>"),
+	["c-k"] = vim.fn.nr2char("\\<C-k"),
+	["c-o"] = vim.fn.nr2char("\\<C-o"),
+	["c-["] = vim.fn.nr2char("\\<C-["),
+	["c-]"] = vim.fn.nr2char("\\<C-]"),
+}
+
 
 require 'nvim_eutil'
 
