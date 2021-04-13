@@ -41,8 +41,9 @@ local function new_float_term()
 
 	--local shell = vim.fn.getenv("SHELL")
 	--vim.fn.termopen(shell, {})
-	vim.cmd[[terminal]]
-	vim.cmd[[startinsert!]]
+	vim.cmd "terminal"
+	vim.cmd "setlocal nobuflisted"
+	vim.cmd "startinsert!"
 
 	local o = {buf_id = buf_id, win_id = win_id}
 	setmetatable(o, {__index = FloatTerm})
