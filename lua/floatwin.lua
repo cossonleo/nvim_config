@@ -20,7 +20,7 @@ local function win_set_option(win, opts)
 	wo("signcolumn", signcolumn)
 end
 
-function M.new_cursor_floatwin(width, height, opts)
+function M.new_cursor_win(width, height, opts)
 	local border = opts and opts.border or 'single'
 	local focus = opts and opts.focus or true
 	local buf = opts and opts.buf or vim.api.nvim_create_buf(false, true)

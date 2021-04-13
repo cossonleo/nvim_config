@@ -1,54 +1,20 @@
-local buf = vim.api.nvim_create_buf(false, true)
-vim.fn.sign_define("lsp_rename_sign", {text = "≡", texthl = "Normal", linehl = "Normal"})
-vim.fn.sign_place(0, "", "lsp_rename_sign", buf, {lnum = 1})
-local win = 0
-
-function on_lsp_rename_close_win()
-	if win > 0 then
-		vim.api.nvim_win_close(win, true)
-		win = 0
-	end
-	vim.cmd "stopinsert"
-end
-
-function on_lsp_rename_request()
-	local lines = vim.api.nvim_buf_get_lines(buf, 0, 1, false)
-	local word = lines[1]
-	on_lsp_rename_close_win()
-	vim.lsp.buf.rename(word)
-end
-
-local map_opt = {silent = true}
-vim.api.nvim_buf_set_keymap(buf, "i", "<cr>", "<c-o><cmd>lua on_lsp_rename_request()<cr>", map_opt)
-vim.api.nvim_buf_set_keymap(buf, "i", "<esc>", "<c-o><cmd>lua on_lsp_rename_close_win()<cr>", map_opt)
-
-function lsp_rename()
-	local cur_word = vim.fn.expand('<cword>')
-	win = vim.api.nvim_open_win(buf, true, {
-		relative = "cursor",
-		row = -3,
-		col = 1,
-		height = 1,
-		width = 40,
-		border = "single",
-	})
-
-	local wo = function(opt, value)
-		vim.api.nvim_win_set_option(win, opt, value)
-	end
-
-	wo("relativenumber", false)
-	wo("number", false)
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, {cur_word})
-	vim.api.nvim_win_set_cursor(win, {1, #cur_word})
-	if vim.api.nvim_get_mode().mode ~= "i" then
-		vim.cmd "startinsert!"
-	end
-end
 
 local function on_attach(client, bufnr)		
+	require'lsp_ext.action'
+
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+		vim.lsp.handlers.hover, {
+			border = "single" 
+		}
+	)
+	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+		vim.lsp.handlers.signature_help, {
+			border = "single"
+		}
+	)
+
 	local opts = { noremap=true, silent=true }		
-	local function nnoremap(...) vim.api.nvim_buf_set_keymap(bufnr, 'n', ..., opts) end		
+	local function nnoremap(lhs, rhs) vim.api.nvim_buf_set_keymap(bufnr, 'n', lhs, rhs, opts) end		
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
 	-- Mappings.		
@@ -57,7 +23,8 @@ local function on_attach(client, bufnr)
 	nnoremap('gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')		
 	nnoremap('K', '<Cmd>lua vim.lsp.buf.hover({border = "single"})<CR>')		
 	nnoremap('<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')		
-	nnoremap('gr', '<cmd>lua lsp_rename()<CR>')		
+	nnoremap('gr', '<cmd>lua require"lsp_ext.rename".request()<CR>')		
+	nnoremap('gf', '<cmd>lua require"lsp_ext.action".request()<CR>')		
 	nnoremap('[e', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')		
 	nnoremap(']e', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')		
 

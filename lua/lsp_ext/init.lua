@@ -3,17 +3,6 @@ local M = {}
 
 require('vim.lsp.log').set_level("error")
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-	vim.lsp.handlers.hover, {
-		border = "single" 
-	}
-)
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-	vim.lsp.handlers.signature_help, {
-		border = "single"
-	}
-)
-
 require('lsp_ext.server')
 
 vim.cmd "hi link LspError ErrorMsg"
