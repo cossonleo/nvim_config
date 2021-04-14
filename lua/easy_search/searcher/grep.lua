@@ -168,16 +168,17 @@ end
 
 function M.search()
 	local default = vim.fn.expand('<cword>')
-	function easy_search_grep_completion(A, L, P)
-		return {default}
-	end
+	--function easy_search_grep_completion(A, L, P)
+	--	return {default}
+	--end
 
 	vim.cmd "echohl Error"
 	vim.fn.inputsave()
 	local input = vim.fn.input({
 		prompt = 'rg> ',
+		default = default,
 		highlight = easy_search_grep_hl,
-		completion="customlist,v:lua.easy_search_grep_completion"
+		--completion="customlist,v:lua.easy_search_grep_completion"
 	})
 	vim.fn.inputrestore()
 	vim.cmd "echohl None"

@@ -9,13 +9,13 @@ local function init_rename_buf()
 	local opts = {silent = true}
 	local function inoremap(lhs, rhs) vim.api.nvim_buf_set_keymap(buf, "i", lhs, rhs, opts) end
 
-	inoremap("<cr>", "<c-o><cmd>lua on_lsp_rename_request()<cr>")
-	inoremap("<esc>", "<c-o><cmd>lua on_lsp_rename_close_win()<cr>")
-	inoremap("<c-[>", "<c-o><cmd>lua on_lsp_rename_close_win()<cr>")
-	inoremap("<c-o>", "<c-o><cmd>lua on_lsp_rename_close_win()<cr>")
+	inoremap("<cr>", "<c-o><cmd>lua nvim.lsp.rename_request()<cr>")
+	inoremap("<esc>", "<c-o><cmd>lua nvim.lsp.close_rename_win()<cr>")
+	inoremap("<c-[>", "<c-o><cmd>lua nvim.lsp.close_rename_win()<cr>")
+	inoremap("<c-o>", "<c-o><cmd>lua nvim.lsp.close_rename_win()<cr>")
 end
 
-function on_lsp_rename_close_win()
+nvim.lsp.close_rename_win = function()
 	if win > 0 then
 		vim.api.nvim_win_close(win, true)
 		win = 0
@@ -23,14 +23,14 @@ function on_lsp_rename_close_win()
 	vim.cmd "stopinsert"
 end
 
-function on_lsp_rename_request()
+nvim.lsp.rename_request = function()
 	local lines = vim.api.nvim_buf_get_lines(buf, 0, 1, false)
 	local word = lines[1]
 	on_lsp_rename_close_win()
 	vim.lsp.buf.rename(word)
 end
 
-function lsp_rename()
+nvim.lsp.rename = function()
 	if vim.o.lines - vim.o.cmdheight < 3 then
 		vim.lsp.buf.rename() 
 		return
@@ -45,7 +45,3 @@ function lsp_rename()
 		vim.cmd "startinsert!"
 	end
 end
-
-return {
-	request = lsp_rename, 
-}

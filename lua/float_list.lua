@@ -103,12 +103,11 @@ function Widget:reset(data, ext_key)
 end
 
 function Widget:init_key_map(ext_key)
-	local spec_key = nl_global.spec_key
 	self.key_map = {
-		[spec_key.esc] = function() self:close_win(); return false end,
-		[spec_key.cr] = function() self:on_enter(); return false end,
-		[spec_key.c_j] = function() self:move_next(); return true end,
-		[spec_key.c_k] = function() self:move_pre(); return true end,
+		[nvim.keystroke["<esc>"]] = function() self:close_win(); return false end,
+		[nvim.keystroke["<cr>"]] = function() self:on_enter(); return false end,
+		[nvim.keystroke["<c-j>"]] = function() self:move_next(); return true end,
+		[nvim.keystroke["<c-k>"]] = function() self:move_pre(); return true end,
 	}
 
 	if not ext_key then return end

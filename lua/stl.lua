@@ -5,7 +5,7 @@ function stl_ts()
 end
 
 function stl_file_size()
-	vim.b.cur_fsize = nvim_eutil.cur_file_size()
+	vim.b.cur_fsize = nvim.util.cur_file_size()
 end
 
 function stl_lsp_info()
@@ -14,7 +14,7 @@ end
 
 function stl_file_name(len)
 	local len = len or 50
-	vim.b.fit_len_fname = nvim_eutil.buf_path()
+	vim.b.fit_len_fname = nvim.util.buf_path()
 end
 
 local function set(...)

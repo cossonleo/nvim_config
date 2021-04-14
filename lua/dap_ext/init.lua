@@ -1,5 +1,5 @@
 
-local action_map = nvim_eutil.call_once(function()
+local action_map = nvim.util.call_once(function()
 	local dap = require'dap'
 	return {
 		toggle_breakpoint = dap.toggle_breakpoint,

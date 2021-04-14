@@ -1,6 +1,7 @@
 
-local function on_attach(client, bufnr)		
+local init = nvim.util.call_once(function()
 	require'lsp_ext.action'
+	require'lsp_ext.rename'
 
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
 		vim.lsp.handlers.hover, {
@@ -12,7 +13,11 @@ local function on_attach(client, bufnr)
 			border = "single"
 		}
 	)
+end)
 
+
+local function on_attach(client, bufnr)		
+	init()
 	local opts = { noremap=true, silent=true }		
 	local function nnoremap(lhs, rhs) vim.api.nvim_buf_set_keymap(bufnr, 'n', lhs, rhs, opts) end		
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -23,8 +28,8 @@ local function on_attach(client, bufnr)
 	nnoremap('gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')		
 	nnoremap('K', '<Cmd>lua vim.lsp.buf.hover({border = "single"})<CR>')		
 	nnoremap('<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')		
-	nnoremap('gr', '<cmd>lua require"lsp_ext.rename".request()<CR>')		
-	nnoremap('gf', '<cmd>lua require"lsp_ext.action".request()<CR>')		
+	nnoremap('gr', '<cmd>lua nvim.lsp.rename()<CR>')		
+	nnoremap('gf', '<cmd>lua vim.lsp.buf.code_action()<CR>')		
 	nnoremap('[e', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')		
 	nnoremap(']e', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')		
 

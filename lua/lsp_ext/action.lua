@@ -46,7 +46,3 @@ vim.lsp.handlers['textDocument/codeAction'] = function(_, _, actions)
       end
   end, 0)
 end
-
-return {
-	request = vim.lsp.buf.code_action,
-}

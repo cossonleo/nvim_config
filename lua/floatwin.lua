@@ -33,19 +33,20 @@ function M.new_cursor_win(width, height, opts)
 	local win_pos = vim.api.nvim_win_get_position(0)
 	local win_line = vim.fn.winline() + win_pos[1] -- 1-based
 	local win_col = vim.fn.wincol() + win_pos[2]
-	local row
-	local col
-	if win_line + total_h <= lines then
-		row = 1
-		col = -1
-	elseif win_line > total_h then
-		row = -1 * total_h
-		col = -1
-	else
-		row = -1 * (win_line - 1)
-		col = 1
+
+	local calc_row_col = function()
+		if win_line + total_h <= lines then
+			return 1, -1
+		end
+		if win_line > total_h then
+			row = -1 * total_h
+			col = -1
+			return -1 * total_h, -1
+		end
+		return -1 * (win_line - 1), 1
 	end
 
+	local row, col = calc_row_col()
 	if total_w + win_col + col - 1  > columns then
 		local temp = total_w + win_col - columns - 1
 		if temp < win_col then

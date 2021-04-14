@@ -70,13 +70,7 @@ local function apply_completed_item(on_select)
 	last_ctx.changedtick = vim.b.changedtick
 end
 
-local spec_keys = {
-	["<cr>"] = vim.fn.nr2char(13),
-	["<c-y>"] = vim.fn.nr2char(25),
-}
-
 local handlers = {}
-
 handlers.TextChangedP = function()
 	log.trace("text changed p")
 	local complete_info = vim.fn.complete_info({'pum_visible', 'selected', 'inserted'})
@@ -128,11 +122,11 @@ end
 
 handlers.CompleteDone = function() 
 	if vim.fn.pumvisible() == 0 then
-		return spec_keys["<cr>"]
+		return nvim.keystroke["<cr>"]
 	end
 
 	apply_completed_item()
-	return spec_keys["<c-y>"]
+	return nvim.keystroke["<c-y>"]
 end
 
 return {

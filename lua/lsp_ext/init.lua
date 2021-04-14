@@ -1,6 +1,8 @@
 
 local M = {}
 
+nvim.lsp = nvim.lsp or {}
+
 require('vim.lsp.log').set_level("error")
 
 require('lsp_ext.server')
