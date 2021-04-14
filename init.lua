@@ -94,16 +94,16 @@ end
 
 nvim = nvim or {}
 nvim.keystroke = {
-	["<esc>"] = vim.fn.nr2char("\\<Esc>"),
-	["<cr>"] = vim.fn.nr2char("\\<CR>"),
+	["<esc>"] = vim.fn.nr2char(27),
+	["<cr>"] = vim.fn.nr2char(13),
 	["<bs>"] = vim.fn.nr2char("\\<BS>"),
 	["<del>"] = vim.fn.nr2char("\\<Del>"),
-	["<c-j>"] = vim.fn.nr2char("\\<C-j>"),
-	["<c-k>"] = vim.fn.nr2char("\\<C-k>"),
-	["<c-o>"] = vim.fn.nr2char("\\<C-o>"),
-	["<c-[>"] = vim.fn.nr2char("\\<C-[>"),
-	["<c-]>"] = vim.fn.nr2char("\\<C-]>"),
-	["<c-y>"] = vim.fn.nr2char("\\<C-y>"),
+	["<c-j>"] = vim.fn.nr2char(10),
+	["<c-k>"] = vim.fn.nr2char(11),
+	["<c-o>"] = vim.fn.nr2char(15),
+	["<c-y>"] = vim.fn.nr2char(25),
+	["<c-[>"] = vim.fn.nr2char(27),
+	["<c-]>"] = vim.fn.nr2char(29),
 }
 
 require 'nvim_eutil'

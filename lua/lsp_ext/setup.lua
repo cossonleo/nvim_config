@@ -1,5 +1,14 @@
 
-local init = nvim.util.call_once(function()
+local lspconfig = require'lspconfig'
+
+local function capabilities()
+	local abilities = vim.lsp.protocol.make_client_capabilities()
+	abilities.textDocument.completion.completionItem.snippetSupport = true
+	abilities.textDocument.completion.contextSupport = true
+	return abilities
+end
+
+local handle_config = nvim.util.call_once(function()
 	require'lsp_ext.action'
 	require'lsp_ext.rename'
 
@@ -15,9 +24,8 @@ local init = nvim.util.call_once(function()
 	)
 end)
 
-
 local function on_attach(client, bufnr)		
-	init()
+	handle_config()
 	local opts = { noremap=true, silent=true }		
 	local function nnoremap(lhs, rhs) vim.api.nvim_buf_set_keymap(bufnr, 'n', lhs, rhs, opts) end		
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -59,8 +67,34 @@ local function on_attach(client, bufnr)
 --		augroup END		
 --	]], false)		
 --	end		
-end		
+end
 
-return {
-	on_attach = on_attach,
+local config = {
+	capabilities = capabilities(),
+	on_attach = on_attach, 
+	settings = {
+		gopls = { 
+			usePlaceholders = true
+		},
+		["rust-analyzer"] = {
+			cargo = {
+				loadOutDirsFromCheck = false,
+			},
+			procMacro = {
+				enable = true
+			},
+		},
+	},
+--	on_init = function(client)
+--		if client.config.flags then
+--			client.config.flags.allow_incremental_sync = true
+--		else
+--			client.config.flags = {}
+--			client.config.flags.allow_incremental_sync = true
+--		end
+--	end,
 }
+
+for _, serv in ipairs(nvim.lsp.servers or {}) do
+	lspconfig[serv].setup(config)
+end

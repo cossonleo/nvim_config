@@ -2,13 +2,18 @@
 local M = {}
 
 nvim.lsp = nvim.lsp or {}
-
-require('vim.lsp.log').set_level("error")
-
-require('lsp_ext.server')
+nvim.lsp.servers = {
+	"pyls",
+	"clangd",
+	"gopls",
+	"rust_analyzer",
+}
 
 vim.cmd "hi link LspError ErrorMsg"
 vim.cmd "hi link LspWarning WarningMsg"
+
+require('vim.lsp.log').set_level("error")
+require('lsp_ext.setup')
 
 function M.statusline()
 	if vim.fn.mode() == "n" then
