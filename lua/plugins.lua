@@ -29,6 +29,7 @@ local function plug_list()
 	--use 'p00f/nvim-ts-rainbow'
 	use { 'neovim/nvim-lspconfig', config = config.nvim_lsp }
 	-- use { 'kyazdani42/nvim-tree.lua', config = config.nvim_tree }
+	-- use { 'sunjon/shade.nvim', config = config.shade }
 end
 
 function config.onedark()
@@ -102,6 +103,18 @@ end
 
 function config.dap()
 	require("dap_ext")
+end
+
+function config.shade()
+	require'shade'.setup({
+		overlay_opacity = 60,
+		opacity_step = 1,
+		keys = {
+			brightness_up = '<C-Up>',
+			brightness_down	= '<C-Down>',
+			toggle = '<Leader>p',
+		}
+	})
 end
 
 plug_list()

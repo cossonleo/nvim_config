@@ -3,7 +3,7 @@ local lspconfig = require'lspconfig'
 
 local function capabilities()
 	local abilities = vim.lsp.protocol.make_client_capabilities()
-	abilities.textDocument.completion.completionItem.snippetSupport = true
+	abilities.textDocument.completion.completionItem.snippetSupport = false
 	abilities.textDocument.completion.contextSupport = true
 	return abilities
 end

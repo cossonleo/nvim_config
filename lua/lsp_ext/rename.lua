@@ -26,7 +26,7 @@ end
 nvim.lsp.rename_request = function()
 	local lines = vim.api.nvim_buf_get_lines(buf, 0, 1, false)
 	local word = lines[1]
-	on_lsp_rename_close_win()
+	nvim.lsp.close_rename_win()
 	vim.lsp.buf.rename(word)
 end
 
