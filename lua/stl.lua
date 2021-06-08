@@ -25,18 +25,18 @@ local function set(...)
 end
 
 set(
-	[[%{get(b:,'cur_fsize','')}]],
-	[[%{get(b:,'fit_len_fname','')}]],
+	[[%y]],
 	[[%m%r%h%w%q]],
 	[[%=]],
 	[[%{v:lua.stl_lsp_info()}]],
 	[[%{luaeval('require"ts_ext".statusline()')}]],
-	[[%y]],
 	[[(%l,%c)/%L]],
 	[[%{(&fenc!=''?&fenc:&enc)}]],
 	[[%{(&bomb?",BOM":"")}]]
 )
 
 vim.cmd[[au FileType netrw,LuaTree setl stl=%*\ line:%l/%L]]
-vim.cmd[[au BufWritePost,BufReadPost * lua stl_file_name(50)]]
+--vim.cmd[[au BufWritePost,BufReadPost * lua stl_file_name(50)]]
 vim.cmd[[au BufWritePost,BufReadPost * lua stl_file_size(50)]]
+
+vim.o.tabline = " %{tabpagenr()}%=%{expand('%:p')}%=%{get(b:,'cur_fsize','')} "

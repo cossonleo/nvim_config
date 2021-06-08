@@ -12,6 +12,7 @@ local function plug_list()
 	use 'jiangmiao/auto-pairs'
 	------ use 'chrisbra/csv.vim'
 	use 'kyazdani42/nvim-web-devicons'
+	use 'kabouzeid/nvim-lspinstall'
 	--use 'nvim-lua/popup.nvim'
 	--use 'nvim-lua/plenary.nvim'
 	use 'whiteinge/diffconflicts'
@@ -25,6 +26,7 @@ local function plug_list()
 	--use { 'norcalli/nvim-colorizer.lua', config = config.nvim_colorizer }
 	use { 'voldikss/vim-translator', config = config.vim_translator }
 	use { 'nvim-treesitter/nvim-treesitter', config = config.nvim_treesitter }
+	use 'p00f/nvim-ts-rainbow'
 	--use 'romgrk/nvim-treesitter-context'
 	--use 'p00f/nvim-ts-rainbow'
 	use { 'neovim/nvim-lspconfig', config = config.nvim_lsp }
@@ -79,9 +81,11 @@ function config.nvim_treesitter()
 		incremental_selection = {
 			enable = false,
 		},
-		--rainbow	= {
-		--	enable	= true,
-		--},
+		rainbow = {
+			enable = true,
+			extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+			max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
+		}
 	}
 end
 

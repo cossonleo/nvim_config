@@ -98,3 +98,9 @@ local config = {
 for _, serv in ipairs(nvim.lsp.servers or {}) do
 	lspconfig[serv].setup(config)
 end
+
+require'lspinstall'.setup() -- important
+local servers = require'lspinstall'.installed_servers()
+for _, server in pairs(servers) do
+  require'lspconfig'[server].setup(config)
+end

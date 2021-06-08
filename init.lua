@@ -24,6 +24,7 @@ vim.o.wildmode = 'longest,full'
 vim.o.fileencodings = 'utf-8,ucs-bom,gb2312,gbk,gb18030,latin1'
 vim.o.mouse = 'nvic'
 vim.o.mousemodel = 'popup'
+vim.o.showtabline = 2
 vim.wo.cursorline = true
 vim.wo.number = true
 vim.wo.relativenumber = true
@@ -117,6 +118,7 @@ require 'ts_ext'
 require 'dirdiff'
 require 'float_term'
 require 'hi'
+
 
 --vim.api.nvim_register_filterfunc(function(prefix, match)
 --	print("prefix nil", prefix == nil)
