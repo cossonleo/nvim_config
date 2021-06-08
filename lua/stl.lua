@@ -21,16 +21,16 @@ local function set(...)
 	local args = { ... }
 	local sep = [[ %#StatusLine#]]
 	local stl = table.concat(args, sep)
-	vim.o.stl = sep .. stl
+	vim.o.stl = "%#StatusLine#" .. stl
 end
 
 set(
 	[[%y]],
+	[[%{luaeval('require"ts_ext".statusline()')}]],
 	[[%m%r%h%w%q]],
 	[[%=]],
 	[[%{v:lua.stl_lsp_info()}]],
-	[[%{luaeval('require"ts_ext".statusline()')}]],
-	[[(%l,%c)/%L]],
+	[[line:%l/%L col:%c]],
 	[[%{(&fenc!=''?&fenc:&enc)}]],
 	[[%{(&bomb?",BOM":"")}]]
 )
