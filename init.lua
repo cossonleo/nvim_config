@@ -30,8 +30,8 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.cursorcolumn = false
 
-vim.o.t_8f = "\\<Esc>[38;2;%lu;%lu;%lum"
-vim.o.t_8b = "\\<Esc>[48;2;%lu;%lu;%lum"
+--vim.o.t_8f = "\\<Esc>[38;2;%lu;%lu;%lum"
+--vim.o.t_8b = "\\<Esc>[48;2;%lu;%lu;%lum"
 
 vim.o.guifont="Source_Code_Pro:h20:w20"
 
@@ -63,6 +63,8 @@ function goto_last_pos()
 	end
 end
 
+--------------------------------------
+
 --if has('win32') || has('win64')
 --	set guifont=:h20
 --endif
@@ -71,6 +73,8 @@ end
 --    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 --    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 --endif
+--
+---------------------------------------
 
 vim.g.netrw_liststyle = 3
 vim.cmd[[nnoremap <silent> <leader>e :20Lexplore<cr>]]
