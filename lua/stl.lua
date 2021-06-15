@@ -24,9 +24,10 @@ local function set(...)
 	vim.o.stl = "%#StatusLine#" .. stl
 end
 
+	--[[%{luaeval('require"ts_ext".statusline()')}]]
 set(
 	[[%y]],
-	[[%{luaeval('require"ts_ext".statusline()')}]],
+	[[%{nvim_treesitter#statusline()}]],
 	[[%m%r%h%w%q]],
 	[[%=]],
 	[[%{v:lua.stl_lsp_info()}]],
