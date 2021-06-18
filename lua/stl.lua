@@ -40,4 +40,4 @@ vim.cmd[[au FileType netrw,LuaTree setl stl=%*\ line:%l/%L]]
 --vim.cmd[[au BufWritePost,BufReadPost * lua stl_file_name(50)]]
 vim.cmd[[au BufWritePost,BufReadPost * lua stl_file_size(50)]]
 
-vim.o.tabline = " %{tabpagenr()}%=%{expand('%:p')}%=%{get(b:,'cur_fsize','')} "
+vim.o.tabline = " t:%{tabpagenr()} b:%{bufnr()}%=%{expand('%:p')}%=%{get(b:,'cur_fsize','')} "
