@@ -70,6 +70,10 @@ function config.nvim_treesitter()
 	local has, ts = pcall(require, 'nvim-treesitter.configs')
 	if not has then return end
 
+	vim.wo.foldmethod="expr"
+	vim.wo.foldexpr="nvim_treesitter#foldexpr()"
+	vim.wo.foldenable = false
+
 	ts.setup {
 		ensure_installed = 'all', -- one of 'all', 'language', or a list of languages
 		highlight = { 

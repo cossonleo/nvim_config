@@ -24,9 +24,10 @@ local function set(...)
 	vim.o.stl = "%#StatusLine#" .. stl
 end
 
+	--[[%{luaeval('require"ts_ext".statusline()')}]]
 set(
 	[[%y]],
-	[[%{luaeval('require"ts_ext".statusline()')}]],
+	[[%{nvim_treesitter#statusline()}]],
 	[[%m%r%h%w%q]],
 	[[%=]],
 	[[%{v:lua.stl_lsp_info()}]],
@@ -39,4 +40,4 @@ vim.cmd[[au FileType netrw,LuaTree setl stl=%*\ line:%l/%L]]
 --vim.cmd[[au BufWritePost,BufReadPost * lua stl_file_name(50)]]
 vim.cmd[[au BufWritePost,BufReadPost * lua stl_file_size(50)]]
 
-vim.o.tabline = " %{tabpagenr()}%=%{expand('%:p')}%=%{get(b:,'cur_fsize','')} "
+vim.o.tabline = " t:%{tabpagenr()} b:%{bufnr()}%=%{expand('%:p')}%=%{get(b:,'cur_fsize','')} "

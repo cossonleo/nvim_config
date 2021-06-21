@@ -125,6 +125,7 @@ local function set_buf()
 	end
 
 	vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
+	refresh_sign()
 end
 
 local function new(data, conf)
