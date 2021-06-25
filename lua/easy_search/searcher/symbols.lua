@@ -4,10 +4,11 @@ local sym_item = {
 	line = 0,
 	col = 0,
 	text = "",
+	kind = "",
 }
 
 function sym_item:tips()
-	return string.format("%-10d", self.line)
+	return string.format("%-4d %-12s", self.line, self.kind)
 end
 
 function sym_item:searched_str()
@@ -20,10 +21,9 @@ function sym_item:do_item()
 	end
 end
 
-function sym_item:new(line, col, text)
-	local item = {line = line, col = col, text = text}
-	setmetatable(item, {__index = self})
-	return item
+function sym_item:new(sym)
+	setmetatable(sym, {__index = self})
+	return sym
 end
 
 function M.search()
@@ -35,7 +35,7 @@ function M.search()
 
 	local items = {}
 	for _, sym in ipairs(symbols) do
-		table.insert(items, sym_item:new(sym.line, sym.col, sym.text))
+		table.insert(items, sym_item:new(sym))
 	end
 
 	if vim.tbl_isempty(items) then

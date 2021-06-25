@@ -28,7 +28,7 @@ local esc_key = vim.fn.nr2char(27)
 --endfunction
 --]], {})
 
-function loop(c)
+local loop = function (c)
 	if win == 0 then
 		return
 	end

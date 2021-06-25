@@ -107,6 +107,66 @@ function _get_all_context()
 	return context_node
 end
 
+local function is_need_define_kind(kind)
+	if kind == "method" then return true end
+	if kind == "function" then return true end
+	if kind == "type" then return true end
+	if kind == "macro" then return true end
+	if kind == "namespace" then return true end
+	if kind == "enum" then return true end
+	return false
+end
+
+local function prepare_match(entry, kind)
+	local entries = {}
+
+	if entry.node then
+		if not is_need_define_kind(kind) then return entries end
+		entry["kind"] = kind
+		table.insert(entries, entry)
+	else
+		for name, item in pairs(entry) do
+			vim.list_extend(entries, prepare_match(item, name))
+		end
+	end
+
+	return entries
+end
+
+function _get_all_context_from_telescope()
+  local has_nvim_treesitter, _ = pcall(require, 'nvim-treesitter')
+  if not has_nvim_treesitter then
+    print('You need to install nvim-treesitter')
+    return
+  end
+
+  local parsers = require('nvim-treesitter.parsers')
+  if not parsers.has_parser() then
+    print('No parser for the current buffer')
+    return
+  end
+
+  local ts_locals = require('nvim-treesitter.locals')
+  local bufnr = vim.api.nvim_get_current_buf()
+
+  local results = {}
+  for _, definitions in ipairs(ts_locals.get_definitions(bufnr)) do
+    local entries = prepare_match(definitions)
+    for _, entry in ipairs(entries) do
+      table.insert(results, entry)
+    end
+  end
+
+	local context_node = {}
+	local count = 0
+	for _, inode in ipairs(results) do
+		local inode_start, inode_col = inode.node:start()
+		local text =  get_node_text(bufnr, inode.node)
+		table.insert(context_node, {line = inode_start, col = inode_col, kind = inode.kind, text = text})
+	end
+	return context_node
+end
+
 --function _goto_smallest_decl_context(is_start)
 --	if not check_and_reset_env() then return "" end
 --	if not _context_cache:check_hit() then 
@@ -122,7 +182,7 @@ end
 return {
 	on_filetype = on_filetype,
 	statusline = _get_smallest_decl_context,
-	get_all_context = _get_all_context,
+	get_all_context = _get_all_context_from_telescope,
 	--M.goto_context_start = function() _goto_smallest_decl_context(true) end
 	--M.goto_context_end = function() _goto_smallest_decl_context(false) end
 	--goto_pre_context = _goto_smallest_decl_context,
