@@ -77,7 +77,9 @@ end
 ---------------------------------------
 
 vim.g.netrw_liststyle = 3
-vim.cmd[[nnoremap <silent> <leader>e :20Lexplore<cr>]]
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 20
+vim.cmd[[nnoremap <silent> <leader>e :Lexplore<cr>]]
 vim.cmd[[autocmd VimEnter * lua open_netrw_on_enter()]]
 function open_netrw_on_enter()
 	if vim.fn.argc() ~= 1 then return end
@@ -85,7 +87,7 @@ function open_netrw_on_enter()
 	local argv = vim.fn.argv()[1]
 	if argv then
 		if vim.fn.isdirectory(argv) == 0 then return end
-		cmds = {"enew", "cd " .. argv, "20Lexplore"}
+		cmds = {"enew", "cd " .. argv, "Lexplore"}
 	end
 
 	for _, cmd in ipairs(cmds) do
