@@ -21,7 +21,8 @@ local function plug_list()
 	--use { 'luochen1990/rainbow', config = config.rainbow }
 	--use { 'joshdick/onedark.vim', config = config.onedark }
 	--use {'preservim/nerdtree', config = config.nerdtree}
-	use {'overcache/NeoSolarized', config = config.solarized}
+	--use {'overcache/NeoSolarized', config = config.solarized}
+	use { 'ishan9299/nvim-solarized-lua' , config = config.solarized }
 	--use { 'voldikss/vim-floaterm', config = config.vim_floaterm }
 	--use { 'norcalli/nvim-colorizer.lua', config = config.nvim_colorizer }
 	use { 'voldikss/vim-translator', config = config.vim_translator }
@@ -41,7 +42,8 @@ end
 
 function config.solarized()
 	vim.o.background = 'light'
-	pcall(vim.cmd, [[ colorscheme NeoSolarized ]])
+	vim.cmd('colorscheme solarized')
+	--pcall(vim.cmd, [[ colorscheme NeoSolarized ]])
 end
 
 function config.vim_floaterm()
