@@ -3,28 +3,27 @@ local sugar = require'share_sugar'
 
 local buffer_ts = {}
 local ft_ts = {}
-local QUERY_GROUP = "context"
 
 local function on_filetype()
 	local cur_ft = vim.bo.filetype
 
-	local query = queries.get_query(cur_ft, QUERY_GROUP)
-	if query == nil then return end
+--	local query = queries.get_query(cur_ft, QUERY_GROUP)
+--	if query == nil then return end
 
     local parser = vim.treesitter.get_parser(0, cur_ft)
 	if not parser then return end
 
 	local buffer = sugar.buf_id()
-	buffer_ts[buffer] = {parser = parser, query = query, ft = cur_ft}
+	buffer_ts[buffer] = {parser = parser, ft = cur_ft}
 
-	local temp = ft_ts[cur_ft]
-	if temp then return end
-	temp = {}
-	for id, kind in ipairs(query.captures) do
-		if kind == "context_name" then temp.name = id end
-		if kind == "scope" then temp.scope = id end
-	end
-	ft_ts[cur_ft] = temp
+	--local temp = ft_ts[cur_ft]
+	--if temp then return end
+	--temp = {}
+	--for id, kind in ipairs(query.captures) do
+	--	if kind == "context_name" then temp.name = id end
+	--	if kind == "scope" then temp.scope = id end
+	--end
+	--ft_ts[cur_ft] = temp
 end
 
 local function get_node_text(buffer, node)
@@ -44,6 +43,14 @@ local function get_root_node()
 	return tstree[1]:root()
 end
 
+local function is_inside_node(pos, node)
+	local start, _, tail, _ = node:range()
+	if start <=  pos[1] and pos[1] <= tail then
+		return true
+	end
+	return false
+end
+
 function _get_smallest_decl_context()
 	local buf = sugar.buf_id()
 	local pos = sugar.get_cur_pos()
@@ -51,60 +58,55 @@ function _get_smallest_decl_context()
 	local bt = buffer_ts[buf]
 	if not bt then return "" end
 
-	local cap_map = ft_ts[bt.ft]
-	if not cap_map then return "" end
-
 	local root = get_root_node()
 	if not root then return "" end
 
-	local range_node = {}
-	local count = 0
-	for id, inode in bt.query:iter_captures(root, 0, pos[1], pos[1] + 1) do
-		count = count + 1
-		if id == cap_map.scope then
-			table.insert(range_node, 1, inode)
+	-- 二分查找法搜索节点
+	local cur_node = root
+	local index_offset = 0
+	local count = root:child_count()
+	local texts = {}
+	local sep_str = ""
+	while(count > 0) do
+		local index = index_offset
+		local half = 0
+		if count > 1 then
+			half = math.ceil(count / 2)
+			index = index + half - 1
+		else
+			count = 0
 		end
-	end
+		local select = cur_node:child(index)
+		local start, _, tail, _ = select:range()
+		if is_inside_node(pos, select) then
+			-- start_child 为了而兼容lua
+			local text, next_scope, start_child = context_check(select)
+			if #text > 0 then
+				table.insert(texts, text)
+			end
+			if not next_scope then
+				break
+			end
 
-	if #range_node == 0 then return "" end
-	for _, inode in ipairs(range_node) do
-		local start, _ = inode:start()
-		for id, inode in bt.query:iter_captures(inode, 0, start, pos[1] + 1) do
-			if id == cap_map.name then
-
-				return get_node_text(buf, inode)
+			-- 检查位置是否在下一个范围
+			-- 当位置停留在函数名上， 就停止检查
+			if is_inside_node(pos, next_scope) then
+				cur_node = next_scope
+				index_offset = 0
+				count = cur_node:child_count()
+			else
+				break
+			end
+		else
+			if pos[0] < start then 
+				count = half - 1
+			else
+				index_offset = index_offset + half
+				count = count - half
 			end
 		end
 	end
-	return ""
-end
-
-function _get_all_context()
-	local buf = sugar.buf_id()
-	local pos = sugar.get_cur_pos()
-
-	local bt = buffer_ts[buf]
-	if not bt then return nil end
-
-	local cap_map = ft_ts[bt.ft]
-	if not cap_map then return nil end
-
-	local root = get_root_node()
-	if not root then return nil end
-
-	local root_start, _, root_end, _ = root:range()
-
-	local context_node = {}
-	local count = 0
-	for id, inode in bt.query:iter_captures(root, 0, root_start, root_end + 1) do
-		count = count + 1
-		if id == cap_map.name then
-			local inode_start, inode_col = inode:start()
-			local text =  get_node_text(buf, inode)
-			table.insert(context_node, {line = inode_start, col = inode_col, text = text})
-		end
-	end
-	return context_node
+	return table.concat(texts, "->")
 end
 
 local function is_need_define_kind(kind)
