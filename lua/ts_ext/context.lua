@@ -80,23 +80,17 @@ function _get_smallest_decl_context()
 		local start, _, tail, _ = select:range()
 		if is_inside_node(pos, select) then
 			-- start_child 为了而兼容lua
-			local text, next_scope, start_child = context_check(select)
-			if #text > 0 then
-				table.insert(texts, text)
-			end
-			if not next_scope then
-				break
-			end
+			local text, next_scope, skip_childs = context_check(select)
+			if #text > 0 then table.insert(texts, text) end
+			if not next_scope then break end
 
 			-- 检查位置是否在下一个范围
 			-- 当位置停留在函数名上， 就停止检查
-			if is_inside_node(pos, next_scope) then
-				cur_node = next_scope
-				index_offset = 0
-				count = cur_node:child_count()
-			else
-				break
-			end
+			if not is_inside_node(pos, next_scope) then break end
+			cur_node = next_scope
+			index_offset = skip_childs
+			count = cur_node:child_count()
+			if count <= skip_childs then break end
 		else
 			if pos[0] < start then 
 				count = half - 1
