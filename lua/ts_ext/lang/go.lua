@@ -23,4 +23,6 @@ local type = {
 	end
 }
 
-return {func, method, type}
+return {
+	context = {func, method, type},
+}

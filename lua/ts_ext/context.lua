@@ -7,23 +7,11 @@ local ft_ts = {}
 local function on_filetype()
 	local cur_ft = vim.bo.filetype
 
---	local query = queries.get_query(cur_ft, QUERY_GROUP)
---	if query == nil then return end
-
     local parser = vim.treesitter.get_parser(0, cur_ft)
 	if not parser then return end
 
 	local buffer = sugar.buf_id()
 	buffer_ts[buffer] = {parser = parser, ft = cur_ft}
-
-	--local temp = ft_ts[cur_ft]
-	--if temp then return end
-	--temp = {}
-	--for id, kind in ipairs(query.captures) do
-	--	if kind == "context_name" then temp.name = id end
-	--	if kind == "scope" then temp.scope = id end
-	--end
-	--ft_ts[cur_ft] = temp
 end
 
 local function get_node_text(buffer, node)
