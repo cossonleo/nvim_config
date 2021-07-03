@@ -5,13 +5,13 @@ local buffer_ts = {}
 local ft_ts = {}
 
 local function on_filetype()
-	local cur_ft = vim.bo.filetype
+	--local cur_ft = vim.bo.filetype
 
-    local parser = vim.treesitter.get_parser(0, cur_ft)
-	if not parser then return end
+    --local parser = vim.treesitter.get_parser(0, cur_ft)
+	--if not parser then return end
 
-	local buffer = sugar.buf_id()
-	buffer_ts[buffer] = {parser = parser, ft = cur_ft}
+	--local buffer = sugar.buf_id()
+	--buffer_ts[buffer] = {parser = parser, ft = cur_ft}
 end
 
 local function get_node_text(buffer, node)
