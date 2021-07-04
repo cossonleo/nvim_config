@@ -128,7 +128,7 @@ nvim.keystroke = {
 	["<c-]>"] = vim.fn.nr2char(29),
 }
 
-require 'nvim_eutil'
+require 'gutil'
 
 require 'plugins'
 require 'easy_search'

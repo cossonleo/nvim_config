@@ -52,7 +52,7 @@ local function collect_by_rg()
 	local files = {}
 	local start = #pwd + 2
 	for p in vim.gsplit(str, "\n") do
-		if not require"path_ignore".is_ignore(p) then
+		if not nvim.is_ignore_path(p) then
 			local f = p:sub(start)
 			if #f > 0 then
 				table.insert(files, f)
@@ -64,10 +64,10 @@ end
 
 local function collect_by_builtin()
 	local pwd = vim.fn.getcwd(-1, 0)
-	local paths = require("share_sugar").scan_dir_rec(pwd, true) 
+	local paths = nvim.scan_dir_rec(pwd, true) 
 	local files = {}
 	for _, file in ipairs(paths) do
-		if not require"path_ignore".is_ignore(file) then
+		if not nvim.is_ignore_path(file) then
 			table.insert(files, file:sub(#pwd + 2))
 		end
 	end

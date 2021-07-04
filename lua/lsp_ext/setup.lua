@@ -8,7 +8,7 @@ local function capabilities()
 	return abilities
 end
 
-local handle_config = nvim.util.call_once(function()
+local handle_config = nvim.call_once(function()
 	require'lsp_ext.action'
 	require'lsp_ext.rename'
 
