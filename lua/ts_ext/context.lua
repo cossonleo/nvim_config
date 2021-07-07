@@ -1,6 +1,6 @@
 local queries = require'vim.treesitter.query'
 
-local support_lang = {"lua", "go"}
+local support_lang = {"go", "rust", "java", "php"}
 local buffer_ts = {}
 
 local function on_filetype()
@@ -20,7 +20,7 @@ end
 
 local function get_root_node()
 	local buf = nvim.buf_id()
-	local parser = parsers[buf].parser
+	local parser = buffer_ts[buf].parser
 	if not parser then return nil end
 
     local tstree = parser:parse()
@@ -63,13 +63,16 @@ function _get_smallest_decl_context()
 			count = 0
 		end
 		local select = cur_node:child(index)
+		if select == nil then
+			print("index:", index, "count:", count, "cur count:", cur_node:child_count())
+		end
 		local start, _, tail, _ = select:range()
 		if is_inside_node(pos, select) then
 			-- start_child 为了而兼容lua
-			local text, skip_childs = require('lang').context_check(select, bt.ft)
+			local text, skip_childs = require('ts_ext.lang').context_check(select, bt.ft)
 			if #text > 0 then table.insert(texts, text) end
-			count = select:child_count()
-			if count <= skip_childs then break end
+			count = select:child_count() - skip_childs
+			if count <= 0 then break end
 			local next_first = select:child(skip_childs)
 			local next_r, next_c, _ = next_first:start()
 			if pos[1] < next_r then break end
@@ -77,7 +80,7 @@ function _get_smallest_decl_context()
 			cur_node = select
 			index_offset = skip_childs
 		else
-			if pos[0] < start then 
+			if pos[1] < start then 
 				count = half - 1
 			else
 				index_offset = index_offset + half
