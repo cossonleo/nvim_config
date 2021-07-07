@@ -1,38 +1,41 @@
+nvim.call_once = function(f)
+	local called = false
+	local ret = nil 
+	return function()
+		if called then 
+			if ret then
+				return unpack(ret)
+			else
+				return nil
+			end
+		end
 
-local a = vim.api
-local path_ignore = require("path_ignore")
-
-local M = {}
-
--- (row, col) -- 0-based
-function M.get_cur_pos(buf)
-	local b = buf or 0
-	local pos = a.nvim_win_get_cursor(b)
-	return {pos[1] - 1, pos[2]}
+		called = true
+		local temp = { f() }
+		if #temp == 0 or #temp[1] == nil then
+			return
+		end
+		ret = temp
+		return unpack(ret)
+	end
 end
 
-function M.buf_id()
-	return a.nvim_get_current_buf()
-end
-
--- [start(row, col), end(row, col))
--- 0-based index
-function M.get_lines(buf, start, end_)
-	local lines = vim.api.nvim_buf_get_lines(buf, start[1], end_[1] + 1, false)
-	if #lines == 0 then return lines end
-	if #lines == end_[1] - start[1] + 1 then
-		lines[#lines] = lines[#lines]:sub(1, end_[2])
+nvim.echo = function(...)
+	local args = { ... }
+	local texts = {}
+	for _, arg in ipairs(args) do
+		local t = type(arg)
+		if t == "string" then
+			table.insert(texts, {t})
+		elseif t == "table" then
+			table.insert(texts, t)
+		end
 	end
-	if #lines[#lines] == 0 then
-		table.remove(lines)
-		return lines
-	end
-	lines[1] = lines[1]:sub(start[2] + 1)
-	return lines
+	vim.api.nvim_echo(texts, false, {})
 end
 
 -- 递归扫描目录
-function M.scan_dir_rec(path, ignore)
+nvim.scan_dir_rec = function(path, ignore)
 	local uv = vim.loop
 
 	if not path or #path == "" then
@@ -52,7 +55,7 @@ function M.scan_dir_rec(path, ignore)
 		end
 		for _, entry in ipairs(iter) do
 			local p = path .. "/" .. entry.name
-			if not ignore or not path_ignore.is_ignore(p) then
+			if not ignore or not nvim.is_ignore_path(p) then
 				if entry.type == "file" then
 					table.insert(vec, p)
 				elseif entry.type == "directory" then
@@ -75,7 +78,7 @@ function M.scan_dir_rec(path, ignore)
 end
 
 -- 是否符合首字母模糊匹配
-M.fuzzy_match = function(str, pattern)
+nvim.fuzzy_match = function(str, pattern)
 	local slen = str:len()
 	local plen = pattern:len()
 	local n = 1
@@ -100,5 +103,3 @@ M.fuzzy_match = function(str, pattern)
 	end
 	return sort_num
 end
-
-return M

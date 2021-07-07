@@ -1,17 +1,23 @@
 
-for _, key in ipairs({'f', 'F', 't', 'T'}) do
-	local cmd = string.format(
-		":lua require'quick_motion.quick_scope'.quick_scope('%s')<cr>",
-		key
-	)
-
-	vim.api.nvim_set_keymap(
-		"n",
-		key,
-		cmd,
-		{silent = true}
-	)
-end
+--local quick_motion_status = 0
+--local parsed_keys = {'f', 'F', 't', 'T'}
+--vim.register_keystroke_callback(function(k)
+--	if quick_motion_status == 1 then
+--		require'quick_motion.quick_scope'.clear_hl()
+--		quick_motion_status = 0
+--	end
+--	if not vim.tbl_contains(parsed_keys, k) then
+--		return
+--	end
+--
+--	if vim.api.nvim_get_mode().mode ~= "n" then return end
+--	quick_motion_status = 1
+--
+--	vim.schedule(function()
+--		require'quick_motion.quick_scope'.quick_scope(k)
+--	end)
+--
+--end, 0)
 
 vim.api.nvim_set_keymap(
 	"n",

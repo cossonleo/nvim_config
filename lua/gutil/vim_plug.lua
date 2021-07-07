@@ -1,9 +1,8 @@
 local std_config = vim.fn.stdpath("config")
 local config_fns = {}
 local plug_names = {}
-local M = {}
 
-function M.use(plug)
+nvim.use_plug = function(plug)
 	if type(plug) == "string" then
 		table.insert(plug_names, plug)
 		return
@@ -14,7 +13,7 @@ function M.use(plug)
 	end
 end
 
-function M.load()
+nvim.load_plugs = function()
 	vim.fn['plug#begin'](std_config .. "/plugged")
 	for _, plug in ipairs(plug_names) do
 		local cmd = [[Plug ']] .. plug .. [[']]
@@ -26,4 +25,3 @@ function M.load()
 		fn()
 	end
 end
-return M

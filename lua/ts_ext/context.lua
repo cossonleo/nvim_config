@@ -1,27 +1,25 @@
 local queries = require'vim.treesitter.query'
-local sugar = require'share_sugar'
 
+local support_lang = {"go", "rust", "java", "php"}
 local buffer_ts = {}
-local ft_ts = {}
 
 local function on_filetype()
-	--local cur_ft = vim.bo.filetype
-
-    --local parser = vim.treesitter.get_parser(0, cur_ft)
-	--if not parser then return end
-
-	--local buffer = sugar.buf_id()
-	--buffer_ts[buffer] = {parser = parser, ft = cur_ft}
+	local cur_ft = vim.bo.filetype
+	if not vim.tbl_contains(support_lang, cur_ft) then return end
+	local buffer = nvim.buf_id()
+    local parser = vim.treesitter.get_parser(buffer, cur_ft)
+	if not parser then return end
+	buffer_ts[buffer] = {parser = parser, ft = cur_ft}
 end
 
 local function get_node_text(buffer, node)
 	local start_row, start_col, end_row, end_col = node:range()
-	local lines = sugar.get_lines(buffer, { start_row, start_col }, { end_row, end_col })
+	local lines = nvim.get_lines(buffer, { start_row, start_col }, { end_row, end_col })
 	return table.concat(lines)
 end
 
 local function get_root_node()
-	local buf = sugar.buf_id()
+	local buf = nvim.buf_id()
 	local parser = buffer_ts[buf].parser
 	if not parser then return nil end
 
@@ -40,8 +38,8 @@ local function is_inside_node(pos, node)
 end
 
 function _get_smallest_decl_context()
-	local buf = sugar.buf_id()
-	local pos = sugar.get_cur_pos()
+	local buf = nvim.buf_id()
+	local pos = nvim.get_cur_pos()
 
 	local bt = buffer_ts[buf]
 	if not bt then return "" end
@@ -65,22 +63,24 @@ function _get_smallest_decl_context()
 			count = 0
 		end
 		local select = cur_node:child(index)
+		if select == nil then
+			print("index:", index, "count:", count, "cur count:", cur_node:child_count())
+		end
 		local start, _, tail, _ = select:range()
 		if is_inside_node(pos, select) then
 			-- start_child 为了而兼容lua
-			local text, next_scope, skip_childs = context_check(select)
+			local text, skip_childs = require('ts_ext.lang').context_check(select, bt.ft)
 			if #text > 0 then table.insert(texts, text) end
-			if not next_scope then break end
-
-			-- 检查位置是否在下一个范围
-			-- 当位置停留在函数名上， 就停止检查
-			if not is_inside_node(pos, next_scope) then break end
-			cur_node = next_scope
+			count = select:child_count() - skip_childs
+			if count <= 0 then break end
+			local next_first = select:child(skip_childs)
+			local next_r, next_c, _ = next_first:start()
+			if pos[1] < next_r then break end
+			if pos[1] == next_r and pos[2] < next_c then break end
+			cur_node = select
 			index_offset = skip_childs
-			count = cur_node:child_count()
-			if count <= skip_childs then break end
 		else
-			if pos[0] < start then 
+			if pos[1] < start then 
 				count = half - 1
 			else
 				index_offset = index_offset + half
@@ -88,7 +88,7 @@ function _get_smallest_decl_context()
 			end
 		end
 	end
-	return table.concat(texts, "->")
+	return table.concat(texts, " -> ")
 end
 
 local function is_need_define_kind(kind)

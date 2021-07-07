@@ -1,6 +1,6 @@
 local M = {}
 
-vim.g.path_ignore = {
+local ignore_path = {
 	"/%.[%w_]*$",
 	{"%s/../go.mod", "/vendor$"},
 	{"%s/../Cargo.toml", "/target$", "/vendor$"},
@@ -8,8 +8,8 @@ vim.g.path_ignore = {
 	{"%s/../init.lua", "/coc$"},
 }
 
-function M.is_ignore(path)
-	if not vim.g.path_ignore then
+nvim.is_ignore_path = function(path)
+	if not ignore_path then
 		return false
 	end
 
@@ -25,7 +25,7 @@ function M.is_ignore(path)
 		return false
 	end
 
-	for _, m in ipairs(vim.g.path_ignore) do
+	for _, m in ipairs(ignore_path) do
 		local t = type(m)
 		if t == "string" then
 			local s = path:find(m)
@@ -40,5 +40,3 @@ function M.is_ignore(path)
 	end
 	return false
 end
-
-return M

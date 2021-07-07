@@ -1,6 +1,4 @@
-local vim_plug = require'nvim_eutil.vim_plug'
-local use = vim_plug.use
-
+local use = nvim.use_plug
 local config = {}
 
 local function plug_list()
@@ -129,4 +127,4 @@ end
 
 plug_list()
 
-vim_plug.load()
+nvim.load_plugs()

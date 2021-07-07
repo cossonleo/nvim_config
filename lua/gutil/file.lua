@@ -1,6 +1,4 @@
-M = {}
-
-function M.file_size(path)
+nvim.get_file_size = function (path)
 	local size = vim.fn.getfsize(path)
 	if size <= 0 then
 		return ""
@@ -17,6 +15,11 @@ function M.file_size(path)
 	end
 
 	return ""
+end
+
+nvim.get_cur_file_size = function()
+	local cur_path = vim.fn.expand('%')
+	return nvim.get_file_size(cur_path)
 end
 
 local function path_relative(path, cmp)
@@ -46,7 +49,7 @@ local function path_relative(path, cmp)
 	return new
 end
 
-function M.file_name()
+nvim.get_cur_buf_name = function()
 	local path = vim.fn.expand('%:p')
 	local cwd = vim.fn.getcwd()
 	if vim.startswith(path, cwd) then
@@ -69,5 +72,3 @@ function M.file_name()
 	--local new = table.concat(elems, "/")
 	--return "/" .. new
 end
-
-return M

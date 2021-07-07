@@ -91,27 +91,6 @@ local function add_highlight_to_nexts(nexts)
 	end
 end
 
-local function exe_motion(motion, input)
-	if input == 27 then
-		 -- <esc>
-		return
-	end
-
-	vim.cmd("unmap " .. motion)
-	vim.api.nvim_feedkeys(motion .. vim.fn.nr2char(input), 'n', true)
-
-	local cmd = string.format(
-		":lua require'quick_motion.quick_scope'.quick_scope('%s')<cr>",
-		motion
-	)
-	vim.api.nvim_set_keymap(
-		"n",
-		motion,
-		cmd,
-		{silent = true}
-	)
-end
-
 local function quick_scope(motion)
 	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 	quick_row = row -1
@@ -130,13 +109,9 @@ local function quick_scope(motion)
 	end
 
 	add_highlight_to_nexts(nexts)
-	vim.schedule(function()
-		local input = vim.fn.getchar()
-		exe_motion(motion, input)
-		clear_hl()
-	end)
 end
 
 return {
-	quick_scope = quick_scope
+	quick_scope = quick_scope,
+	clear_hl = clear_hl,
 }

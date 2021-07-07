@@ -1,5 +1,3 @@
-local filter = require("share_sugar").fuzzy_match
-
 local data_vec = {}
 local show_vec = {}
 
@@ -89,7 +87,7 @@ local function set_show_vec()
 			table.insert(show_vec, {i = i})
 			goto continue
 		end
-		local match_info = filter(item:searched_str(), last_match_pattern)
+		local match_info = nvim.fuzzy_match(item:searched_str(), last_match_pattern)
 		if not match_info  then
 			goto continue
 		end
