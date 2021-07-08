@@ -1,6 +1,7 @@
 local queries = require'vim.treesitter.query'
 
-local support_lang = {"go", "rust", "java", "php"}
+--local support_lang = {"go", "rust", "java", "php"}
+local support_lang = {"go", "rust", "lua"}
 local buffer_ts = {}
 
 local function on_filetype()
@@ -88,7 +89,7 @@ function _get_smallest_decl_context()
 			end
 		end
 	end
-	return table.concat(texts, " -> ")
+	return table.concat(texts, "::")
 end
 
 local function is_need_define_kind(kind)
@@ -165,7 +166,7 @@ end
 
 return {
 	on_filetype = on_filetype,
-	statusline = _get_smallest_decl_context,
+	small_decl_context = _get_smallest_decl_context,
 	get_all_context = _get_all_context_from_telescope,
 	--M.goto_context_start = function() _goto_smallest_decl_context(true) end
 	--M.goto_context_end = function() _goto_smallest_decl_context(false) end

@@ -55,6 +55,25 @@ end
 local ns_id = vim.api.nvim_create_namespace("tttttttttttttest")
 vim.register_keystroke_callback(loop, ns_id)
 
+local function Aaa()
+	function ccc()
+
+	end
+
+end
+
+function B:Aaa()
+
+end
+
+function Aaa()
+
+end
+
+function C.Aaa()
+
+end
+
 
 --vim.schedule_wrap(loop)()
 --vim.defer_fn(loop, 0)

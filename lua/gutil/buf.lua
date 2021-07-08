@@ -27,3 +27,12 @@ nvim.get_lines = function(buf, start, end_)
 	lines[1] = lines[1]:sub(start[2] + 1)
 	return lines
 end
+
+-- 获取ts node文本信息的第一行
+nvim.get_node_text1 = function(node, buf)
+	buf = buf or 0
+	local sr, sc, er, ec = node:range()
+	local line = vim.api.nvim_buf_get_lines(buf, sr, sr + 1, false)[1]
+	if er > sr then return line:sub(sc + 1) end
+	return line:sub(sc + 1, ec)
+end

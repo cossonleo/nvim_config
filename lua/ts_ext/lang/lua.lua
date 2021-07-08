@@ -1,26 +1,29 @@
-local get_node_text = require'nvim-treesitter.ts_utils'.get_node_text;
+local get_text = nvim.get_node_text1
 
 local context_name = {}
 
-context_name.function_declaration = function(node, buf)
-	local text = table.concat(get_node_text(node:child(1), buf), ' ')
-	return 'func ' .. text, 4
+context_name.local_function = function(node, buf)
+	local c2 = node:child(2)
+	if c2 == nil then return '', 0 end
+	return get_text(c2), 4
 end
 
-context_name.method_declaration = function(node, buf)
-	local nc1 = node:child(1)
-	local nc2 = node:child(2)
-	local text1 = table.concat(get_node_text(nc1, buf), ' ')
-	local text2 = table.concat(get_node_text(nc2, buf), ' ')
-	return  text1 .. ' ' .. text2, 5
+context_name["function"] = function(node, buf)
+	local c1 = node:child(1)
+	if c1 == nil then return '', 0 end
+	return get_text(c1), 3
 end
 
-context_name.type_declaration = function(node)
-	local temp = node:child(1)
-	if temp then temp = temp:child(0) end
-	if not temp then return '', 0 end
-	local text = table.concat(get_node_text(temp, buf), ' ')
-	return 'type ' .. text, 1
+context_name.variable_declaration = function(node, buf)
+	local c2 = node:child(2)
+	if c2 == nil or c2:type() ~= "function_definition" then return '', 0 end
+	return get_text(node:child(0)), 3
+end
+
+context_name.local_variable_declaration = function(node, buf)
+	local c3 = node:child(3)
+	if c3 == nil or c3:type() ~= "function_definition" then return '', 0 end
+	return get_text(node:child(1)), 4
 end
 
 return {
