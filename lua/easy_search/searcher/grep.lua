@@ -172,7 +172,7 @@ function M.search()
 	--	return {default}
 	--end
 
-	vim.cmd "echohl Error"
+	vim.cmd "echohl Function"
 	vim.fn.inputsave()
 	local input = vim.fn.input({
 		prompt = 'rg> ',
