@@ -1,7 +1,7 @@
 local queries = require'vim.treesitter.query'
 
 --local support_lang = {"go", "rust", "java", "php"}
-local support_lang = {"go", "rust", "lua"}
+local support_lang = {"go", "rust", "lua", "python"}
 local buffer_ts = {}
 
 local function on_filetype()

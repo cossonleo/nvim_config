@@ -3,27 +3,28 @@ local get_text = nvim.get_node_text1
 local context_name = {}
 
 context_name.function_item  = function(node, buf)
+	local skip = node:child_count() - 1
 	local count = 1
 	local target = nil
 	repeat
 		target = node:child(count)
 		count = count + 1
 	until(target == nil or target:type() == "identifier")
-	if target == nil then return '', 0 end
+	if target == nil then return '', skip + 1 end
 	local text = get_text(target)
 	local pn = node:child(count)
-	if pn == nil then return text, count end
+	if pn == nil then return text, skip end
 	count = count + 1
 	if pn:child_count() == 2 then
-		return text .. '()', count
+		return text .. '()', skip
 	end
 	if pn:child(1):type() ~= "self_parameter" then
-		return text .. '(...)', count
+		return text .. '(...)', skip
 	end
 	if pn:child_count() == 3 then
-		return text .. '(self)', count
+		return text .. '(self)', skip
 	else
-		return text .. '(self, ...)', count
+		return text .. '(self, ...)', skip
 	end
 end
 
@@ -34,8 +35,8 @@ context_name.struct_item = function(node, buf)
 		target = node:child(count)
 		count = count + 1
 	until(target == nil or target:type() == "type_identifier")
-	if target == nil then return '', 0 end
-	return 'struct ' .. get_text(target), count
+	if target == nil then return '', node:child_count() end
+	return 'struct ' .. get_text(target), node:child_count()
 end
 
 context_name.enum_item = function(node, buf)
@@ -45,12 +46,12 @@ context_name.enum_item = function(node, buf)
 		target = node:child(count)
 		count = count + 1
 	until(target == nil or target:type() == "type_identifier")
-	if target == nil then return '', 0 end
-	return 'enum ' .. get_text(target), count
+	if target == nil then return '', node:child_count() end
+	return 'enum ' .. get_text(target), node:child_count()
 end
 
 context_name.macro_definition = function(node, buf)
-	return get_text(node:child(1)) .. '!', 2
+	return get_text(node:child(1)) .. '!', node:child_count()
 end
 
 context_name.mod_item  = function(node, buf)
@@ -62,14 +63,14 @@ context_name.mod_item  = function(node, buf)
 		text = get_text(node:child(2))
 		count = 3
 	else
-		return '', 0
+		return '', node:child_count()
 	end
-	return text, count
+	return text, node:child_count() - 1
 end
 
 context_name.impl_item = function(node, buf)
 	local cc = node:child_count()
-	if cc < 3 then return '', 0 end
+	if cc < 3 then return '', cc end
 	if cc == 3 then
 		return '<' .. get_text(node:child(1)) .. '>', 2
 	end
@@ -91,11 +92,11 @@ context_name.impl_item = function(node, buf)
 		cur_t = cur:type()
 	until(cur == nil or #texts > 1 or cur_t == "declaration_list")
 	local l = #texts
-	if l == 0 then return '', 0 end
+	if l == 0 then return '', cc - 1 end
 	local text = ''
 	if l == 1 then text = '<' .. texts[1] .. '>' end
 	if l == 2 then text = '<' .. texts[2] .. " as " .. texts[1] .. '>' end
-	return text, skip
+	return text, cc - 1
 end
 
 return {

@@ -1,0 +1,12 @@
+--
+--((class_declaration
+--  name: (name) @definition.type) @scope
+--    (set! definition.type.scope "parent"))
+--
+--((method_declaration
+--  name: (name) @definition.method) @scope
+--    (set! definition.method.scope "parent"))
+--
+--((function_definition
+--  name: (name) @definition.function) @scope
+--    (set! definition.function.scope "parent"))
