@@ -71,7 +71,7 @@ nvim.scan_dir_rec = function(path, ignore)
 	until tail
 
 	for _, sd in ipairs(sub_dir) do
-		local sub_f = M.scan_dir_rec(sd, ignore)
+		local sub_f = nvim.scan_dir_rec(sd, ignore)
 		vec = vim.list_extend(vec, sub_f)
 	end
 	return vec

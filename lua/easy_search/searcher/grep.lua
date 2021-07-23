@@ -34,7 +34,7 @@ local function grep(word)
 	local uv = vim.loop
 
 	local path = vim.fn.getcwd(-1, 0)
-	local files = require("share_sugar").scan_dir_rec(path, true)
+	local files = nvim.scan_dir_rec(path, true)
 	if #files == 0 then return end
 
 	local grep_op = {
