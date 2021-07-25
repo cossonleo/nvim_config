@@ -34,49 +34,6 @@ nvim.echo = function(...)
 	vim.api.nvim_echo(texts, false, {})
 end
 
--- 递归扫描目录
-nvim.scan_dir_rec = function(path, ignore)
-	local uv = vim.loop
-
-	if not path or #path == "" then
-		return {}
-	end
-
-	local dir = uv.fs_opendir(path, nil, 1000)
-	if not dir then return end
-
-	local vec = {}
-	local sub_dir = {}
-	local readdir = function()
-		local iter = uv.fs_readdir(dir)
-		if not iter or #iter == 0 then 
-			uv.fs_closedir(dir)
-			return true
-		end
-		for _, entry in ipairs(iter) do
-			local p = path .. "/" .. entry.name
-			if not ignore or not nvim.is_ignore_path(p) then
-				if entry.type == "file" then
-					table.insert(vec, p)
-				elseif entry.type == "directory" then
-					table.insert(sub_dir, p)
-				end
-			end
-		end
-		return false
-	end
-
-	repeat
-		local tail = readdir()
-	until tail
-
-	for _, sd in ipairs(sub_dir) do
-		local sub_f = nvim.scan_dir_rec(sd, ignore)
-		vec = vim.list_extend(vec, sub_f)
-	end
-	return vec
-end
-
 -- 是否符合首字母模糊匹配
 nvim.fuzzy_match = function(str, pattern)
 	local slen = str:len()

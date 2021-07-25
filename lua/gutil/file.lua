@@ -72,3 +72,39 @@ nvim.get_cur_buf_name = function()
 	--local new = table.concat(elems, "/")
 	--return "/" .. new
 end
+
+-- 递归扫描目录
+local function _scan_dir_rec(path, ignore)
+	local uv = vim.loop
+
+	if not path or #path == "" then return {} end
+
+	local dir = uv.fs_opendir(path, nil, 1000)
+	if not dir then return {} end
+
+	local vec = {}
+	local sub_dir = {}
+
+	repeat
+		local entries = uv.fs_readdir(dir) or {}
+		for _, entry in ipairs(entries) do
+			local p = path .. "/" .. entry.name
+			if not ignore or not nvim.is_ignore_path(p) then
+				if entry.type == "file" then
+					table.insert(vec, p)
+				elseif entry.type == "directory" then
+					table.insert(sub_dir, p)
+				end
+			end
+		end
+	until (#entries == 0)
+	uv.fs_closedir(dir)
+
+	for _, sd in ipairs(sub_dir) do
+		local sub_f = _scan_dir_rec(sd, ignore)
+		vec = vim.list_extend(vec, sub_f)
+	end
+	return vec
+end
+
+nvim.scan_dir_rec = _scan_dir_rec
