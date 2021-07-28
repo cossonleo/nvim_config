@@ -19,7 +19,7 @@ vim.lsp.handlers['textDocument/codeAction'] = function(_, _, actions)
   if buf == 0 then buf = vim.api.nvim_create_buf(false, true) end
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, option_strings)
 
-  local win = require'floatwin'.new_cursor_win(width, #option_strings, {buf = buf})
+  local win = nvim.new_win_by_cursor(width, #option_strings, {buf = buf})
   vim.defer_fn(function()
       local c = vim.fn.getchar() 
       vim.api.nvim_win_close(win, true)
