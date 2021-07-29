@@ -73,6 +73,14 @@ nvim.get_cur_buf_name = function()
 	--return "/" .. new
 end
 
+nvim.scan_dir_iter = function(path)
+	local iter = vim.loop.fs_scandir(path)
+	return function()
+		if not iter then return nil, nil end
+		return vim.loop.fs_scandir_next(iter)
+	end
+end
+
 -- 递归扫描目录
 local function _scan_dir_rec(path, ignore)
 	local uv = vim.loop
@@ -81,11 +89,7 @@ local function _scan_dir_rec(path, ignore)
 	local vec = {}
 	local sub_dir = {}
 
-	local dir_iter = uv.fs_scandir(path)
-	if not dir_iter then return vec end
-	while (true) do
-		local entry, type = uv.fs_scandir_next(dir_iter)
-		if not entry then break end
+	for entry, type in nvim.scan_dir_iter(path) do
 		local p = path .. "/" .. entry
 		if not ignore or not nvim.is_ignore_path(p) then
 			if type == "file" then
@@ -95,6 +99,21 @@ local function _scan_dir_rec(path, ignore)
 			end
 		end
 	end
+
+	--local dir_iter = uv.fs_scandir(path)
+	--if not dir_iter then return vec end
+	--while (true) do
+	--	local entry, type = uv.fs_scandir_next(dir_iter)
+	--	if not entry then break end
+	--	local p = path .. "/" .. entry
+	--	if not ignore or not nvim.is_ignore_path(p) then
+	--		if type == "file" then
+	--			table.insert(vec, p)
+	--		elseif type == "directory" then
+	--			table.insert(sub_dir, p)
+	--		end
+	--	end
+	--end
 
 	-- 下面过程会发生coredump， 原因 调用closedir报duoble free错误
 	--local dir = uv.fs_opendir(path, nil, 1000)
