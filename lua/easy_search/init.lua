@@ -38,5 +38,6 @@ bind_key("v", "vim_menu")
 bind_key("z", "resume")
 
 vim.cmd "hi! link EasysearchSearch Function"
-vim.cmd "hi! link EasysearchSelect Error"
+vim.cmd "hi! link EasysearchSelect LspDiagnosticsDefaultError"
+--vim.cmd "hi! link EasysearchSelect Error"
 --vim.cmd "hi! link EasysearchNormal CursorLine"

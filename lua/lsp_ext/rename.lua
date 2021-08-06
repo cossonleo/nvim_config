@@ -38,7 +38,7 @@ nvim.lsp.rename = function()
 	local cur_word = vim.fn.expand('<cword>')
 	local width = #cur_word > 35 and #cur_word + 5 or 40
 	if buf == 0 then init_rename_buf() end
-	win = require'floatwin'.new_cursor_win(40, 1, {buf = buf})
+	win = nvim.new_win_by_cursor(40, 1, {buf = buf})
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, {cur_word})
 	vim.api.nvim_win_set_cursor(win, {1, #cur_word})
 	if vim.api.nvim_get_mode().mode ~= "i" then
