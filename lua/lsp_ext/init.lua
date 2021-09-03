@@ -3,7 +3,7 @@ local M = {}
 
 nvim.lsp = nvim.lsp or {}
 nvim.lsp.servers = {
-	"pyls",
+	--"pyls",
 	"clangd",
 	"gopls",
 	"rust_analyzer",
